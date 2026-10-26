@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerstquiz - Host Scherm</title>
+    <!-- QR Code Generator Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Socket.io client script -->
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0a1710;
+            --card-bg: #12281d;
+            --card-border: #d4af37;
+            --primary-yellow: #f59e0b;
+            --accent-gold: #f59e0b;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at center, #1b3022 0%, var(--bg-dark) 100%);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .snow-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px #fff;
+            user-select: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
+        }
+
+        .host-card {
+            background: var(--card-bg);
+            padding: 50px 45px 35px 45px;
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 50px rgba(212, 175, 55, 0.25);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            border: 3px solid var(--card-border);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(8px);
+        }
+
+        .card-decor-top {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background: url("elementen/host/gouden_cadeau.png") no-repeat center center;
+            background-size: contain;
+            z-index: 10;
+        }
+
+        .vraag-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .progress-box {
+            flex: 1;
+            max-width: 160px;
+            background: rgba(0, 0, 0, 0.3);
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary-yellow);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .vraag-titel-badge {
+            background: #193829;
+            border: 2px solid var(--card-border);
+            padding: 8px 22px;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .vraag-titel-badge .hoofd {
+            font-size: 13px;
+            font-weight: 900;
+            color: var(--accent-gold);
+            letter-spacing: 1.5px;
+        }
+        .vraag-titel-badge .sub {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .timer-klok {
+            background: #193829;
+            border: 2px solid var(--card-border);
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            min-width: 90px;
+            justify-content: center;
+        }
+
+        h1 {
+            color: var(--accent-gold);
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        .btn-geel {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 25px 0 10px 0;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #0a1710;
+            border: 2px solid #fef3c7;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 900;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+            transition: all 0.15s ease;
+            letter-spacing: 0.5px;
+        }
+        .btn-geel:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245, 158, 11, 0.6); }
+        .btn-geel:active { transform: translateY(2px); }
+
+        .btn-rood {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            margin: 15px 0 0 0;
+            background-color: #8b0000;
+            color: white;
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 800;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 6px 0 #5c0000, 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        #qr-container {
+            background: white;
+            padding: 15px;
+            display: inline-block;
+            border-radius: 16px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 4px solid var(--card-border);
+        }
+        .deelnemers-lijst {
+            background: #08120c;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 14px;
+            padding: 15px;
+            min-height: 80px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin: 15px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-content: flex-start;
+        }
+        .deelnemer-tag {
+            background: #14532d;
+            color: #dcfce7;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid #4ade80;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .vraag-box {
+            font-size: 17px;
+            font-weight: 600;
+            line-height: 1.4;
+            margin: 15px 0 12px 0;
+            text-align: left;
+            color: var(--text-light);
+        }
+
+        .opties-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .optie-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1.5px solid rgba(212, 175, 55, 0.4);
+            border-radius: 10px;
+            padding: 10px 15px;
+            text-align: left;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--accent-gold);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .vraag-afbeelding {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 14px;
+            border: 2px solid var(--card-border);
+            margin: 8px 0 15px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .overzicht-container {
+            max-height: 350px;
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 10px;
+            margin: 15px 0;
+        }
+
+        .overzicht-item {
+            background: #08120c;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+        }
+        .overzicht-item .vraag-titel-overzicht {
+            font-weight: 800;
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        .overzicht-item .juist-antwoord-overzicht {
+            color: #4ade80;
+            font-weight: 800;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .leaderboard-tabel {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #08120c;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+        .leaderboard-tabel th, .leaderboard-tabel td {
+            padding: 12px;
+            border-bottom: 1px solid #1b3d2f;
+            text-align: left;
+            font-size: 14px;
+        }
+        .leaderboard-tabel th {
+            background: #1b3d2f;
+            color: var(--accent-gold);
+            font-weight: 800;
+        }
+
+        .hoek-reset-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(127, 29, 29, 0.85);
+            color: #fca5a5;
+            border: 1px solid #f87171;
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            transition: all 0.2s ease;
+        }
+        .hoek-reset-btn:hover {
+            background: #991b1b;
+            color: #fff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="snow-container" id="snow"></div>
+
+<div class="host-card">
+    <div class="card-decor-top"></div>
+    <div id="host-content"></div>
+</div>
+
+<button class="hoek-reset-btn" onclick="resetQuiz()">⚙️ Quiz Resetten</button>
+
+<script>
+    const socket = io();
+
+    const snowContainer = document.getElementById('snow');
+    const snowflakeChars = ['❄', '❅', '❆', '•', '✨'];
+    for (let i = 0; i < 40; i++) {
+        const flake = document.createElement('div');
+        flake.className = 'snowflake';
+        flake.innerText = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+        flake.style.left = Math.random() * 100 + 'vw';
+        flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        flake.style.animationDelay = (Math.random() * 5) + 's';
+        flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        snowContainer.appendChild(flake);
+    }
+
+    const vragerondeNummer = 8;
+
+    const vragenData = [
+        { 
+            titel: "Vraag 1:\nElk jaar in december stromen de tuincentra en kraampjes vol met kerstbomen. Maar hoeveel kerstbomen worden er jaarlijks ongeveer verkocht in Nederland? Je mag er 250.000 vanaf zitten.", 
+            opties: [],
+            juist: "2.500.000", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag1_visueel_voorbeeld.jpg", 
+            categorie: "Schattingsvraag" 
+        },
+        { 
+            titel: "Vraag 2:\nNederlanders staan bekend als zuinig, maar met kerst maken we graag een uitzondering. Hoeveel geven wij gemiddeld uit aan kerstcadeaus? Je mag er €25 vanaf zitten!", 
+            opties: [],
+            juist: "€325", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag2_visueel_voorbeeld.jpg", 
+            categorie: "Schattingsvraag" 
+        },
+        { 
+            titel: "Vraag 3:\nZet deze kerstmijlpalen in de juiste chronologische volgorde:", 
+            opties: [
+                "A) Rudolph het roodneuzige rendier wordt bedacht door een warenhuismedewerker in Chicago.",
+                "B) In een gedicht verschijnen voor het eerst rendieren met namen die een slee trekken.",
+                "C) Coca-Cola lanceert een reclamecampagne met de vrolijke Kerstman in een rood pak.",
+                "D) Louis Prang begint in Amerika als eerste met de massaproductie van kerstkaarten."
+            ],
+            juist: "B -> D -> C -> A", 
+            optiesDetail: {
+                "A": "Rudolph het roodneuzige rendier wordt bedacht door een warenhuismedewerker in Chicago.",
+                "B": "In een gedicht verschijnen voor het eerst rendieren met namen die een slee trekken.",
+                "C": "Coca-Cola lanceert een reclamecampagne met de vrolijke Kerstman in een rood pak.",
+                "D": "Louis Prang begint in Amerika als eerste met de massaproductie van kerstkaarten."
+            },
+            afbeelding: "elementen/ronde_8/ronde8_vraag3_visueel_voorbeeld.jpg", 
+            categorie: "Hitster Vraag" 
+        },
+        { 
+            titel: "Vraag 4:\nZet deze kerstmijlpalen in de juiste chronologische volgorde:", 
+            opties: [
+                "A) Edward Johnson hangt voor het eerst elektrische lampjes in een kerstboom.",
+                "B) De eerste commerciële kerstkaart wordt gedrukt door Sir Henry Cole in Engeland.",
+                "C) De eerste kunstkerstbomen worden commercieel verkocht.",
+                "D) De adventskrans wordt uitgevonden door theoloog Johann Wichern in Hamburg."
+            ],
+            juist: "D -> B -> A -> C", 
+            optiesDetail: {
+                "A": "Edward Johnson hangt voor het eerst elektrische lampjes in een kerstboom.",
+                "B": "De eerste commerciële kerstkaart wordt gedrukt door Sir Henry Cole in Engeland.",
+                "C": "De eerste kunstkerstbomen worden commercieel verkocht.",
+                "D": "De adventskrans wordt uitgevonden door theoloog Johann Wichern in Hamburg."
+            },
+            afbeelding: "elementen/ronde_8/ronde8_vraag4_visueel_voorbeeld.jpg", 
+            categorie: "Hitster Vraag" 
+        },
+        { 
+            titel: "Vraag 5:\nNederland staat bekend als handelsland. Maar klopt het dat Nederland op China na de grootste exporteur van kerstdecoratie ter wereld is?", 
+            opties: [],
+            juist: "Waar", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag5_visueel_voorbeeld.jpg", 
+            categorie: "Waar of Niet Waar" 
+        },
+        { 
+            titel: "Vraag 6:\nNederlanders ruilen hun eigen huiskamer rond Kerst graag in voor het buitenland. Oostenrijk klinkt als de ultieme kersthotspot, maar klopt het dat dit land ook écht onze nummer één bestemming is?", 
+            opties: [],
+            juist: "Niet waar", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag6_visueel_voorbeeld.jpg", 
+            categorie: "Waar of Niet Waar" 
+        },
+        { 
+            titel: "Vraag 7:\nKerst is verreweg het populairste decemberfeest in Nederland. Maar hoeveel procent van de Nederlandse bevolking viert Kerst eigenlijk? Je mag er 5% vanaf zitten.", 
+            opties: [],
+            juist: "85%", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag7_visueel_voorbeeld.jpg", 
+            categorie: "Kerst in Percentages" 
+        },
+        { 
+            titel: "Vraag 8:\nDe een vindt het pure kerstmagie, de ander een absolute kerstmisdaad. Hoeveel procent van de Nederlanders heeft de boom al staan vóór Sinterklaas?", 
+            opties: [],
+            juist: "25%", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag8_visueel_voorbeeld.jpg", 
+            categorie: "Kerst in Percentages" 
+        },
+        { 
+            titel: "Vraag 9:\nDe kerstman heeft het druk in december, maar in welke provincie worden de meeste kerstkaarten per inwoner ontvangen?", 
+            opties: [
+                "A) Zuid-Holland",
+                "B) Friesland",
+                "C) Drenthe",
+                "D) Noord-Holland"
+            ],
+            juist: "C) Drenthe", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag9_visueel_voorbeeld.jpg", 
+            categorie: "Hoogste en Laagste" 
+        },
+        { 
+            titel: "Vraag 10:\nSupermarkten draaien in de dagen voor Kerst overuren. Op welke dag is het in Nederland meestal het allerdrukst met de kerstboodschappen?", 
+            opties: [
+                "A) 21 december",
+                "B) 22 december",
+                "C) 23 december",
+                "D) 24 december"
+            ],
+            juist: "C) 23 december", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag10_visueel_voorbeeld.jpg", 
+            categorie: "Hoogste en Laagste" 
+        },
+        { 
+            titel: "Vraag 11:\nElk jaar worden er indrukwekkende kerstbomen opgezet over de hele wereld. Maar in december 2025 brak een 150 jaar oude boom op een Engels landgoed het Guinness World Record als hoogste levende versierde kerstboom ter wereld. Hoe hoog was deze boom?", 
+            opties: [
+                "A) 44,7 meter",
+                "B) 64,6 meter",
+                "C) 53,4 meter",
+                "D) 71,2 meter"
+            ],
+            juist: "A) 44,7 meter", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag11_visueel_voorbeeld.jpg", 
+            categorie: "Hoogste en Laagste" 
+        },
+        { 
+            titel: "Vraag 12:\nDe traditionele kerstperiode loopt van 21 december tot Driekoningen op 6 januari. Maar wees eens eerlijk: hoelang staat kerstdecoratie écht in Nederlandse huiskamers? Denk vanaf de eerste kerstlampjes tot het moment waarop alles weer wordt opgeruimd.", 
+            opties: [
+                "A) 10–20 dagen",
+                "B) 20–30 dagen",
+                "C) 30–40 dagen",
+                "D) 40–50 dagen"
+            ],
+            juist: "C) 30–40 dagen", 
+            afbeelding: "elementen/ronde_8/ronde8_vraag12_visueel_voorbeeld.jpg", 
+            categorie: "Hoogste en Laagste" 
+        }
+    ];
+
+    let huidigeVraagIndex = -1;
+    let toonLeaderboardStap = false;
+    let actieveDeelnemers = [];
+    let ingezondenCount = 0;
+    let totaalDeelnemersCount = 0;
+    let quizAntwoorden = {};
+    let vraagIsActief = false; // Voorkomt directe automatische doorloop bij het inladen
+
+    let timerInterval = null;
+    let overgeblevenTijd = 45;
+
+    // Luister naar updates van de server
+    socket.on('update-status', (data) => {
+        huidigeVraagIndex = data.huidigeVraagIndex;
+        toonLeaderboardStap = data.toonEindstand;
+        actieveDeelnemers = data.actieveDeelnemers;
+        renderHostScherm();
+    });
+
+    socket.on('zet-vraag', (nieuweIndex) => {
+        huidigeVraagIndex = nieuweIndex;
+        toonLeaderboardStap = false;
+        vraagIsActief = false; // Zet tijdelijk op false bij nieuwe vraag
+        setTimeout(() => { vraagIsActief = true; }, 800); // Pas na 0.8 seconde mag automatische doorloop triggeren
+        renderHostScherm();
+    });
+
+    socket.on('update-deelnemers', (deelnemersLijst) => {
+        actieveDeelnemers = deelnemersLijst;
+        updateLobbyDeelnemers();
+    });
+
+    socket.on('update-ingezonden', (data) => {
+        if (data.alleAntwoorden) {
+            quizAntwoorden = data.alleAntwoorden;
+        }
+
+        if (data.vraagIndex === huidigeVraagIndex) {
+            ingezondenCount = data.aantal;
+            totaalDeelnemersCount = data.totaal;
+            
+            const statusEl = document.getElementById("ingediend-status");
+            if (statusEl) {
+                statusEl.innerText = `Ingezonden antwoorden: ${ingezondenCount} / ${totaalDeelnemersCount}`;
+            }
+
+            // Automatische doorloop enkel als de vraag actief is en iedereen heeft ingezonden
+            if (vraagIsActief && totaalDeelnemersCount > 0 && ingezondenCount >= totaalDeelnemersCount) {
+                if (timerInterval) clearInterval(timerInterval);
+                setTimeout(() => {
+                    volgendeVraag();
+                }, 1000);
+            }
+        }
+    });
+
+    socket.on('quiz-gereset', () => {
+        huidigeVraagIndex = -1;
+        toonLeaderboardStap = false;
+        actieveDeelnemers = [];
+        quizAntwoorden = {};
+        vraagIsActief = false;
+        if (timerInterval) clearInterval(timerInterval);
+        renderHostScherm();
+    });
+
+    function updateLobbyDeelnemers() {
+        const lijstContainer = document.getElementById("deelnemers-lijst-container");
+        if (!lijstContainer) return;
+
+        if (actieveDeelnemers.length === 0) {
+            lijstContainer.innerHTML = "<em style='color:var(--text-muted);'>Nog geen deelnemers aangesloten...</em>";
+            return;
+        }
+
+        lijstContainer.innerHTML = actieveDeelnemers.map(naam => `<div class="deelnemer-tag">🌟 ${naam}</div>`).join("");
+    }
+
+    function startQuiz() {
+        huidigeVraagIndex = 0;
+        socket.emit('volgende-vraag', huidigeVraagIndex);
+    }
+
+    function resetQuiz() {
+        if (confirm("Weet je zeker dat je de kerstquiz wilt herstarten? Alle voortgang wordt gereset.")) {
+            socket.emit('reset-quiz');
+        }
+    }
+
+    function volgendeVraag() {
+        if (timerInterval) clearInterval(timerInterval);
+        huidigeVraagIndex++;
+        socket.emit('volgende-vraag', huidigeVraagIndex);
+    }
+
+    function toonEinduitslag() {
+        toonLeaderboardStap = true;
+        socket.emit('toon-eindstand');
+        renderHostScherm();
+    }
+
+    function startTimer() {
+        overgeblevenTijd = 45;
+        const timerEl = document.getElementById("timer-display");
+        const progressBar = document.getElementById("progress-bar-fill");
+        
+        if (timerEl) timerEl.innerText = `${overgeblevenTijd}s`;
+        if (timerInterval) clearInterval(timerInterval);
+
+        timerInterval = setInterval(() => {
+            overgeblevenTijd--;
+            if (timerEl) timerEl.innerText = `${overgeblevenTijd}s`;
+            
+            if (progressBar) {
+                let percentage = ((45 - overgeblevenTijd) / 45) * 100;
+                progressBar.style.width = `${percentage}%`;
+            }
+
+            if (overgeblevenTijd <= 0) {
+                clearInterval(timerInterval);
+                volgendeVraag();
+            }
+        }, 1000);
+    }
+
+    function isAntwoordJuistHost(index, antw) {
+        if (!antw) return false;
+        let a = String(antw).trim().toLowerCase();
+        switch(index) {
+            case 0:
+                let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                if (num1 < 100) num1 = num1 * 1000000;
+                return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
+            case 1:
+                let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                return !isNaN(num2) && num2 >= 300 && num2 <= 350;
+            case 2:
+                return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 3:
+                return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 4:
+                return a.includes("waar") && !a.includes("niet");
+            case 5:
+                return a.includes("niet waar");
+            case 6:
+                let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                return !isNaN(num6) && num6 >= 80 && num6 <= 90;
+            case 7:
+                let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                return !isNaN(num7) && num7 >= 20 && num7 <= 30;
+            case 8:
+                return a.startsWith("c") || a.includes("drenthe");
+            case 9:
+                return a.startsWith("c") || a.includes("c)");
+            case 10:
+                return a.startsWith("a") || a.includes("a)");
+            case 11:
+                return a.startsWith("c") || a.includes("c)");
+            default:
+                return false;
+        }
+    }
+
+    function renderHostScherm() {
+        const hostContent = document.getElementById("host-content");
+
+        if (huidigeVraagIndex < 0) {
+            hostContent.innerHTML = `
+                <h1>Kerstquiz Host Lobby</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Laat deelnemers onderstaande QR-code scannen of open <strong>deelnemer.html</strong>:</p>
+                <div id="qr-container"></div>
+                <div style="font-weight: 800; margin-top: 10px; color:var(--accent-gold);">Actieve Deelnemers in de Lobby:</div>
+                <div class="deelnemers-lijst" id="deelnemers-lijst-container">
+                    <em style='color:var(--text-muted);'>Nog geen deelnemers aangesloten...</em>
+                </div>
+                <button class="btn-rood" onclick="startQuiz()">Start Quiz 🚀</button>
+            `;
+
+            setTimeout(() => {
+                const qrEl = document.getElementById("qr-container");
+                if (qrEl) {
+                    qrEl.innerHTML = "";
+                    new QRCode(qrEl, {
+                        text: window.location.origin + "/deelnemer.html",
+                        width: 160,
+                        height: 160
+                    });
+                }
+                updateLobbyDeelnemers();
+            }, 100);
+            return;
+        }
+
+        if (huidigeVraagIndex >= vragenData.length && !toonLeaderboardStap) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let overzichtHtml = `
+                <h1>🎄 Overzicht Ronde ${vragerondeNummer} 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Hier zijn de vragen en de juiste antwoorden van deze ronde:</p>
+                <div class="overzicht-container">
+            `;
+
+            vragenData.forEach((vraag) => {
+                let antwoordWeergave = vraag.juist;
+                if (vraag.optiesDetail) {
+                    let letters = vraag.juist.replace(/[^a-z]/gi, '').toUpperCase().split('');
+                    let volgordePijltjes = letters.join(" -> ");
+                    let detailsLijst = letters.map(l => `${l}: ${vraag.optiesDetail[l]}`).join("<br>");
+                    antwoordWeergave = `<strong>${volgordePijltjes}</strong><br><br>${detailsLijst}`;
+                }
+
+                overzichtHtml += `
+                    <div class="overzicht-item">
+                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="juist-antwoord-overzicht">✅ Juiste antwoord:<br>${antwoordWeergave}</div>
+                    </div>
+                `;
+            });
+
+            overzichtHtml += `
+                </div>
+                <button class="btn-geel" onclick="toonEinduitslag()">BEKIJK EINDSTAND / LEADERBOARD 🏆</button>
+            `;
+
+            hostContent.innerHTML = overzichtHtml;
+            return;
+        }
+
+        if (huidigeVraagIndex >= vragenData.length && toonLeaderboardStap) {
+            let scores = actieveDeelnemers.map(naam => {
+                let antwoordenVanSpeler = quizAntwoorden[naam] || {};
+                let punten = 0;
+                for (let vIdx = 0; vIdx < vragenData.length; vIdx++) {
+                    if (isAntwoordJuistHost(vIdx, antwoordenVanSpeler[vIdx])) {
+                        punten++;
+                    }
+                }
+                return { naam, punten };
+            });
+
+            scores.sort((a, b) => b.punten - a.punten);
+
+            let leaderboardHtml = `
+                <h1 style="margin-top: 20px;">🏆 Einde Kerstquiz! 🏆</h1>
+                <p style="color:var(--accent-gold); font-weight:800; font-size:16px;">Eindstand & Leaderboard</p>
+                <table class="leaderboard-tabel">
+                    <tr>
+                        <th>Plaats</th>
+                        <th>Naam</th>
+                        <th>Score</th>
+                    </tr>
+            `;
+
+            if (scores.length === 0) {
+                leaderboardHtml += `<tr><td colspan="3" style="text-align:center; color:var(--text-muted);">Geen deelnemers geregistreerd.</td></tr>`;
+            } else {
+                scores.forEach((s, idx) => {
+                    let medaille = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`;
+                    leaderboardHtml += `<tr>
+                        <td><strong>${medaille}</strong></td>
+                        <td>${s.naam}</td>
+                        <td><strong>${s.punten} / 12 goed</strong></td>
+                    </tr>`;
+                });
+            }
+            leaderboardHtml += `</table>`;
+
+            hostContent.innerHTML = leaderboardHtml;
+            return;
+        }
+
+        const huidige = vragenData[huidigeVraagIndex];
+        let afbeeldingHtml = huidige.afbeelding ? `<img src="${huidige.afbeelding}" class="vraag-afbeelding" alt="Visueel Voorbeeld">` : '';
+        
+        let optiesHtml = '';
+        if (huidige.opties && huidige.opties.length > 0) {
+            optiesHtml = `<div class="opties-container">` + 
+                huidige.opties.map(optie => `<div class="optie-item">${optie}</div>`).join('') + 
+                `</div>`;
+        }
+
+        hostContent.innerHTML = `
+            <div class="vraag-header-row">
+                <div class="progress-box"><div class="progress-bar" id="progress-bar-fill"></div></div>
+                <div class="vraag-titel-badge">
+                    <span class="hoofd">RONDE ${vragerondeNummer} | VRAAG ${huidigeVraagIndex + 1} VAN ${vragenData.length}</span>
+                    <span class="sub">${huidige.categorie}</span>
+                </div>
+                <div class="timer-klok">⏱️ <span id="timer-display">45s</span></div>
+            </div>
+
+            ${afbeeldingHtml}
+            <div class="vraag-box">${huidige.titel}</div>
+            ${optiesHtml}
+
+            <div style="margin-top: 10px; font-weight: 700; color: var(--text-muted); font-size: 13px;" id="ingediend-status">Ingezonden antwoorden: ${ingezondenCount} / ${actieveDeelnemers.length}</div>
+            
+            <button class="btn-geel" onclick="volgendeVraag()">VOLGENDE VRAAG ➔</button>
+        `;
+
+        startTimer();
+    }
+
+    renderHostScherm();
+</script>
+
+</body>
+</html>

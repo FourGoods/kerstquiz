@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kerstquiz - Deelnemer Scherm</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0a1710;
+            --card-bg: rgba(19, 46, 33, 0.92);
+            --card-border: #d4af37;
+            --primary-red: #8b0000;
+            --accent-gold: #f59e0b;
+            --text-light: #f8fafc;
+            --text-muted: #cbd5e1;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at center, #1b3022 0%, var(--bg-dark) 100%);
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .snow-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1em;
+            font-family: Arial, sans-serif;
+            text-shadow: 0 0 5px #fff;
+            user-select: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
+        }
+        .deelnemer-card {
+            background: var(--card-bg);
+            padding: 40px 25px 25px 25px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7), 0 0 40px rgba(212, 175, 55, 0.2);
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            border: 3px solid var(--card-border);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(8px);
+        }
+        .card-decor-top {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            background: url("elementen/deelnemer/gouden_cadeau.png") no-repeat center center;
+            background-size: contain;
+            z-index: 10;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
+            background-color: #1e3a2f;
+            color: white;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 14px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            box-sizing: border-box;
+            box-shadow: 0 6px 0 #0f2019, 0 8px 15px rgba(0,0,0,0.3);
+            transition: all 0.15s ease;
+        }
+        .btn:hover { transform: translateY(-2px); border-color: var(--card-border); box-shadow: 0 8px 0 #0f2019, 0 10px 20px rgba(0,0,0,0.4); }
+        .btn-optie-0 { background-color: #991b1b; box-shadow: 0 6px 0 #7f1d1d, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-optie-1 { background-color: #166534; box-shadow: 0 6px 0 #14532d, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-optie-2 { background-color: #b45309; box-shadow: 0 6px 0 #92400e, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-optie-3 { background-color: #1e3a8a; box-shadow: 0 6px 0 #1e3a8a, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-secundair { background-color: #27374d; border-color: #526d82; box-shadow: 0 6px 0 #1b263b, 0 8px 15px rgba(0,0,0,0.2); }
+        .btn-verstuur { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0a1710; border: 2px solid #fef3c7; font-weight: 900; box-shadow: 0 6px 0 #b45309, 0 8px 15px rgba(245, 158, 11, 0.3); margin-top: 15px; }
+        input[type="text"] { width: 100%; padding: 16px; font-size: 18px; margin: 15px 0; text-align: center; border: 2px solid var(--card-border); border-radius: 14px; box-sizing: border-box; background: #08120c; font-weight: 700; color: var(--text-light); }
+        input:focus { border-color: #f59e0b; outline: none; box-shadow: 0 0 10px rgba(245, 158, 11, 0.4); }
+        #status-bericht { font-size: 13px; color: var(--accent-gold); margin-bottom: 8px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; }
+        #vraag-titel { font-size: 19px; margin-bottom: 25px; line-height: 1.5; text-align: left; white-space: pre-line; font-weight: 700; color: var(--text-light); }
+        .volgorde-item { background: #1b3d2f; padding: 14px; margin: 10px 0; border-radius: 12px; cursor: pointer; border: 2px solid rgba(212, 175, 55, 0.3); text-align: left; font-size: 15px; font-weight: 700; }
+        .volgorde-item.selected { background: #14532d; border-color: #4ade80; color: #dcfce7; }
+        #feedback { font-weight: 800; margin-top: 15px; font-size: 16px; }
+        .antwoord-item-einde { padding: 10px 12px; margin: 8px 0; border-radius: 10px; text-align: left; font-size: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>
+
+<div class="snow-container" id="snow"></div>
+
+<div class="deelnemer-card">
+    <div class="card-decor-top"></div>
+    <div id="status-bericht">✨ Kerst Lobby ✨</div>
+    <div id="vraag-titel">Vul je naam in om mee te doen met de Kerstquiz! 🎄</div>
+    <div id="antwoord-gebied">
+        <input type="text" id="deelnemer-naam" placeholder="Jouw naam...">
+        <button class="btn btn-secundair" onclick="registreerDeelnemer()">Meedoen! 🚀</button>
+    </div>
+    <p id="feedback"></p>
+    <div id="extra-opties" style="margin-top: 20px;"></div>
+</div>
+
+<script>
+    const socket = io();
+
+    const snowContainer = document.getElementById('snow');
+    const snowflakeChars = ['❄', '❅', '❆', '•', '✨'];
+    for (let i = 0; i < 35; i++) {
+        const flake = document.createElement('div');
+        flake.className = 'snowflake';
+        flake.innerText = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+        flake.style.left = Math.random() * 100 + 'vw';
+        flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        flake.style.animationDelay = (Math.random() * 5) + 's';
+        flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        snowContainer.appendChild(flake);
+    }
+
+    const vragenData = [
+        { type: "getal", juist: "2.500.000" },
+        { type: "getal", juist: "€325" },
+        { type: "volgorde", juist: "B -> D -> C -> A" },
+        { type: "volgorde", juist: "D -> B -> A -> C" },
+        { type: "keuze", juist: "Waar" },
+        { type: "keuze", juist: "Niet waar" },
+        { type: "getal", juist: "85%" },
+        { type: "getal", juist: "25%" },
+        { type: "keuze", juist: "C) Drenthe" },
+        { type: "keuze", juist: "C) 23 december" },
+        { type: "keuze", juist: "A) 44,7 meter" },
+        { type: "keuze", juist: "C) 30–40 dagen" }
+    ];
+
+    let geselecteerdeVolgorde = [];
+    let isVerstuurd = false;
+    let huidigeVraagIndex = -1;
+    let toonEindstandStatus = false;
+    let mijnNaam = "";
+    let serverAntwoorden = {};
+
+    socket.on('update-status', (data) => {
+        huidigeVraagIndex = data.huidigeVraagIndex;
+        toonEindstandStatus = data.toonEindstand;
+        if (data.alleAntwoorden) {
+            serverAntwoorden = data.alleAntwoorden;
+        }
+        toonDeelnemerVraag(huidigeVraagIndex);
+    });
+
+    socket.on('zet-vraag', (nieuweIndex) => {
+        huidigeVraagIndex = nieuweIndex;
+        toonEindstandStatus = false;
+        toonDeelnemerVraag(huidigeVraagIndex);
+    });
+
+    socket.on('update-ingezonden', (data) => {
+        if (data.alleAntwoorden) {
+            serverAntwoorden = data.alleAntwoorden;
+        }
+    });
+
+    socket.on('quiz-gereset', () => {
+        huidigeVraagIndex = -1;
+        toonEindstandStatus = false;
+        mijnNaam = "";
+        serverAntwoorden = {};
+        localStorage.removeItem("huidigeDeelnemerNaam");
+        toonDeelnemerVraag(-1);
+    });
+
+    function registreerDeelnemer() {
+        const inputVal = document.getElementById("deelnemer-naam").value.trim();
+        if (!inputVal) {
+            alert("Vul alstublieft je naam in!");
+            return;
+        }
+        mijnNaam = inputVal;
+        localStorage.setItem("huidigeDeelnemerNaam", mijnNaam);
+        socket.emit('registreer-deelnemer', mijnNaam);
+        toonDeelnemerVraag(huidigeVraagIndex);
+    }
+
+    function wisNaam() {
+        mijnNaam = "";
+        localStorage.removeItem("huidigeDeelnemerNaam");
+        toonDeelnemerVraag(-1);
+    }
+
+    function slaAntwoordOp(vraagIndex, antwoordTekst) {
+        socket.emit('sla-antwoord op', {
+            naam: mijnNaam,
+            vraagIndex: vraagIndex,
+            antwoord: antwoordTekst
+        });
+    }
+
+    function isAntwoordJuistDeelnemer(index, antw) {
+        if (!antw) return false;
+        let a = String(antw).trim().toLowerCase();
+        switch(index) {
+            case 0:
+                let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                if (num1 < 100) num1 = num1 * 1000000;
+                return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
+            case 1:
+                let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                return !isNaN(num2) && num2 >= 300 && num2 <= 350;
+            case 2:
+                return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 3:
+                return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 4:
+                return a.includes("waar") && !a.includes("niet");
+            case 5:
+                return a.includes("niet waar");
+            case 6:
+                let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                return !isNaN(num6) && num6 >= 80 && num6 <= 90;
+            case 7:
+                let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
+                return !isNaN(num7) && num7 >= 20 && num7 <= 30;
+            case 8:
+                return a.startsWith("c") || a.includes("drenthe");
+            case 9:
+                return a.startsWith("c") || a.includes("c)");
+            case 10:
+                return a.startsWith("a") || a.includes("a)");
+            case 11:
+                return a.startsWith("c") || a.includes("c)");
+            default:
+                return false;
+        }
+    }
+
+    function toonDeelnemerVraag(index) {
+        const statusEl = document.getElementById("status-bericht");
+        const titelEl = document.getElementById("vraag-titel");
+        const gebiedEl = document.getElementById("antwoord-gebied");
+        const feedbackEl = document.getElementById("feedback");
+        const extraOptiesEl = document.getElementById("extra-opties");
+
+        if (!mijnNaam) {
+            mijnNaam = localStorage.getItem("huidigeDeelnemerNaam") || "";
+        }
+
+        feedbackEl.innerText = "";
+        geselecteerdeVolgorde = [];
+        isVerstuurd = false;
+        extraOptiesEl.innerHTML = "";
+        titelEl.style.display = "block";
+
+        if (index < 0) {
+            statusEl.innerText = "✨ Kerst Lobby ✨";
+            if (!mijnNaam) {
+                titelEl.innerText = "Vul je naam in om mee te doen met de Kerstquiz! 🎄";
+                gebiedEl.innerHTML = `
+                    <input type="text" id="deelnemer-naam" placeholder="Jouw naam...">
+                    <button class="btn btn-secundair" onclick="registreerDeelnemer()">Meedoen! 🚀</button>
+                `;
+            } else {
+                titelEl.innerText = `Welkom ${mijnNaam}! Je bent klaar om mee te doen. Wacht tot de host de quiz start... 🎅`;
+                gebiedEl.innerHTML = `<p style="color:#4ade80; font-weight:800; font-size:18px;">Aangemeld als: ${mijnNaam}</p>`;
+                extraOptiesEl.innerHTML = `<button class="btn btn-secundair" style="font-size:13px; padding:10px;" onclick="wisNaam()">Wissel van naam</button>`;
+            }
+            return;
+        }
+
+        if (toonEindstandStatus) {
+            statusEl.innerText = "🎄 QUIZ AFGESLOTEN 🎄";
+            titelEl.style.display = "none";
+            gebiedEl.innerHTML = `
+                <div style="padding: 20px 0; text-align: center;">
+                    <p style="font-size: 18px; font-weight: 800; color: var(--text-light); line-height: 1.6; margin: 0;">
+                        De kerstquiz is afgelopen.<br>Bedankt voor het spelen. 🌟
+                    </p>
+                </div>
+            `;
+            return;
+        }
+
+        if (index >= vragenData.length) {
+            statusEl.innerText = "✨ JOUW RESULTATEN ✨";
+            titelEl.style.display = "none";
+
+            let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
+            let totaalGoed = 0;
+            let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
+            
+            for (let vIdx = 0; vIdx < vragenData.length; vIdx++) {
+                let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
+                let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
+                if (goed) totaalGoed++;
+
+                let icoon = goed ? "✅ Goed" : "❌ Fout";
+                let achtergrond = goed ? "#14532d" : "#7f1d1d";
+                let randKleur = goed ? "#4ade80" : "#f87171";
+
+                overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
+                    <strong>Vraag ${vIdx + 1}:</strong> ${icoon}<br>
+                    Jouw antwoord: <strong>${antw}</strong><br>
+                    <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
+                </div>`;
+            }
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score: ${totaalGoed} / 12 goed! 🌟</p>`;
+            
+            gebiedEl.innerHTML = overzichtHtml;
+            return;
+        }
+
+        titelEl.style.display = "none";
+
+        const huidige = vragenData[index];
+        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE 8 | VRAAG ${index + 1} / ${vragenData.length}`;
+        gebiedEl.innerHTML = "";
+
+        if (huidige.type === "getal") {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.inputMode = "numeric";
+            input.placeholder = "Typ je antwoord...";
+            input.oninput = () => { input.value = input.value.replace(/[^0-9]/g, ''); };
+            
+            const knop = document.createElement("button");
+            knop.innerText = "Verstuur Antwoord 🎯";
+            knop.className = "btn btn-verstuur";
+            knop.onclick = () => {
+                let schoneWaarde = input.value.replace(/[^0-9]/g, '');
+                if(!schoneWaarde) {
+                    alert("Vul alstublieft een geldig cijfer in!");
+                    return;
+                }
+                slaAntwoordOp(index, schoneWaarde);
+                feedbackEl.innerText = `Antwoord (${schoneWaarde}) opgeslagen! Wacht op de host...`;
+                feedbackEl.style.color = "#4ade80";
+                input.disabled = true;
+                knop.disabled = true;
+            };
+
+            gebiedEl.appendChild(input);
+            gebiedEl.appendChild(knop);
+        }
+        else if (huidige.type === "keuze") {
+            const optiesMap = {
+                4: ["Waar", "Niet waar"],
+                5: ["Waar", "Niet waar"],
+                8: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
+                9: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
+                10: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
+                11: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
+            };
+
+            let opties = optiesMap[index] || [];
+            opties.forEach((optie, optieIdx) => {
+                const knop = document.createElement("button");
+                knop.innerText = optie;
+                knop.className = `btn btn-optie-${optieIdx % 4}`;
+                knop.onclick = () => {
+                    slaAntwoordOp(index, optie);
+                    feedbackEl.innerText = `Gekozen: ${optie}. Opgeslagen! Wacht op de host...`;
+                    feedbackEl.style.color = "#4ade80";
+                    const alleKnoppen = gebiedEl.getElementsByTagName("button");
+                    for (let k of alleKnoppen) k.disabled = true;
+                };
+                gebiedEl.appendChild(knop);
+            });
+        }
+        else if (huidige.type === "volgorde") {
+            const volgordeOpties = index === 2 ? [
+                "A) Rudolph het roodneuzige rendier...",
+                "B) In een gedicht verschijnen rendieren...",
+                "C) Coca-Cola lanceert reclamecampagne...",
+                "D) Louis Prang massaproductie kerstkaarten."
+            ] : [
+                "A) Edward Johnson elektrische lampjes",
+                "B) Eerste commerciële kerstkaart Sir Henry Cole",
+                "C) Eerste kunstkerstbomen",
+                "D) Adventskrans Johann Wichern"
+            ];
+
+            const updateVolgordeUI = () => {
+                gebiedEl.innerHTML = "";
+                volgordeOpties.forEach((optie, optieIndex) => {
+                    const div = document.createElement("div");
+                    div.className = "volgorde-item";
+                    if (isVerstuurd) div.classList.add("disabled");
+                    
+                    let positie = geselecteerdeVolgorde.indexOf(optieIndex);
+                    if (positie !== -1) {
+                        div.classList.add("selected");
+                        div.innerText = `${optie} (Stap ${positie + 1})`;
+                    } else {
+                        div.innerText = optie;
+                    }
+
+                    div.onclick = () => {
+                        if (isVerstuurd) return;
+                        let alGekozenIndex = geselecteerdeVolgorde.indexOf(optieIndex);
+                        if (alGekozenIndex !== -1) {
+                            geselecteerdeVolgorde.splice(alGekozenIndex, 1);
+                        } else {
+                            geselecteerdeVolgorde.push(optieIndex);
+                        }
+                        updateVolgordeUI();
+                    };
+                    gebiedEl.appendChild(div);
+                });
+
+                const verstuurKnop = document.createElement("button");
+                verstuurKnop.className = "btn btn-verstuur";
+                verstuurKnop.innerText = "Verstuur Antwoord 🎯";
+                if (isVerstuurd) verstuurKnop.disabled = true;
+
+                verstuurKnop.onclick = () => {
+                    if (geselecteerdeVolgorde.length < volgordeOpties.length) {
+                        alert(`Selecteer alle ${volgordeOpties.length} opties in de gewenste volgorde voordat je verstuurt!`);
+                        return;
+                    }
+                    isVerstuurd = true;
+                    const volgordeTekst = geselecteerdeVolgorde.map(i => String.fromCharCode(65 + i)).join(" -> ");
+                    slaAntwoordOp(index, volgordeTekst);
+                    feedbackEl.innerText = `Volgorde (${volgordeTekst}) opgeslagen! Wacht op de host...`;
+                    feedbackEl.style.color = "#4ade80";
+                    updateVolgordeUI();
+                };
+                gebiedEl.appendChild(verstuurKnop);
+            };
+
+            updateVolgordeUI();
+        }
+    }
+</script>
+
+</body>
+</html>
