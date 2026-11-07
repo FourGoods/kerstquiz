@@ -140,7 +140,7 @@
     }
 
     const vragenData = [
-        // Ronde 1
+        // Ronde 1 (index 0 t/m 7)
         { type: "keuze", juist: "B) Duitsland", ronde: 1 },
         { type: "keuze", juist: "C) 4", ronde: 1 },
         { type: "keuze", juist: "A) Mexico", ronde: 1 },
@@ -150,7 +150,7 @@
         { type: "keuze", juist: "Waar", ronde: 1 },
         { type: "keuze", juist: "Niet waar", ronde: 1 },
 
-        // Ronde 8
+        // Ronde 8 (index 8 t/m 19)
         { type: "getal", juist: "2.500.000", ronde: 8 },
         { type: "getal", juist: "€325", ronde: 8 },
         { type: "volgorde", juist: "B -> D -> C -> A", ronde: 8 },
@@ -315,18 +315,19 @@
             return;
         }
 
-        if (index >= vragenData.length) {
-            statusEl.innerText = "✨ JOUW RESULTATEN ✨";
+        // Tussenstand na Ronde 1 (als host op index 8 / overzichtsscherm staat)
+        if (index === 8) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 1 ✨";
             titelEl.style.display = "none";
 
             let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
-            let totaalGoed = 0;
+            let rondeGoed = 0;
             let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
             
-            for (let vIdx = 0; vIdx < vragenData.length; vIdx++) {
+            for (let vIdx = 0; vIdx < 8; vIdx++) {
                 let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
                 let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
-                if (goed) totaalGoed++;
+                if (goed) rondeGoed++;
 
                 let icoon = goed ? "✅ Goed" : "❌ Fout";
                 let achtergrond = goed ? "#14532d" : "#7f1d1d";
@@ -338,7 +339,37 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score: ${totaalGoed} / ${vragenData.length} goed! 🌟</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p>`;
+            
+            gebiedEl.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Eindstand na Ronde 8 (einde quiz)
+        if (index >= vragenData.length) {
+            statusEl.innerText = "✨ JOUW RESULTATEN RONDE 8 & EINDSTAND ✨";
+            titelEl.style.display = "none";
+
+            let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
+            let totaalGoed = 0;
+            let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
+            
+            for (let vIdx = 8; vIdx < vragenData.length; vIdx++) {
+                let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
+                let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
+                if (goed) totaalGoed++;
+
+                let icoon = goed ? "✅ Goed" : "❌ Fout";
+                let achtergrond = goed ? "#14532d" : "#7f1d1d";
+                let randKleur = goed ? "#4ade80" : "#f87171";
+
+                overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
+                    <strong>Vraag ${vIdx - 7}:</strong> ${icoon}<br>
+                    Jouw antwoord: <strong>${antw}</strong><br>
+                    <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
+                </div>`;
+            }
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 8: ${totaalGoed} / 12 goed! 🌟</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
@@ -347,7 +378,8 @@
         titelEl.style.display = "none";
 
         const huidige = vragenData[index];
-        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${index + 1} / ${vragenData.length}`;
+        let vraagNummerInRonde = huidige.ronde === 1 ? index + 1 : index - 7;
+        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${vraagNummerInRonde} / ${(huidige.ronde === 1 ? 8 : 12)}`;
         gebiedEl.innerHTML = "";
 
         if (huidige.type === "getal" || huidige.type === "tekst") {
@@ -402,7 +434,7 @@
                 knop.innerText = optie;
                 knop.className = `btn btn-optie-${optieIdx % 4}`;
                 knop.onclick = () => {
-                    slaAntwoordOp(index, optie);
+                    slaAntwoordoptieOp(index, optie);
                     feedbackEl.innerText = `Gekozen: ${optie}. Opgeslagen! Wacht op de host...`;
                     feedbackEl.style.color = "#4ade80";
                     const alleKnoppen = gebiedEl.getElementsByTagName("button");
@@ -410,6 +442,11 @@
                 };
                 gebiedEl.appendChild(knop);
             });
+            
+            // Kleine interne hulpfunctie zodat de naam van de aanroep klopt
+            function slaAntwoordoptieOp(idx, val) {
+                slaAntwoordOp(idx, val);
+            }
         }
         else if (huidige.type === "volgorde") {
             const volgordeOpties = index === 10 ? [
