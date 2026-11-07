@@ -315,7 +315,7 @@
             return;
         }
 
-        // Tussenstand na Ronde 1 (als host op index 8 / overzichtsscherm staat)
+        // Tussenstand na Ronde 1 (als host op index 8 / overzichtsscherm van ronde 1 staat)
         if (index === 8) {
             statusEl.innerText = "✨ RESULTATEN RONDE 1 ✨";
             titelEl.style.display = "none";
@@ -339,7 +339,7 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 8...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
@@ -443,7 +443,6 @@
                 gebiedEl.appendChild(knop);
             });
             
-            // Kleine interne hulpfunctie zodat de naam van de aanroep klopt
             function slaAntwoordoptieOp(idx, val) {
                 slaAntwoordOp(idx, val);
             }
