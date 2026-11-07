@@ -362,10 +362,76 @@
         snowContainer.appendChild(flake);
     }
 
-    const vragerondeNummer = 8;
-
     const vragenData = [
+        // --- RONDE 1: Algemene Kerstkennis ---
         { 
+            ronde: 1,
+            titel: "Vraag 1:\nDe versierde kerstboom staat tegenwoordig in bijna elke woonkamer. Maar in welk land begon die traditie?", 
+            opties: ["A) Engeland", "B) Duitsland", "C) Zweden", "D) Nederland"],
+            juist: "B) Duitsland", 
+            afbeelding: "", 
+            categorie: "Kersttradities" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 2:\nIn 'A Christmas Carol' van Charles Dickens krijgt de gierige Scrooge op kerstavond bezoek. Hoeveel geesten komen er in totaal langs?", 
+            opties: ["A) 2", "B) 3", "C) 4", "D) 5"],
+            juist: "C) 4", 
+            afbeelding: "", 
+            categorie: "Literatuur & Klassiekers" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 3:\nDe felrode kerstster is dé plant van december. Uit welk land komt hij oorspronkelijk?", 
+            opties: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
+            juist: "A) Mexico", 
+            afbeelding: "", 
+            categorie: "Kerstflora" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 4:\nDe Kerstman is op en top Amerikaans, maar zijn naam heeft hij niet van zichzelf. ‘Santa Claus’ is een verbastering van een Nederlands woord, dat kolonisten ooit meenamen naar Nieuw-Amsterdam. Welk woord?", 
+            opties: [],
+            juist: "Sinterklaas", 
+            afbeelding: "", 
+            categorie: "Open Vraag" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 5:\nZe staan op kersttruien, inpakpapier en etalageruiten, maar hoeveel armen heeft een echte sneeuwvlok?", 
+            opties: [],
+            juist: "6", 
+            afbeelding: "", 
+            categorie: "Wetenschap & Natuur" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 6:\nDe kerstman heeft het druk in december, maar in welke provincie worden de meeste kerstkaarten per inwoner ontvangen?", 
+            opties: [],
+            juist: "Drenthe", 
+            afbeelding: "", 
+            categorie: "Kerstweetjes" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 7:\nGlanzende kerstballen in alle kleuren horen er helemaal bij, maar ze bestaan nog niet zo lang. Klopt het dat er vroeger appels in de kerstboom hingen in plaats van kerstballen?", 
+            opties: ["Waar", "Niet waar"],
+            juist: "Waar", 
+            afbeelding: "", 
+            categorie: "Waar of Niet Waar" 
+        },
+        { 
+            ronde: 1,
+            titel: "Vraag 8:\n‘Merry Xmas’ zie je op kaarten, truien en etalages. Klopt het dat de afkorting ‘Xmas’ is bedacht door reclamemakers in de 20e eeuw?", 
+            opties: ["Waar", "Niet waar"],
+            juist: "Niet waar", 
+            afbeelding: "", 
+            categorie: "Waar of Niet Waar" 
+        },
+
+        // --- RONDE 8: Schattings- & Hitstervragen ---
+        { 
+            ronde: 8,
             titel: "Vraag 1:\nElk jaar in december stromen de tuincentra en kraampjes vol met kerstbomen. Maar hoeveel kerstbomen worden er jaarlijks ongeveer verkocht in Nederland? Je mag er 250.000 vanaf zitten.", 
             opties: [],
             juist: "2.500.000", 
@@ -373,6 +439,7 @@
             categorie: "Schattingsvraag" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 2:\nNederlanders staan bekend als zuinig, maar met kerst maken we graag een uitzondering. Hoeveel geven wij gemiddeld uit aan kerstcadeaus? Je mag er €25 vanaf zitten!", 
             opties: [],
             juist: "€325", 
@@ -380,6 +447,7 @@
             categorie: "Schattingsvraag" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 3:\nZet deze kerstmijlpalen in de juiste chronologische volgorde:", 
             opties: [
                 "A) Rudolph het roodneuzige rendier wordt bedacht door een warenhuismedewerker in Chicago.",
@@ -398,6 +466,7 @@
             categorie: "Hitster Vraag" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 4:\nZet deze kerstmijlpalen in de juiste chronologische volgorde:", 
             opties: [
                 "A) Edward Johnson hangt voor het eerst elektrische lampjes in een kerstboom.",
@@ -416,6 +485,7 @@
             categorie: "Hitster Vraag" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 5:\nNederland staat bekend als handelsland. Maar klopt het dat Nederland op China na de grootste exporteur van kerstdecoratie ter wereld is?", 
             opties: [],
             juist: "Waar", 
@@ -423,6 +493,7 @@
             categorie: "Waar of Niet Waar" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 6:\nNederlanders ruilen hun eigen huiskamer rond Kerst graag in voor het buitenland. Oostenrijk klinkt als de ultieme kersthotspot, maar klopt het dat dit land ook écht onze nummer één bestemming is?", 
             opties: [],
             juist: "Niet waar", 
@@ -430,6 +501,7 @@
             categorie: "Waar of Niet Waar" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 7:\nKerst is verreweg het populairste decemberfeest in Nederland. Maar hoeveel procent van de Nederlandse bevolking viert Kerst eigenlijk? Je mag er 5% vanaf zitten.", 
             opties: [],
             juist: "85%", 
@@ -437,6 +509,7 @@
             categorie: "Kerst in Percentages" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 8:\nDe een vindt het pure kerstmagie, de ander een absolute kerstmisdaad. Hoeveel procent van de Nederlanders heeft de boom al staan vóór Sinterklaas?", 
             opties: [],
             juist: "25%", 
@@ -444,49 +517,33 @@
             categorie: "Kerst in Percentages" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 9:\nDe kerstman heeft het druk in december, maar in welke provincie worden de meeste kerstkaarten per inwoner ontvangen?", 
-            opties: [
-                "A) Zuid-Holland",
-                "B) Friesland",
-                "C) Drenthe",
-                "D) Noord-Holland"
-            ],
+            opties: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
             juist: "C) Drenthe", 
             afbeelding: "elementen/ronde_8/ronde8_vraag9_visueel_voorbeeld.jpg", 
             categorie: "Hoogste en Laagste" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 10:\nSupermarkten draaien in de dagen voor Kerst overuren. Op welke dag is het in Nederland meestal het allerdrukst met de kerstboodschappen?", 
-            opties: [
-                "A) 21 december",
-                "B) 22 december",
-                "C) 23 december",
-                "D) 24 december"
-            ],
+            opties: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
             juist: "C) 23 december", 
             afbeelding: "elementen/ronde_8/ronde8_vraag10_visueel_voorbeeld.jpg", 
             categorie: "Hoogste en Laagste" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 11:\nElk jaar worden er indrukwekkende kerstbomen opgezet over de hele wereld. Maar in december 2025 brak een 150 jaar oude boom op een Engels landgoed het Guinness World Record als hoogste levende versierde kerstboom ter wereld. Hoe hoog was deze boom?", 
-            opties: [
-                "A) 44,7 meter",
-                "B) 64,6 meter",
-                "C) 53,4 meter",
-                "D) 71,2 meter"
-            ],
+            opties: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
             juist: "A) 44,7 meter", 
             afbeelding: "elementen/ronde_8/ronde8_vraag11_visueel_voorbeeld.jpg", 
             categorie: "Hoogste en Laagste" 
         },
         { 
+            ronde: 8,
             titel: "Vraag 12:\nDe traditionele kerstperiode loopt van 21 december tot Driekoningen op 6 januari. Maar wees eens eerlijk: hoelang staat kerstdecoratie écht in Nederlandse huiskamers? Denk vanaf de eerste kerstlampjes tot het moment waarop alles weer wordt opgeruimd.", 
-            opties: [
-                "A) 10–20 dagen",
-                "B) 20–30 dagen",
-                "C) 30–40 dagen",
-                "D) 40–50 dagen"
-            ],
+            opties: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"],
             juist: "C) 30–40 dagen", 
             afbeelding: "elementen/ronde_8/ronde8_vraag12_visueel_voorbeeld.jpg", 
             categorie: "Hoogste en Laagste" 
@@ -499,12 +556,11 @@
     let ingezondenCount = 0;
     let totaalDeelnemersCount = 0;
     let quizAntwoorden = {};
-    let vraagIsActief = false; // Voorkomt directe automatische doorloop bij het inladen
+    let vraagIsActief = false;
 
     let timerInterval = null;
     let overgeblevenTijd = 45;
 
-    // Luister naar updates van de server
     socket.on('update-status', (data) => {
         huidigeVraagIndex = data.huidigeVraagIndex;
         toonLeaderboardStap = data.toonEindstand;
@@ -515,8 +571,8 @@
     socket.on('zet-vraag', (nieuweIndex) => {
         huidigeVraagIndex = nieuweIndex;
         toonLeaderboardStap = false;
-        vraagIsActief = false; // Zet tijdelijk op false bij nieuwe vraag
-        setTimeout(() => { vraagIsActief = true; }, 800); // Pas na 0.8 seconde mag automatische doorloop triggeren
+        vraagIsActief = false;
+        setTimeout(() => { vraagIsActief = true; }, 800);
         renderHostScherm();
     });
 
@@ -539,7 +595,6 @@
                 statusEl.innerText = `Ingezonden antwoorden: ${ingezondenCount} / ${totaalDeelnemersCount}`;
             }
 
-            // Automatische doorloop enkel als de vraag actief is en iedereen heeft ingezonden
             if (vraagIsActief && totaalDeelnemersCount > 0 && ingezondenCount >= totaalDeelnemersCount) {
                 if (timerInterval) clearInterval(timerInterval);
                 setTimeout(() => {
@@ -621,38 +676,41 @@
     function isAntwoordJuistHost(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
+
         switch(index) {
-            case 0:
+            // Ronde 1
+            case 0: return a.startsWith("b") || a.includes("duitsland");
+            case 1: return a.startsWith("c") || a === "4";
+            case 2: return a.startsWith("a") || a.includes("mexico");
+            case 3: return a.includes("sinterklaas");
+            case 4: return a === "6" || a.includes("zes");
+            case 5: return a.includes("drenthe");
+            case 6: return a.includes("waar") && !a.includes("niet");
+            case 7: return a.includes("niet waar");
+
+            // Ronde 8
+            case 8:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 1:
+            case 9:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 2:
-                return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 3:
-                return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 4:
-                return a.includes("waar") && !a.includes("niet");
-            case 5:
-                return a.includes("niet waar");
-            case 6:
+            case 10: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 11: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 12: return a.includes("waar") && !a.includes("niet");
+            case 13: return a.includes("niet waar");
+            case 14:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 7:
+            case 15:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 8:
-                return a.startsWith("c") || a.includes("drenthe");
-            case 9:
-                return a.startsWith("c") || a.includes("c)");
-            case 10:
-                return a.startsWith("a") || a.includes("a)");
-            case 11:
-                return a.startsWith("c") || a.includes("c)");
-            default:
-                return false;
+            case 16: return a.startsWith("c") || a.includes("drenthe");
+            case 17: return a.startsWith("c") || a.includes("23");
+            case 18: return a.startsWith("a") || a.includes("44,7");
+            case 19: return a.startsWith("c") || a.includes("30–40");
+            default: return false;
         }
     }
 
@@ -690,8 +748,8 @@
             if (timerInterval) clearInterval(timerInterval);
 
             let overzichtHtml = `
-                <h1>🎄 Overzicht Ronde ${vragerondeNummer} 🎄</h1>
-                <p style="color:var(--text-muted); font-size: 15px;">Hier zijn de vragen en de juiste antwoorden van deze ronde:</p>
+                <h1>🎄 Overzicht Kerstquiz 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Hier zijn de vragen en de juiste antwoorden van de quiz:</p>
                 <div class="overzicht-container">
             `;
 
@@ -706,7 +764,7 @@
 
                 overzichtHtml += `
                     <div class="overzicht-item">
-                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="vraag-titel-overzicht">[Ronde ${vraag.ronde}] ${vraag.titel.replace(/\n/g, ' ')}</div>
                         <div class="juist-antwoord-overzicht">✅ Juiste antwoord:<br>${antwoordWeergave}</div>
                     </div>
                 `;
@@ -754,7 +812,7 @@
                     leaderboardHtml += `<tr>
                         <td><strong>${medaille}</strong></td>
                         <td>${s.naam}</td>
-                        <td><strong>${s.punten} / 12 goed</strong></td>
+                        <td><strong>${s.punten} / ${vragenData.length} goed</strong></td>
                     </tr>`;
                 });
             }
@@ -778,7 +836,7 @@
             <div class="vraag-header-row">
                 <div class="progress-box"><div class="progress-bar" id="progress-bar-fill"></div></div>
                 <div class="vraag-titel-badge">
-                    <span class="hoofd">RONDE ${vragerondeNummer} | VRAAG ${huidigeVraagIndex + 1} VAN ${vragenData.length}</span>
+                    <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${huidigeVraagIndex + 1} VAN ${vragenData.length}</span>
                     <span class="sub">${huidige.categorie}</span>
                 </div>
                 <div class="timer-klok">⏱️ <span id="timer-display">45s</span></div>
