@@ -363,7 +363,7 @@
     }
 
     const vragenData = [
-        // --- RONDE 1: Algemene Kerstkennis ---
+        // --- RONDE 1 (Index 0 t/m 7) ---
         { 
             ronde: 1,
             titel: "Vraag 1:\nDe versierde kerstboom staat tegenwoordig in bijna elke woonkamer. Maar in welk land begon die traditie?", 
@@ -429,7 +429,7 @@
             categorie: "Waar of Niet Waar" 
         },
 
-        // --- RONDE 8: Schattings- & Hitstervragen ---
+        // --- RONDE 8 (Index 8 t/m 19) ---
         { 
             ronde: 8,
             titel: "Vraag 1:\nElk jaar in december stromen de tuincentra en kraampjes vol met kerstbomen. Maar hoeveel kerstbomen worden er jaarlijks ongeveer verkocht in Nederland? Je mag er 250.000 vanaf zitten.", 
@@ -744,16 +744,48 @@
             return;
         }
 
+        // Tussenstand na Ronde 1 (index 8 is net na vraag 7, oftewel na 8 vragen)
+        if (huidigeVraagIndex === 8) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let overzichtHtml = `
+                <h1>🎄 Overzicht Ronde 1 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Bespreek de antwoorden van Ronde 1:</p>
+                <div class="overzicht-container">
+            `;
+
+            for (let i = 0; i < 8; i++) {
+                let vraag = vragenData[i];
+                let antwoordWeergave = vraag.juist;
+                overzichtHtml += `
+                    <div class="overzicht-item">
+                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="juist-antwoord-overzicht">✅ Juiste antwoord: ${antwoordWeergave}</div>
+                    </div>
+                `;
+            }
+
+            overzichtHtml += `
+                </div>
+                <button class="btn-geel" onclick="volgendeVraag()">START RONDE 8 ➔</button>
+            `;
+
+            hostContent.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Overzicht na Ronde 8 (einde quiz)
         if (huidigeVraagIndex >= vragenData.length && !toonLeaderboardStap) {
             if (timerInterval) clearInterval(timerInterval);
 
             let overzichtHtml = `
-                <h1>🎄 Overzicht Kerstquiz 🎄</h1>
-                <p style="color:var(--text-muted); font-size: 15px;">Hier zijn de vragen en de juiste antwoorden van de quiz:</p>
+                <h1>🎄 Overzicht Ronde 8 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Bespreek de antwoorden van Ronde 8:</p>
                 <div class="overzicht-container">
             `;
 
-            vragenData.forEach((vraag) => {
+            for (let i = 8; i < vragenData.length; i++) {
+                let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 if (vraag.optiesDetail) {
                     let letters = vraag.juist.replace(/[^a-z]/gi, '').toUpperCase().split('');
@@ -764,11 +796,11 @@
 
                 overzichtHtml += `
                     <div class="overzicht-item">
-                        <div class="vraag-titel-overzicht">[Ronde ${vraag.ronde}] ${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
                         <div class="juist-antwoord-overzicht">✅ Juiste antwoord:<br>${antwoordWeergave}</div>
                     </div>
                 `;
-            });
+            }
 
             overzichtHtml += `
                 </div>
@@ -779,6 +811,7 @@
             return;
         }
 
+        // Leaderboard aan het eind
         if (huidigeVraagIndex >= vragenData.length && toonLeaderboardStap) {
             let scores = actieveDeelnemers.map(naam => {
                 let antwoordenVanSpeler = quizAntwoorden[naam] || {};
@@ -836,7 +869,7 @@
             <div class="vraag-header-row">
                 <div class="progress-box"><div class="progress-bar" id="progress-bar-fill"></div></div>
                 <div class="vraag-titel-badge">
-                    <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${huidigeVraagIndex + 1} VAN ${vragenData.length}</span>
+                    <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${(huidige.ronde === 1 ? huidigeVraagIndex + 1 : huidigeVraagIndex - 7)} VAN ${(huidige.ronde === 1 ? 8 : 12)}</span>
                     <span class="sub">${huidige.categorie}</span>
                 </div>
                 <div class="timer-klok">⏱️ <span id="timer-display">45s</span></div>
