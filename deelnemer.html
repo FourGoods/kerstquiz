@@ -140,18 +140,29 @@
     }
 
     const vragenData = [
-        { type: "getal", juist: "2.500.000" },
-        { type: "getal", juist: "€325" },
-        { type: "volgorde", juist: "B -> D -> C -> A" },
-        { type: "volgorde", juist: "D -> B -> A -> C" },
-        { type: "keuze", juist: "Waar" },
-        { type: "keuze", juist: "Niet waar" },
-        { type: "getal", juist: "85%" },
-        { type: "getal", juist: "25%" },
-        { type: "keuze", juist: "C) Drenthe" },
-        { type: "keuze", juist: "C) 23 december" },
-        { type: "keuze", juist: "A) 44,7 meter" },
-        { type: "keuze", juist: "C) 30–40 dagen" }
+        // Ronde 1
+        { type: "keuze", juist: "B) Duitsland", ronde: 1 },
+        { type: "keuze", juist: "C) 4", ronde: 1 },
+        { type: "keuze", juist: "A) Mexico", ronde: 1 },
+        { type: "tekst", juist: "Sinterklaas", ronde: 1 },
+        { type: "getal", juist: "6", ronde: 1 },
+        { type: "tekst", juist: "Drenthe", ronde: 1 },
+        { type: "keuze", juist: "Waar", ronde: 1 },
+        { type: "keuze", juist: "Niet waar", ronde: 1 },
+
+        // Ronde 8
+        { type: "getal", juist: "2.500.000", ronde: 8 },
+        { type: "getal", juist: "€325", ronde: 8 },
+        { type: "volgorde", juist: "B -> D -> C -> A", ronde: 8 },
+        { type: "volgorde", juist: "D -> B -> A -> C", ronde: 8 },
+        { type: "keuze", juist: "Waar", ronde: 8 },
+        { type: "keuze", juist: "Niet waar", ronde: 8 },
+        { type: "getal", juist: "85%", ronde: 8 },
+        { type: "getal", juist: "25%", ronde: 8 },
+        { type: "keuze", juist: "C) Drenthe", ronde: 8 },
+        { type: "keuze", juist: "C) 23 december", ronde: 8 },
+        { type: "keuze", juist: "A) 44,7 meter", ronde: 8 },
+        { type: "keuze", juist: "C) 30–40 dagen", ronde: 8 }
     ];
 
     let geselecteerdeVolgorde = [];
@@ -220,38 +231,41 @@
     function isAntwoordJuistDeelnemer(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
+
         switch(index) {
-            case 0:
+            // Ronde 1
+            case 0: return a.startsWith("b") || a.includes("duitsland");
+            case 1: return a.startsWith("c") || a === "4";
+            case 2: return a.startsWith("a") || a.includes("mexico");
+            case 3: return a.includes("sinterklaas");
+            case 4: return a === "6" || a.includes("zes");
+            case 5: return a.includes("drenthe");
+            case 6: return a.includes("waar") && !a.includes("niet");
+            case 7: return a.includes("niet waar");
+
+            // Ronde 8
+            case 8:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 1:
+            case 9:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 2:
-                return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 3:
-                return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 4:
-                return a.includes("waar") && !a.includes("niet");
-            case 5:
-                return a.includes("niet waar");
-            case 6:
+            case 10: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 11: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 12: return a.includes("waar") && !a.includes("niet");
+            case 13: return a.includes("niet waar");
+            case 14:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 7:
+            case 15:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 8:
-                return a.startsWith("c") || a.includes("drenthe");
-            case 9:
-                return a.startsWith("c") || a.includes("c)");
-            case 10:
-                return a.startsWith("a") || a.includes("a)");
-            case 11:
-                return a.startsWith("c") || a.includes("c)");
-            default:
-                return false;
+            case 16: return a.startsWith("c") || a.includes("drenthe");
+            case 17: return a.startsWith("c") || a.includes("23");
+            case 18: return a.startsWith("a") || a.includes("44,7");
+            case 19: return a.startsWith("c") || a.includes("30–40");
+            default: return false;
         }
     }
 
@@ -324,7 +338,7 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score: ${totaalGoed} / 12 goed! 🌟</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score: ${totaalGoed} / ${vragenData.length} goed! 🌟</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
@@ -333,23 +347,25 @@
         titelEl.style.display = "none";
 
         const huidige = vragenData[index];
-        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE 8 | VRAAG ${index + 1} / ${vragenData.length}`;
+        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${index + 1} / ${vragenData.length}`;
         gebiedEl.innerHTML = "";
 
-        if (huidige.type === "getal") {
+        if (huidige.type === "getal" || huidige.type === "tekst") {
             const input = document.createElement("input");
             input.type = "text";
-            input.inputMode = "numeric";
-            input.placeholder = "Typ je antwoord...";
-            input.oninput = () => { input.value = input.value.replace(/[^0-9]/g, ''); };
+            if (huidige.type === "getal") {
+                input.inputMode = "numeric";
+                input.oninput = () => { input.value = input.value.replace(/[^0-9]/g, ''); };
+            }
+            input.placeholder = huidige.type === "getal" ? "Typ je cijfer..." : "Typ je antwoord...";
             
             const knop = document.createElement("button");
             knop.innerText = "Verstuur Antwoord 🎯";
             knop.className = "btn btn-verstuur";
             knop.onclick = () => {
-                let schoneWaarde = input.value.replace(/[^0-9]/g, '');
+                let schoneWaarde = input.value.trim();
                 if(!schoneWaarde) {
-                    alert("Vul alstublieft een geldig cijfer in!");
+                    alert("Vul alstublieft een antwoord in!");
                     return;
                 }
                 slaAntwoordOp(index, schoneWaarde);
@@ -364,12 +380,20 @@
         }
         else if (huidige.type === "keuze") {
             const optiesMap = {
-                4: ["Waar", "Niet waar"],
-                5: ["Waar", "Niet waar"],
-                8: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
-                9: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
-                10: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
-                11: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
+                // Ronde 1
+                0: ["A) Engeland", "B) Duitsland", "C) Zweden", "D) Nederland"],
+                1: ["A) 2", "B) 3", "C) 4", "D) 5"],
+                2: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
+                6: ["Waar", "Niet waar"],
+                7: ["Waar", "Niet waar"],
+
+                // Ronde 8
+                12: ["Waar", "Niet waar"],
+                13: ["Waar", "Niet waar"],
+                16: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
+                17: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
+                18: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
+                19: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
             };
 
             let opties = optiesMap[index] || [];
@@ -388,7 +412,7 @@
             });
         }
         else if (huidige.type === "volgorde") {
-            const volgordeOpties = index === 2 ? [
+            const volgordeOpties = index === 10 ? [
                 "A) Rudolph het roodneuzige rendier...",
                 "B) In een gedicht verschijnen rendieren...",
                 "C) Coca-Cola lanceert reclamecampagne...",
