@@ -228,10 +228,15 @@
         });
     }
 
-    // Hulpfunctie om spelfouten te controleren (max 1 teken afwijking)
+    // Strengere spelfout- en schoonmaakfunctie (verwijdert eventuele losse punten aan het einde of begin)
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
+        
+        // Verwijder een eventuele punt aan het begin of einde indien aanwezig
+        a = a.replace(/^[.]+|[.]+$/g, "").trim();
+        b = b.replace(/^[.]+|[.]+$/g, "").trim();
+
         if (a === b) return true;
         if (Math.abs(a.length - b.length) > 1) return false;
         
@@ -265,9 +270,9 @@
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
-            case 3: return vergelijkMetSpelfout(a, "Sinterklaas") || a.includes("sinterklaas");
+            case 3: return vergelijkMetSpelfout(a, "Sinterklaas");
             case 4: return a === "6" || a.includes("zes");
-            case 5: return vergelijkMetSpelfout(a, "Drenthe") || a.includes("drenthe");
+            case 5: return vergelijkMetSpelfout(a, "Drenthe");
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
