@@ -228,6 +228,34 @@
         });
     }
 
+    // Hulpfunctie om spelfouten te controleren (max 1 teken afwijking)
+    function vergelijkMetSpelfout(gegeven, juist) {
+        let a = String(gegeven || "").trim().toLowerCase();
+        let b = String(juist || "").trim().toLowerCase();
+        if (a === b) return true;
+        if (Math.abs(a.length - b.length) > 1) return false;
+        
+        let levenshtein = (str1, str2) => {
+            let track = Array(str2.length + 1).fill(null).map(() =>
+                Array(str1.length + 1).fill(null));
+            for (let i = 0; i <= str1.length; i += 1) { track[0][i] = i; }
+            for (let j = 0; j <= str2.length; j += 1) { track[j][0] = j; }
+            for (let j = 1; j <= str2.length; j += 1) {
+                for (let i = 1; i <= str1.length; i += 1) {
+                    let indicator = str1[i - 1] === str2[j - 1] ? 0 : 1;
+                    track[j][i] = Math.min(
+                        track[j][i - 1] + 1,
+                        track[j - 1][i] + 1,
+                        track[j - 1][i - 1] + indicator
+                    );
+                }
+            }
+            return track[str2.length][str1.length];
+        };
+
+        return levenshtein(a, b) <= 1;
+    }
+
     function isAntwoordJuistDeelnemer(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
@@ -237,9 +265,9 @@
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
-            case 3: return a.includes("sinterklaas");
+            case 3: return vergelijkMetSpelfout(a, "Sinterklaas") || a.includes("sinterklaas");
             case 4: return a === "6" || a.includes("zes");
-            case 5: return a.includes("drenthe");
+            case 5: return vergelijkMetSpelfout(a, "Drenthe") || a.includes("drenthe");
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
@@ -455,8 +483,8 @@
                 "D) Louis Prang massaproductie kerstkaarten."
             ] : [
                 "A) Edward Johnson elektrische lampjes",
-                "B) Eerste commerciële kerstkaart Sir Henry Cole",
-                "C) Eerste kunstkerstbomen",
+                "B) De eerste commerciële kerstkaart Sir Henry Cole",
+                "C) De eerste kunstkerstbomen",
                 "D) Adventskrans Johann Wichern"
             ];
 
