@@ -300,7 +300,7 @@
             case 7: return a.includes("niet waar");
 
             case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
-            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express");
+            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "the polar express");
             case 10: return a.startsWith("o") || a.includes("kaars");
             case 11: return a.startsWith("a") || a.includes("slinger");
             case 12: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
@@ -520,8 +520,8 @@
                 2: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
                 6: ["Waar", "Niet waar"],
                 7: ["Waar", "Niet waar"],
-                10: ["K", "A", "O", "R", "S"],
-                11: ["S", "L", "I", "A", "N", "G", "E", "R"],
+                10: ["S", "A", "O", "K", "R", "A"],
+                11: ["G", "A", "L", "I", "N", "E", "R", "S"],
                 20: ["Waar", "Niet waar"],
                 21: ["Waar", "Niet waar"],
                 24: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
@@ -623,37 +623,30 @@
                 "THE POLAR EXPRESS", "JACK FROST", "MIRRE"
             ];
 
-            // Standaard willekeurige shuffle (Fisher-Yates) zonder restricties op rijen/kolommen
-            let woordenMetIndex = woorden.map((woord, origIndex) => ({ woord, origIndex }));
-            for (let i = woordenMetIndex.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                [woordenMetIndex[i], woordenMetIndex[j]] = [woordenMetIndex[j], woordenMetIndex[i]];
-            }
-
             const updateGroepenUI = () => {
                 gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Tik telkens 3 woorden aan die bij elkaar horen:</p>`;
                 const grid = document.createElement("div");
                 grid.className = "groepen-grid";
 
-                woordenMetIndex.forEach((item) => {
+                woorden.forEach((woord, origIndex) => {
                     const btn = document.createElement("button");
                     btn.className = "groep-woord-btn";
-                    btn.innerText = item.woord;
+                    btn.innerText = woord;
 
-                    let pos = geselecteerdeGroepen.indexOf(item.origIndex);
+                    let pos = geselecteerdeGroepen.indexOf(origIndex);
                     if (pos !== -1) {
                         let groepNr = Math.floor(pos / 3);
                         btn.classList.add(`groep-${groepNr}`);
-                        btn.innerText = `${item.woord}\n(Groep ${groepNr + 1})`;
+                        btn.innerText = `${woord}\n(Groep ${groepNr + 1})`;
                     }
 
                     btn.onclick = () => {
                         if (isVerstuurd) return;
-                        let alPos = geselecteerdeGroepen.indexOf(item.origIndex);
+                        let alPos = geselecteerdeGroepen.indexOf(origIndex);
                         if (alPos !== -1) {
                             geselecteerdeGroepen.splice(alPos, 1);
                         } else {
-                            geselecteerdeGroepen.push(item.origIndex);
+                            geselecteerdeGroepen.push(origIndex);
                         }
                         updateGroepenUI();
                     };
