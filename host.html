@@ -429,7 +429,81 @@
             categorie: "Waar of Niet Waar" 
         },
 
-        // --- RONDE 8 (Index 8 t/m 19) ---
+        // --- RONDE 5 (Index 8 t/m 15) ---
+        { 
+            ronde: 5,
+            titel: "Vraag 1:\nWelk kerstlied wordt hier uitgebeeld?", 
+            opties: [],
+            juist: "Stille Nacht", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag1_visueel_voorbeeld.jpg", 
+            categorie: "Beeldraadsels" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 2:\nWelke kerstfilm zoeken we?", 
+            opties: [],
+            juist: "The Polar Express", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag2_visueel_voorbeeld.jpg", 
+            categorie: "Beeldraadsels" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 3:\nWelke letter hoort hier niet tussen te staan?", 
+            opties: ["K", "A", "O", "R", "S"],
+            juist: "O) Met de overige letters kan het woord 'kaars' gevormd worden.", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag3_visueel_voorbeeld.jpg", 
+            categorie: "Woordpuzzel" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 4:\nWelke letter hoort hier niet tussen te staan?", 
+            opties: ["S", "L", "I", "A", "N", "G", "E", "R"],
+            juist: "A) Met de overige letters kan het woord 'slinger' gevormd worden.", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag4_visueel_voorbeeld.jpg", 
+            categorie: "Woordpuzzel" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 5:\nDeze afbeelding beeldt een kerstwoord heel letterlijk uit. Welk woord zoeken we?", 
+            opties: [],
+            juist: "kerstballen", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag5_visueel_voorbeeld.jpg", 
+            categorie: "Letterlijk Uitgebeeld" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 6:\nDeze afbeelding beeldt een kerstwoord heel letterlijk uit. Welk woord zoeken we?", 
+            opties: [],
+            juist: "rendieren", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag6_visueel_voorbeeld.jpg", 
+            categorie: "Letterlijk Uitgebeeld" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 7:\nVerdeel de 9 woorden in 3 groepjes van 3 die bij elkaar horen.", 
+            opties: [
+                "BLITZEN – STAL – JINGLE BELLS",
+                "VIXEN – HERBERG – STILLE NACHT",
+                "DASHER – STER – LAST CHRISTMAS"
+            ],
+            juist: "Rendieren van de Kerstman: Blitzen – Vixen – Dasher\nKlassieke Kerstverhaal: Stal – Herberg – Ster\nKerstliedjes: Jingle Bells – Stille Nacht – Last Christmas", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag7_visueel_voorbeeld.jpg", 
+            categorie: "Verbanden Zoeken" 
+        },
+        { 
+            ronde: 5,
+            titel: "Vraag 8:\nVerdeel de 9 woorden in 3 groepjes van 3 die bij elkaar horen.", 
+            opties: [
+                "HOME ALONE – GOUD – ELF",
+                "GRINCH – WIEROOK – SCROOGE",
+                "THE POLAR EXPRESS – JACK FROST – MIRRE"
+            ],
+            juist: "Iconische kerstfilms: Home Alone – Elf – The Polar Express\nMopperkonten van Kerst: Grinch – Scrooge – Jack Frost\nDe drie geschenken van de Wijzen uit het Oosten: Goud – Wierook – Mirre", 
+            afbeelding: "elementen/ronde_5/ronde5_vraag8_visueel_voorbeeld.jpg", 
+            categorie: "Verbanden Zoeken" 
+        },
+
+        // --- RONDE 8 (Index 16 t/m 27) ---
         { 
             ronde: 8,
             titel: "Vraag 1:\nElk jaar in december stromen de tuincentra en kraampjes vol met kerstbomen. Maar hoeveel kerstbomen worden er jaarlijks ongeveer verkocht in Nederland? Je mag er 250.000 vanaf zitten.", 
@@ -673,7 +747,6 @@
         }, 1000);
     }
 
-    // Geoptimaliseerde spelfoutfunctie die spelfouten, puntjes én meerdere omgedraaide letters (zoals Sniterklaas) goedkeurt
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
@@ -704,11 +777,23 @@
         return levenshtein(a, b) <= 2;
     }
 
+    function controleerGroepen(antw, verwachteGroepen) {
+        if (!antw) return false;
+        let groepen = String(antw).toLowerCase().split('|').map(g =>
+            g.split(',').map(w => w.trim()).filter(Boolean).sort().join(',')
+        ).filter(Boolean).sort();
+        let verwacht = verwachteGroepen.map(g =>
+            g.map(w => w.toLowerCase().trim()).sort().join(',')
+        ).sort();
+        return groepen.length === 3 && groepen.every((val, idx) => val === verwacht[idx]);
+    }
+
     function isAntwoordJuistHost(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
 
         switch(index) {
+            // Ronde 1
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
@@ -718,27 +803,46 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            case 8:
+            // Ronde 5
+            case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
+            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express");
+            case 10: return a.startsWith("o") || a.includes("kaars");
+            case 11: return a.startsWith("a") || a.includes("slinger");
+            case 12: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
+            case 13: return vergelijkMetSpelfout(a, "rendieren") || vergelijkMetSpelfout(a, "rendier");
+            case 14: return controleerGroepen(a, [
+                ["blitzen", "vixen", "dasher"],
+                ["stal", "herberg", "ster"],
+                ["jingle bells", "stille nacht", "last christmas"]
+            ]);
+            case 15: return controleerGroepen(a, [
+                ["home alone", "elf", "the polar express"],
+                ["grinch", "scrooge", "jack frost"],
+                ["goud", "wierook", "mirre"]
+            ]);
+
+            // Ronde 8
+            case 16:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 9:
+            case 17:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 10: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 11: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 12: return a.includes("waar") && !a.includes("niet");
-            case 13: return a.includes("niet waar");
-            case 14:
+            case 18: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 19: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 20: return a.includes("waar") && !a.includes("niet");
+            case 21: return a.includes("niet waar");
+            case 22:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 15:
+            case 23:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 16: return a.startsWith("c") || a.includes("drenthe");
-            case 17: return a.startsWith("c") || a.includes("23");
-            case 18: return a.startsWith("a") || a.includes("44,7");
-            case 19: return a.startsWith("c") || a.includes("30–40");
+            case 24: return a.startsWith("c") || a.includes("drenthe");
+            case 25: return a.startsWith("c") || a.includes("23");
+            case 26: return a.startsWith("a") || a.includes("44,7");
+            case 27: return a.startsWith("c") || a.includes("30–40");
             default: return false;
         }
     }
@@ -773,6 +877,7 @@
             return;
         }
 
+        // Overzicht na Ronde 1
         if (huidigeVraagIndex === 8) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -795,6 +900,36 @@
 
             overzichtHtml += `
                 </div>
+                <button class="btn-geel" onclick="volgendeVraag()">START RONDE 5 ➔</button>
+            `;
+
+            hostContent.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Overzicht na Ronde 5
+        if (huidigeVraagIndex === 16) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let overzichtHtml = `
+                <h1>🎄 Overzicht Ronde 5 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Bespreek de antwoorden van Ronde 5:</p>
+                <div class="overzicht-container">
+            `;
+
+            for (let i = 8; i < 16; i++) {
+                let vraag = vragenData[i];
+                let antwoordWeergave = vraag.juist.replace(/\n/g, '<br>');
+                overzichtHtml += `
+                    <div class="overzicht-item">
+                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="juist-antwoord-overzicht">✅ Juiste antwoord:<br>${antwoordWeergave}</div>
+                    </div>
+                `;
+            }
+
+            overzichtHtml += `
+                </div>
                 <button class="btn-geel" onclick="volgendeVraag()">START RONDE 8 ➔</button>
             `;
 
@@ -802,6 +937,7 @@
             return;
         }
 
+        // Overzicht na Ronde 8
         if (huidigeVraagIndex >= vragenData.length && !toonLeaderboardStap) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -811,7 +947,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 8; i < vragenData.length; i++) {
+            for (let i = 16; i < vragenData.length; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 if (vraag.optiesDetail) {
@@ -891,11 +1027,14 @@
                 `</div>`;
         }
 
+        let vraagNr = huidige.ronde === 1 ? huidigeVraagIndex + 1 : (huidige.ronde === 5 ? huidigeVraagIndex - 7 : huidigeVraagIndex - 15);
+        let totaalNr = huidige.ronde === 8 ? 12 : 8;
+
         hostContent.innerHTML = `
             <div class="vraag-header-row">
                 <div class="progress-box"><div class="progress-bar" id="progress-bar-fill"></div></div>
                 <div class="vraag-titel-badge">
-                    <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${(huidige.ronde === 1 ? huidigeVraagIndex + 1 : huidigeVraagIndex - 7)} VAN ${(huidige.ronde === 1 ? 8 : 12)}</span>
+                    <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${vraagNr} VAN ${totaalNr}</span>
                     <span class="sub">${huidige.categorie}</span>
                 </div>
                 <div class="timer-klok">⏱️ <span id="timer-display">45s</span></div>
