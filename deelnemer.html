@@ -228,7 +228,7 @@
         });
     }
 
-    // Geoptimaliseerde spelfoutfunctie inclusief controle op omgedraaide letters (transpositie)
+    // Geoptimaliseerde spelfoutfunctie die spelfouten, puntjes én meerdere omgedraaide letters (zoals Sniterklaas) goedkeurt
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
@@ -238,22 +238,7 @@
 
         if (a === b) return true;
 
-        // Controleer of er twee aan elkaar grenzende letters zijn omgedraaid
-        if (a.length === b.length) {
-            let verschillen = [];
-            for (let i = 0; i < a.length; i++) {
-                if (a[i] !== b[i]) verschillen.push(i);
-            }
-            if (verschillen.length === 2 && 
-                verschillen[1] === verschillen[0] + 1 && 
-                a[verschillen[0]] === b[verschillen[1]] && 
-                a[verschillen[1]] === b[verschillen[0]]) {
-                return true;
-            }
-        }
-
-        if (Math.abs(a.length - b.length) > 1) return false;
-        
+        // Levenshtein-afstand tot maximaal 2 fouten (vangt o.a. omgedraaide letterparen zoals Sniterklaas op)
         let levenshtein = (str1, str2) => {
             let track = Array(str2.length + 1).fill(null).map(() =>
                 Array(str1.length + 1).fill(null));
@@ -272,7 +257,7 @@
             return track[str2.length][str1.length];
         };
 
-        return levenshtein(a, b) <= 1;
+        return levenshtein(a, b) <= 2;
     }
 
     function isAntwoordJuistDeelnemer(index, antw) {
@@ -280,7 +265,6 @@
         let a = String(antw).trim().toLowerCase();
 
         switch(index) {
-            // Ronde 1
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
@@ -290,7 +274,6 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            // Ronde 8
             case 8:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
