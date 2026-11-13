@@ -637,7 +637,7 @@
     ];
 
     let huidigeVraagIndex = -1;
-    let getoondOverzichtRonde = null; // Houdt bij of we een tussenoverzicht tonen (1 of 5)
+    let getoondOverzichtRonde = null;
     let toonLeaderboardStap = false;
     let actieveDeelnemers = [];
     let ingezondenCount = 0;
@@ -724,6 +724,21 @@
         if (confirm("Weet je zeker dat je de kerstquiz wilt herstarten? Alle voortgang wordt gereset.")) {
             socket.emit('reset-quiz');
         }
+    }
+
+    // Aangepaste functie specifiek voor de knop op het overzichtsscherm om direct naar vraag 1 van ronde 5 te springen
+    function startRonde5() {
+        if (timerInterval) clearInterval(timerInterval);
+        getoondOverzichtRonde = null;
+        huidigeVraagIndex = 8; // Index 8 is Vraag 1 van Ronde 5
+        socket.emit('volgende-vraag', huidigeVraagIndex);
+    }
+
+    function startRonde8() {
+        if (timerInterval) clearInterval(timerInterval);
+        getoondOverzichtRonde = null;
+        huidigeVraagIndex = 16; // Index 16 is Vraag 1 van Ronde 8
+        socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
     function volgendeVraag() {
@@ -930,7 +945,7 @@
 
             overzichtHtml += `
                 </div>
-                <button class="btn-geel" onclick="volgendeVraag()">START RONDE 5 ➔</button>
+                <button class="btn-geel" onclick="startRonde5()">START RONDE 5 ➔</button>
             `;
 
             hostContent.innerHTML = overzichtHtml;
@@ -960,7 +975,7 @@
 
             overzichtHtml += `
                 </div>
-                <button class="btn-geel" onclick="volgendeVraag()">START RONDE 8 ➔</button>
+                <button class="btn-geel" onclick="startRonde8()">START RONDE 8 ➔</button>
             `;
 
             hostContent.innerHTML = overzichtHtml;
