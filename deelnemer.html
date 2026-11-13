@@ -359,7 +359,7 @@
         extraOptiesEl.innerHTML = "";
         titelEl.style.display = "block";
 
-        if (index < 0) {
+        if (index === -1 || index === null || index === undefined) {
             statusEl.innerText = "✨ Kerst Lobby ✨";
             if (!mijnNaam) {
                 titelEl.innerText = "Vul je naam in om mee te doen met de Kerstquiz! 🎄";
@@ -388,7 +388,8 @@
             return;
         }
 
-        if (index === 8) {
+        // Tussenoverzicht na Ronde 1 (speciale code -101)
+        if (index === -101) {
             statusEl.innerText = "✨ RESULTATEN RONDE 1 ✨";
             titelEl.style.display = "none";
 
@@ -417,7 +418,8 @@
             return;
         }
 
-        if (index === 16) {
+        // Tussenoverzicht na Ronde 5 (speciale code -105)
+        if (index === -105) {
             statusEl.innerText = "✨ RESULTATEN RONDE 5 ✨";
             titelEl.style.display = "none";
 
