@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -463,7 +464,6 @@
             titel: "Vraag 3:\nWelke letter hoort hier niet tussen te staan?", 
             opties: ["K", "A", "O", "R", "S"],
             juist: "O) Met de overige letters kan het woord 'kaars' gevormd worden.", 
-            afbeelding: "elementen/ronde_5/ronde5_vraag3_visueel_voorbeeld.jpg", 
             categorie: "Woordpuzzel" 
         },
         { 
@@ -471,7 +471,6 @@
             titel: "Vraag 4:\nWelke letter hoort hier niet tussen te staan?", 
             opties: ["S", "L", "I", "A", "N", "G", "E", "R"],
             juist: "A) Met de overige letters kan het woord 'slinger' gevormd worden.", 
-            afbeelding: "elementen/ronde_5/ronde5_vraag4_visueel_voorbeeld.jpg", 
             categorie: "Woordpuzzel" 
         },
         { 
@@ -499,7 +498,6 @@
                 "DASHER – STER – LAST CHRISTMAS"
             ],
             juist: "Rendieren van de Kerstman: Blitzen – Vixen – Dasher\nKlassieke Kerstverhaal: Stal – Herberg – Ster\nKerstliedjes: Jingle Bells – Stille Nacht – Last Christmas", 
-            afbeelding: "elementen/ronde_5/ronde5_vraag7_visueel_voorbeeld.jpg", 
             categorie: "Verbanden Zoeken" 
         },
         { 
@@ -511,7 +509,6 @@
                 "THE POLAR EXPRESS – JACK FROST – MIRRE"
             ],
             juist: "Iconische kerstfilms: Home Alone – Elf – The Polar Express\nMopperkonten van Kerst: Grinch – Scrooge – Jack Frost\nDe drie geschenken van de Wijzen uit het Oosten: Goud – Wierook – Mirre", 
-            afbeelding: "elementen/ronde_5/ronde5_vraag8_visueel_voorbeeld.jpg", 
             categorie: "Verbanden Zoeken" 
         },
 
@@ -726,25 +723,23 @@
         }
     }
 
-    // Aangepaste functie specifiek voor de knop op het overzichtsscherm om direct naar vraag 1 van ronde 5 te springen
     function startRonde5() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
-        huidigeVraagIndex = 8; // Index 8 is Vraag 1 van Ronde 5
+        huidigeVraagIndex = 8;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
     function startRonde8() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
-        huidigeVraagIndex = 16; // Index 16 is Vraag 1 van Ronde 8
+        huidigeVraagIndex = 16;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
     function volgendeVraag() {
         if (timerInterval) clearInterval(timerInterval);
 
-        // Na vraag 8 van Ronde 1 (index 7): eerst overzicht Ronde 1 tonen
         if (huidigeVraagIndex === 7 && getoondOverzichtRonde !== 1) {
             getoondOverzichtRonde = 1;
             socket.emit('volgende-vraag', -101);
@@ -752,7 +747,6 @@
             return;
         }
 
-        // Na vraag 8 van Ronde 5 (index 15): eerst overzicht Ronde 5 tonen
         if (huidigeVraagIndex === 15 && getoondOverzichtRonde !== 5) {
             getoondOverzichtRonde = 5;
             socket.emit('volgende-vraag', -105);
