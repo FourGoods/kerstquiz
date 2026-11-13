@@ -228,7 +228,7 @@
         });
     }
 
-    // Strengere spelfout- en schoonmaakfunctie (verwijdert eventuele losse punten aan het einde of begin)
+    // Uitgebreide spelfout- en schoonmaakfunctie (inclusief controle op omgedraaide letters / transponering)
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
@@ -238,6 +238,20 @@
         b = b.replace(/^[.]+|[.]+$/g, "").trim();
 
         if (a === b) return true;
+
+        // Controleer op getransponeerde letters (exact twee aangrenzende letters omgedraaid)
+        if (a.length === b.length) {
+            let diffs = [];
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] !== b[i]) diffs.push(i);
+            }
+            if (diffs.length === 2 && diffs[1] === diffs[0] + 1) {
+                if (a[diffs[0]] === b[diffs[1]] && a[diffs[1]] === b[diffs[0]]) {
+                    return true;
+                }
+            }
+        }
+
         if (Math.abs(a.length - b.length) > 1) return false;
         
         let levenshtein = (str1, str2) => {
