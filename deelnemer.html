@@ -613,7 +613,6 @@
             updateVolgordeUI();
         }
         else if (huidige.type === "groepen") {
-            // Unieke arrays voor vraag 14 en vraag 15
             let woorden = index === 14 ? [
                 "BLITZEN", "STAL", "JINGLE BELLS",
                 "VIXEN", "HERBERG", "STILLE NACHT",
@@ -624,11 +623,30 @@
                 "THE POLAR EXPRESS", "JACK FROST", "MIRRE"
             ];
 
-            // Willekeurig door elkaar schudden (Fisher-Yates shuffle) zodat ze nooit netjes op rij staan
+            // Uitgebreide schud-logica zodat ze gegarandeerd niet per ongeluk op dezelfde rij/kolom blijven hangen
             let woordenMetIndex = woorden.map((woord, origIndex) => ({ woord, origIndex }));
-            for (let i = woordenMetIndex.length - 1; i > 0; i--) {
-                let j = Math.floor(Math.random() * (i + 1));
-                [woordenMetIndex[i], woordenMetIndex[j]] = [woordenMetIndex[j], woordenMetIndex[i]];
+            let isValid = false;
+            let pogingen = 0;
+            
+            while (!isValid && pogingen < 100) {
+                pogingen++;
+                for (let i = woordenMetIndex.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [woordenMetIndex[i], woordenMetIndex[j]] = [woordenMetIndex[j], woordenMetIndex[i]];
+                }
+                
+                // Controleer of er niet te veel elementen uit dezelfde categorie (elke groep van 3 in de oorspronkelijke array) op dezelfde rij (elke 3 elementen) of kolom (index % 3) zitten
+                let rij1 = [Math.floor(woordenMetIndex[0].origIndex / 3), Math.floor(woordenMetIndex[1].origIndex / 3), Math.floor(woordenMetIndex[2].origIndex / 3)];
+                let rij2 = [Math.floor(woordenMetIndex[3].origIndex / 3), Math.floor(woordenMetIndex[4].origIndex / 3), Math.floor(woordenMetIndex[5].origIndex / 3)];
+                let rij3 = [Math.floor(woordenMetIndex[6].origIndex / 3), Math.floor(woordenMetIndex[7].origIndex / 3), Math.floor(woordenMetIndex[8].origIndex / 3)];
+                
+                let uniekRij1 = new Set(rij1).size === 3;
+                let uniekRij2 = new Set(rij2).size === 3;
+                let uniekRij3 = new Set(rij3).size === 3;
+
+                if (uniekRij1 && uniekRij2 && uniekRij3) {
+                    isValid = true;
+                }
             }
 
             const updateGroepenUI = () => {
