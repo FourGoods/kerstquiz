@@ -228,7 +228,7 @@
         });
     }
 
-    // Uitgebreide spelfout- en schoonmaakfunctie (inclusief controle op omgedraaide letters / transponering)
+    // Geavanceerde spelfoutfunctie inclusief controle op omgedraaide letters (transponering)
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
@@ -239,7 +239,7 @@
 
         if (a === b) return true;
 
-        // Controleer op getransponeerde letters (exact twee aangrenzende letters omgedraaid)
+        // Controleer of er exact twee aangrenzende letters zijn omgedraaid (bijv. Sniterklaas <-> Sinterklaas)
         if (a.length === b.length) {
             let diffs = [];
             for (let i = 0; i < a.length; i++) {
