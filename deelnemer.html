@@ -103,6 +103,11 @@
         #vraag-titel { font-size: 19px; margin-bottom: 25px; line-height: 1.5; text-align: left; white-space: pre-line; font-weight: 700; color: var(--text-light); }
         .volgorde-item { background: #1b3d2f; padding: 14px; margin: 10px 0; border-radius: 12px; cursor: pointer; border: 2px solid rgba(212, 175, 55, 0.3); text-align: left; font-size: 15px; font-weight: 700; }
         .volgorde-item.selected { background: #14532d; border-color: #4ade80; color: #dcfce7; }
+        .groepen-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 12px 0; }
+        .groep-woord-btn { background: #1b3d2f; color: #f8fafc; border: 2px solid rgba(212, 175, 55, 0.35); border-radius: 10px; padding: 12px 6px; font-size: 12px; font-weight: 800; cursor: pointer; transition: all 0.15s ease; word-break: break-word; }
+        .groep-woord-btn.groep-0 { background: #991b1b; border-color: #fca5a5; color: #fff; }
+        .groep-woord-btn.groep-1 { background: #166534; border-color: #86efac; color: #fff; }
+        .groep-woord-btn.groep-2 { background: #1e3a8a; border-color: #93c5fd; color: #fff; }
         #feedback { font-weight: 800; margin-top: 15px; font-size: 16px; }
         .antwoord-item-einde { padding: 10px 12px; margin: 8px 0; border-radius: 10px; text-align: left; font-size: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
     </style>
@@ -150,7 +155,17 @@
         { type: "keuze", juist: "Waar", ronde: 1 },
         { type: "keuze", juist: "Niet waar", ronde: 1 },
 
-        // Ronde 8 (index 8 t/m 19)
+        // Ronde 5 (index 8 t/m 15)
+        { type: "tekst", juist: "Stille Nacht", ronde: 5 },
+        { type: "tekst", juist: "The Polar Express", ronde: 5 },
+        { type: "keuze", juist: "O) Met de overige letters kan het woord 'kaars' gevormd worden.", ronde: 5 },
+        { type: "keuze", juist: "A) Met de overige letters kan het woord 'slinger' gevormd worden.", ronde: 5 },
+        { type: "tekst", juist: "kerstballen", ronde: 5 },
+        { type: "tekst", juist: "rendieren", ronde: 5 },
+        { type: "groepen", juist: "Rendieren: Blitzen, Vixen, Dasher | Kerstverhaal: Stal, Herberg, Ster | Kerstliedjes: Jingle Bells, Stille Nacht, Last Christmas", ronde: 5 },
+        { type: "groepen", juist: "Kerstfilms: Home Alone, Elf, The Polar Express | Mopperkonten: Grinch, Scrooge, Jack Frost | Wijzen: Goud, Wierook, Mirre", ronde: 5 },
+
+        // Ronde 8 (index 16 t/m 27)
         { type: "getal", juist: "2.500.000", ronde: 8 },
         { type: "getal", juist: "€325", ronde: 8 },
         { type: "volgorde", juist: "B -> D -> C -> A", ronde: 8 },
@@ -166,6 +181,7 @@
     ];
 
     let geselecteerdeVolgorde = [];
+    let geselecteerdeGroepen = [];
     let isVerstuurd = false;
     let huidigeVraagIndex = -1;
     let toonEindstandStatus = false;
@@ -228,7 +244,6 @@
         });
     }
 
-    // Geoptimaliseerde spelfoutfunctie die spelfouten, puntjes én meerdere omgedraaide letters (zoals Sniterklaas) goedkeurt
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
@@ -238,7 +253,6 @@
 
         if (a === b) return true;
 
-        // Levenshtein-afstand tot maximaal 2 fouten (vangt o.a. omgedraaide letterparen zoals Sniterklaas op)
         let levenshtein = (str1, str2) => {
             let track = Array(str2.length + 1).fill(null).map(() =>
                 Array(str1.length + 1).fill(null));
@@ -260,11 +274,23 @@
         return levenshtein(a, b) <= 2;
     }
 
+    function controleerGroepen(antw, verwachteGroepen) {
+        if (!antw) return false;
+        let groepen = String(antw).toLowerCase().split('|').map(g =>
+            g.split(',').map(w => w.trim()).filter(Boolean).sort().join(',')
+        ).filter(Boolean).sort();
+        let verwacht = verwachteGroepen.map(g =>
+            g.map(w => w.toLowerCase().trim()).sort().join(',')
+        ).sort();
+        return groepen.length === 3 && groepen.every((val, idx) => val === verwacht[idx]);
+    }
+
     function isAntwoordJuistDeelnemer(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
 
         switch(index) {
+            // Ronde 1
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
@@ -274,27 +300,46 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            case 8:
+            // Ronde 5
+            case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
+            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express");
+            case 10: return a.startsWith("o") || a.includes("kaars");
+            case 11: return a.startsWith("a") || a.includes("slinger");
+            case 12: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
+            case 13: return vergelijkMetSpelfout(a, "rendieren") || vergelijkMetSpelfout(a, "rendier");
+            case 14: return controleerGroepen(a, [
+                ["blitzen", "vixen", "dasher"],
+                ["stal", "herberg", "ster"],
+                ["jingle bells", "stille nacht", "last christmas"]
+            ]);
+            case 15: return controleerGroepen(a, [
+                ["home alone", "elf", "the polar express"],
+                ["grinch", "scrooge", "jack frost"],
+                ["goud", "wierook", "mirre"]
+            ]);
+
+            // Ronde 8
+            case 16:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 9:
+            case 17:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 10: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 11: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 12: return a.includes("waar") && !a.includes("niet");
-            case 13: return a.includes("niet waar");
-            case 14:
+            case 18: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 19: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 20: return a.includes("waar") && !a.includes("niet");
+            case 21: return a.includes("niet waar");
+            case 22:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 15:
+            case 23:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 16: return a.startsWith("c") || a.includes("drenthe");
-            case 17: return a.startsWith("c") || a.includes("23");
-            case 18: return a.startsWith("a") || a.includes("44,7");
-            case 19: return a.startsWith("c") || a.includes("30–40");
+            case 24: return a.startsWith("c") || a.includes("drenthe");
+            case 25: return a.startsWith("c") || a.includes("23");
+            case 26: return a.startsWith("a") || a.includes("44,7");
+            case 27: return a.startsWith("c") || a.includes("30–40");
             default: return false;
         }
     }
@@ -312,6 +357,7 @@
 
         feedbackEl.innerText = "";
         geselecteerdeVolgorde = [];
+        geselecteerdeGroepen = [];
         isVerstuurd = false;
         extraOptiesEl.innerHTML = "";
         titelEl.style.display = "block";
@@ -345,6 +391,7 @@
             return;
         }
 
+        // Tussenstand na Ronde 1
         if (index === 8) {
             statusEl.innerText = "✨ RESULTATEN RONDE 1 ✨";
             titelEl.style.display = "none";
@@ -368,12 +415,43 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 8...</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 5...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
         }
 
+        // Tussenstand na Ronde 5
+        if (index === 16) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 5 ✨";
+            titelEl.style.display = "none";
+
+            let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
+            let rondeGoed = 0;
+            let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
+            
+            for (let vIdx = 8; vIdx < 16; vIdx++) {
+                let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
+                let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
+                if (goed) rondeGoed++;
+
+                let icoon = goed ? "✅ Goed" : "❌ Fout";
+                let achtergrond = goed ? "#14532d" : "#7f1d1d";
+                let randKleur = goed ? "#4ade80" : "#f87171";
+
+                overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
+                    <strong>Vraag ${vIdx - 7}:</strong> ${icoon}<br>
+                    Jouw antwoord: <strong>${antw}</strong><br>
+                    <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
+                </div>`;
+            }
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 5: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 8...</p>`;
+            
+            gebiedEl.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Eindstand na Ronde 8
         if (index >= vragenData.length) {
             statusEl.innerText = "✨ JOUW RESULTATEN RONDE 8 & EINDSTAND ✨";
             titelEl.style.display = "none";
@@ -382,7 +460,7 @@
             let totaalGoed = 0;
             let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
             
-            for (let vIdx = 8; vIdx < vragenData.length; vIdx++) {
+            for (let vIdx = 16; vIdx < vragenData.length; vIdx++) {
                 let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
                 let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
                 if (goed) totaalGoed++;
@@ -392,7 +470,7 @@
                 let randKleur = goed ? "#4ade80" : "#f87171";
 
                 overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
-                    <strong>Vraag ${vIdx - 7}:</strong> ${icoon}<br>
+                    <strong>Vraag ${vIdx - 15}:</strong> ${icoon}<br>
                     Jouw antwoord: <strong>${antw}</strong><br>
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
@@ -406,8 +484,9 @@
         titelEl.style.display = "none";
 
         const huidige = vragenData[index];
-        let vraagNummerInRonde = huidige.ronde === 1 ? index + 1 : index - 7;
-        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${vraagNummerInRonde} / ${(huidige.ronde === 1 ? 8 : 12)}`;
+        let vraagNummerInRonde = huidige.ronde === 1 ? index + 1 : (huidige.ronde === 5 ? index - 7 : index - 15);
+        let totaalInRonde = huidige.ronde === 8 ? 12 : 8;
+        statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${vraagNummerInRonde} / ${totaalInRonde}`;
         gebiedEl.innerHTML = "";
 
         if (huidige.type === "getal" || huidige.type === "tekst") {
@@ -440,17 +519,24 @@
         }
         else if (huidige.type === "keuze") {
             const optiesMap = {
+                // Ronde 1
                 0: ["A) Engeland", "B) Duitsland", "C) Zweden", "D) Nederland"],
                 1: ["A) 2", "B) 3", "C) 4", "D) 5"],
                 2: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
                 6: ["Waar", "Niet waar"],
                 7: ["Waar", "Niet waar"],
-                12: ["Waar", "Niet waar"],
-                13: ["Waar", "Niet waar"],
-                16: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
-                17: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
-                18: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
-                19: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
+
+                // Ronde 5
+                10: ["K", "A", "O", "R", "S"],
+                11: ["S", "L", "I", "A", "N", "G", "E", "R"],
+
+                // Ronde 8
+                20: ["Waar", "Niet waar"],
+                21: ["Waar", "Niet waar"],
+                24: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
+                25: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
+                26: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
+                27: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
             };
 
             let opties = optiesMap[index] || [];
@@ -473,7 +559,7 @@
             }
         }
         else if (huidige.type === "volgorde") {
-            const volgordeOpties = index === 10 ? [
+            const volgordeOpties = index === 18 ? [
                 "A) Rudolph het roodneuzige rendier...",
                 "B) In een gedicht verschijnen rendieren...",
                 "C) Coca-Cola lanceert reclamecampagne...",
@@ -534,6 +620,75 @@
             };
 
             updateVolgordeUI();
+        }
+        else if (huidige.type === "groepen") {
+            const woorden = index === 14 ? [
+                "BLITZEN", "STAL", "JINGLE BELLS",
+                "VIXEN", "HERBERG", "STILLE NACHT",
+                "DASHER", "STER", "LAST CHRISTMAS"
+            ] : [
+                "HOME ALONE", "GOUD", "ELF",
+                "GRINCH", "WIEROOK", "SCROOGE",
+                "THE POLAR EXPRESS", "JACK FROST", "MIRRE"
+            ];
+
+            const updateGroepenUI = () => {
+                gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Tik telkens 3 woorden aan die bij elkaar horen (Groep 1 = rood, Groep 2 = groen, Groep 3 = blauw):</p>`;
+                const grid = document.createElement("div");
+                grid.className = "groepen-grid";
+
+                woorden.forEach((woord, wIdx) => {
+                    const btn = document.createElement("button");
+                    btn.className = "groep-woord-btn";
+                    btn.innerText = woord;
+
+                    let pos = geselecteerdeGroepen.indexOf(wIdx);
+                    if (pos !== -1) {
+                        let groepNr = Math.floor(pos / 3);
+                        btn.classList.add(`groep-${groepNr}`);
+                        btn.innerText = `${woord}\n(Groep ${groepNr + 1})`;
+                    }
+
+                    btn.onclick = () => {
+                        if (isVerstuurd) return;
+                        let alPos = geselecteerdeGroepen.indexOf(wIdx);
+                        if (alPos !== -1) {
+                            geselecteerdeGroepen.splice(alPos, 1);
+                        } else {
+                            geselecteerdeGroepen.push(wIdx);
+                        }
+                        updateGroepenUI();
+                    };
+                    grid.appendChild(btn);
+                });
+
+                gebiedEl.appendChild(grid);
+
+                const verstuurKnop = document.createElement("button");
+                verstuurKnop.className = "btn btn-verstuur";
+                verstuurKnop.innerText = "Verstuur Antwoord 🎯";
+                if (isVerstuurd) verstuurKnop.disabled = true;
+
+                verstuurKnop.onclick = () => {
+                    if (geselecteerdeGroepen.length < 9) {
+                        alert("Verdeel alle 9 woorden in 3 groepjes van 3 voordat je verstuurt!");
+                        return;
+                    }
+                    isVerstuurd = true;
+                    let g1 = geselecteerdeGroepen.slice(0, 3).map(i => woorden[i]).join(", ");
+                    let g2 = geselecteerdeGroepen.slice(3, 6).map(i => woorden[i]).join(", ");
+                    let g3 = geselecteerdeGroepen.slice(6, 9).map(i => woorden[i]).join(", ");
+                    const antwoordTekst = `${g1} | ${g2} | ${g3}`;
+
+                    slaAntwoordOp(index, antwoordTekst);
+                    feedbackEl.innerText = `Groepjes opgeslagen! Wacht op de host...`;
+                    feedbackEl.style.color = "#4ade80";
+                    updateGroepenUI();
+                };
+                gebiedEl.appendChild(verstuurKnop);
+            };
+
+            updateGroepenUI();
         }
     }
 </script>
