@@ -228,27 +228,27 @@
         });
     }
 
-    // Geavanceerde spelfoutfunctie inclusief controle op omgedraaide letters (transponering)
+    // Geoptimaliseerde spelfoutfunctie inclusief controle op omgedraaide letters (transpositie)
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
         
-        // Verwijder een eventuele punt aan het begin of einde indien aanwezig
         a = a.replace(/^[.]+|[.]+$/g, "").trim();
         b = b.replace(/^[.]+|[.]+$/g, "").trim();
 
         if (a === b) return true;
 
-        // Controleer of er exact twee aangrenzende letters zijn omgedraaid (bijv. Sniterklaas <-> Sinterklaas)
+        // Controleer of er twee aan elkaar grenzende letters zijn omgedraaid
         if (a.length === b.length) {
-            let diffs = [];
+            let verschillen = [];
             for (let i = 0; i < a.length; i++) {
-                if (a[i] !== b[i]) diffs.push(i);
+                if (a[i] !== b[i]) verschillen.push(i);
             }
-            if (diffs.length === 2 && diffs[1] === diffs[0] + 1) {
-                if (a[diffs[0]] === b[diffs[1]] && a[diffs[1]] === b[diffs[0]]) {
-                    return true;
-                }
+            if (verschillen.length === 2 && 
+                verschillen[1] === verschillen[0] + 1 && 
+                a[verschillen[0]] === b[verschillen[1]] && 
+                a[verschillen[1]] === b[verschillen[0]]) {
+                return true;
             }
         }
 
@@ -362,7 +362,6 @@
             return;
         }
 
-        // Tussenstand na Ronde 1 (als host op index 8 / overzichtsscherm van ronde 1 staat)
         if (index === 8) {
             statusEl.innerText = "✨ RESULTATEN RONDE 1 ✨";
             titelEl.style.display = "none";
@@ -392,7 +391,6 @@
             return;
         }
 
-        // Eindstand na Ronde 8 (einde quiz)
         if (index >= vragenData.length) {
             statusEl.innerText = "✨ JOUW RESULTATEN RONDE 8 & EINDSTAND ✨";
             titelEl.style.display = "none";
@@ -459,14 +457,11 @@
         }
         else if (huidige.type === "keuze") {
             const optiesMap = {
-                // Ronde 1
                 0: ["A) Engeland", "B) Duitsland", "C) Zweden", "D) Nederland"],
                 1: ["A) 2", "B) 3", "C) 4", "D) 5"],
                 2: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
                 6: ["Waar", "Niet waar"],
                 7: ["Waar", "Niet waar"],
-
-                // Ronde 8
                 12: ["Waar", "Niet waar"],
                 13: ["Waar", "Niet waar"],
                 16: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
