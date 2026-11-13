@@ -613,41 +613,48 @@
             updateVolgordeUI();
         }
         else if (huidige.type === "groepen") {
-            // Unieke arrays voor vraag 14 en vraag 15, waarbij de woorden door elkaar staan
+            // Unieke arrays voor vraag 14 en vraag 15
             let woorden = index === 14 ? [
-                "STAL", "BLITZEN", "STILLE NACHT",
-                "HERBERG", "VIXEN", "LAST CHRISTMAS",
-                "DASHER", "STER", "JINGLE BELLS"
+                "BLITZEN", "STAL", "JINGLE BELLS",
+                "VIXEN", "HERBERG", "STILLE NACHT",
+                "DASHER", "STER", "LAST CHRISTMAS"
             ] : [
-                "GOUD", "HOME ALONE", "JACK FROST",
-                "GRINCH", "THE POLAR EXPRESS", "WIEROOK",
-                "ELF", "SCROOGE", "MIRRE"
+                "HOME ALONE", "GOUD", "ELF",
+                "GRINCH", "WIEROOK", "SCROOGE",
+                "THE POLAR EXPRESS", "JACK FROST", "MIRRE"
             ];
+
+            // Willekeurig door elkaar schudden (Fisher-Yates shuffle) zodat ze nooit netjes op rij staan
+            let woordenMetIndex = woorden.map((woord, origIndex) => ({ woord, origIndex }));
+            for (let i = woordenMetIndex.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [woordenMetIndex[i], woordenMetIndex[j]] = [woordenMetIndex[j], woordenMetIndex[i]];
+            }
 
             const updateGroepenUI = () => {
                 gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Tik telkens 3 woorden aan die bij elkaar horen:</p>`;
                 const grid = document.createElement("div");
                 grid.className = "groepen-grid";
 
-                woorden.forEach((woord, wIdx) => {
+                woordenMetIndex.forEach((item) => {
                     const btn = document.createElement("button");
                     btn.className = "groep-woord-btn";
-                    btn.innerText = woord;
+                    btn.innerText = item.woord;
 
-                    let pos = geselecteerdeGroepen.indexOf(wIdx);
+                    let pos = geselecteerdeGroepen.indexOf(item.origIndex);
                     if (pos !== -1) {
                         let groepNr = Math.floor(pos / 3);
                         btn.classList.add(`groep-${groepNr}`);
-                        btn.innerText = `${woord}\n(Groep ${groepNr + 1})`;
+                        btn.innerText = `${item.woord}\n(Groep ${groepNr + 1})`;
                     }
 
                     btn.onclick = () => {
                         if (isVerstuurd) return;
-                        let alPos = geselecteerdeGroepen.indexOf(wIdx);
+                        let alPos = geselecteerdeGroepen.indexOf(item.origIndex);
                         if (alPos !== -1) {
                             geselecteerdeGroepen.splice(alPos, 1);
                         } else {
-                            geselecteerdeGroepen.push(wIdx);
+                            geselecteerdeGroepen.push(item.origIndex);
                         }
                         updateGroepenUI();
                     };
