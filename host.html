@@ -461,14 +461,14 @@
         { 
             ronde: 5,
             titel: "Vraag 3:\nWelke letter hoort hier niet tussen te staan?", 
-            opties: ["K", "A", "O", "R", "S"],
+            opties: ["S", "A", "O", "K", "R", "A"],
             juist: "O) Met de overige letters kan het woord 'kaars' gevormd worden.", 
             categorie: "Woordpuzzel" 
         },
         { 
             ronde: 5,
             titel: "Vraag 4:\nWelke letter hoort hier niet tussen te staan?", 
-            opties: ["S", "L", "I", "A", "N", "G", "E", "R"],
+            opties: ["G", "A", "L", "I", "N", "E", "R", "S"],
             juist: "A) Met de overige letters kan het woord 'slinger' gevormd worden.", 
             categorie: "Woordpuzzel" 
         },
@@ -492,9 +492,9 @@
             ronde: 5,
             titel: "Vraag 7:\nVerdeel de 9 woorden in 3 groepjes van 3 die bij elkaar horen.", 
             opties: [
-                "BLITZEN – STAL – JINGLE BELLS",
-                "VIXEN – HERBERG – STILLE NACHT",
-                "DASHER – STER – LAST CHRISTMAS"
+                "BLITZEN", "STAL", "JINGLE BELLS",
+                "VIXEN", "HERBERG", "STILLE NACHT",
+                "DASHER", "STER", "LAST CHRISTMAS"
             ],
             juist: "Rendieren van de Kerstman: Blitzen – Vixen – Dasher\nKlassieke Kerstverhaal: Stal – Herberg – Ster\nKerstliedjes: Jingle Bells – Stille Nacht – Last Christmas", 
             categorie: "Verbanden Zoeken" 
@@ -503,9 +503,9 @@
             ronde: 5,
             titel: "Vraag 8:\nVerdeel de 9 woorden in 3 groepjes van 3 die bij elkaar horen.", 
             opties: [
-                "HOME ALONE – GOUD – ELF",
-                "GRINCH – WIEROOK – SCROOGE",
-                "THE POLAR EXPRESS – JACK FROST – MIRRE"
+                "HOME ALONE", "GOUD", "ELF",
+                "GRINCH", "WIEROOK", "SCROOGE",
+                "THE POLAR EXPRESS", "JACK FROST", "MIRRE"
             ],
             juist: "Iconische kerstfilms: Home Alone – Elf – The Polar Express\nMopperkonten van Kerst: Grinch – Scrooge – Jack Frost\nDe drie geschenken van de Wijzen uit het Oosten: Goud – Wierook – Mirre", 
             categorie: "Verbanden Zoeken" 
@@ -844,7 +844,7 @@
             case 7: return a.includes("niet waar");
 
             case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
-            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express");
+            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "the polar express");
             case 10: return a.startsWith("o") || a.includes("kaars");
             case 11: return a.startsWith("a") || a.includes("slinger");
             case 12: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
