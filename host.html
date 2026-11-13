@@ -637,6 +637,7 @@
     ];
 
     let huidigeVraagIndex = -1;
+    let getoondOverzichtRonde = null; // Houdt bij of we een tussenoverzicht tonen (1 of 5)
     let toonLeaderboardStap = false;
     let actieveDeelnemers = [];
     let ingezondenCount = 0;
@@ -672,7 +673,7 @@
             quizAntwoorden = data.alleAntwoorden;
         }
 
-        if (data.vraagIndex === huidigeVraagIndex) {
+        if (data.vraagIndex === huidigeVraagIndex && !getoondOverzichtRonde) {
             ingezondenCount = data.aantal;
             totaalDeelnemersCount = data.totaal;
             
@@ -692,6 +693,7 @@
 
     socket.on('quiz-gereset', () => {
         huidigeVraagIndex = -1;
+        getoondOverzichtRonde = null;
         toonLeaderboardStap = false;
         actieveDeelnemers = [];
         quizAntwoorden = {};
@@ -714,6 +716,7 @@
 
     function startQuiz() {
         huidigeVraagIndex = 0;
+        getoondOverzichtRonde = null;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
@@ -725,6 +728,24 @@
 
     function volgendeVraag() {
         if (timerInterval) clearInterval(timerInterval);
+
+        // Na vraag 8 van Ronde 1 (index 7): eerst overzicht Ronde 1 tonen
+        if (huidigeVraagIndex === 7 && getoondOverzichtRonde !== 1) {
+            getoondOverzichtRonde = 1;
+            socket.emit('volgende-vraag', -101);
+            renderHostScherm();
+            return;
+        }
+
+        // Na vraag 8 van Ronde 5 (index 15): eerst overzicht Ronde 5 tonen
+        if (huidigeVraagIndex === 15 && getoondOverzichtRonde !== 5) {
+            getoondOverzichtRonde = 5;
+            socket.emit('volgende-vraag', -105);
+            renderHostScherm();
+            return;
+        }
+
+        getoondOverzichtRonde = null;
         huidigeVraagIndex++;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
@@ -859,7 +880,7 @@
     function renderHostScherm() {
         const hostContent = document.getElementById("host-content");
 
-        if (huidigeVraagIndex < 0) {
+        if (huidigeVraagIndex === -1 && !getoondOverzichtRonde) {
             hostContent.innerHTML = `
                 <h1>Kerstquiz Host Lobby</h1>
                 <p style="color:var(--text-muted); font-size: 15px;">Laat deelnemers onderstaande QR-code scannen of open <strong>deelnemer.html</strong>:</p>
@@ -886,7 +907,8 @@
             return;
         }
 
-        if (huidigeVraagIndex === 8) {
+        // Overzicht na Ronde 1
+        if (getoondOverzichtRonde === 1 || huidigeVraagIndex === -101) {
             if (timerInterval) clearInterval(timerInterval);
 
             let overzichtHtml = `
@@ -915,7 +937,8 @@
             return;
         }
 
-        if (huidigeVraagIndex === 16) {
+        // Overzicht na Ronde 5
+        if (getoondOverzichtRonde === 5 || huidigeVraagIndex === -105) {
             if (timerInterval) clearInterval(timerInterval);
 
             let overzichtHtml = `
@@ -944,6 +967,7 @@
             return;
         }
 
+        // Overzicht na Ronde 8
         if (huidigeVraagIndex >= vragenData.length && !toonLeaderboardStap) {
             if (timerInterval) clearInterval(timerInterval);
 
