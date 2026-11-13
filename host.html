@@ -263,6 +263,18 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
+        .emoticon-display {
+            font-size: 64px;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 14px;
+            border: 2px solid var(--card-border);
+            margin: 8px 0 15px 0;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            letter-spacing: 12px;
+            text-align: center;
+        }
+
         .overzicht-container {
             max-height: 350px;
             overflow-y: auto;
@@ -435,7 +447,7 @@
             titel: "Vraag 1:\nWelk kerstlied wordt hier uitgebeeld?", 
             opties: [],
             juist: "Stille Nacht", 
-            afbeelding: "elementen/ronde_5/ronde5_vraag1_visueel_voorbeeld.jpg", 
+            emoticons: "🤫 🌙", 
             categorie: "Beeldraadsels" 
         },
         { 
@@ -443,7 +455,7 @@
             titel: "Vraag 2:\nWelke kerstfilm zoeken we?", 
             opties: [],
             juist: "The Polar Express", 
-            afbeelding: "elementen/ronde_5/ronde5_vraag2_visueel_voorbeeld.jpg", 
+            emoticons: "🚂 ❄️ 🎅 🔔", 
             categorie: "Beeldraadsels" 
         },
         { 
@@ -793,7 +805,6 @@
         let a = String(antw).trim().toLowerCase();
 
         switch(index) {
-            // Ronde 1
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
@@ -803,7 +814,6 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            // Ronde 5
             case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
             case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express");
             case 10: return a.startsWith("o") || a.includes("kaars");
@@ -821,7 +831,6 @@
                 ["goud", "wierook", "mirre"]
             ]);
 
-            // Ronde 8
             case 16:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
@@ -877,7 +886,6 @@
             return;
         }
 
-        // Overzicht na Ronde 1
         if (huidigeVraagIndex === 8) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -907,7 +915,6 @@
             return;
         }
 
-        // Overzicht na Ronde 5
         if (huidigeVraagIndex === 16) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -937,7 +944,6 @@
             return;
         }
 
-        // Overzicht na Ronde 8
         if (huidigeVraagIndex >= vragenData.length && !toonLeaderboardStap) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -1018,7 +1024,13 @@
         }
 
         const huidige = vragenData[huidigeVraagIndex];
-        let afbeeldingHtml = huidige.afbeelding ? `<img src="${huidige.afbeelding}" class="vraag-afbeelding" alt="Visueel Voorbeeld">` : '';
+        
+        let mediaHtml = '';
+        if (huidige.emoticons) {
+            mediaHtml = `<div class="emoticon-display">${huidige.emoticons}</div>`;
+        } else if (huidige.afbeelding) {
+            mediaHtml = `<img src="${huidige.afbeelding}" class="vraag-afbeelding" alt="Visueel Voorbeeld">`;
+        }
         
         let optiesHtml = '';
         if (huidige.opties && huidige.opties.length > 0) {
@@ -1040,7 +1052,7 @@
                 <div class="timer-klok">⏱️ <span id="timer-display">45s</span></div>
             </div>
 
-            ${afbeeldingHtml}
+            ${mediaHtml}
             <div class="vraag-box">${huidige.titel}</div>
             ${optiesHtml}
 
