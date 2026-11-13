@@ -290,7 +290,6 @@
         let a = String(antw).trim().toLowerCase();
 
         switch(index) {
-            // Ronde 1
             case 0: return a.startsWith("b") || a.includes("duitsland");
             case 1: return a.startsWith("c") || a === "4";
             case 2: return a.startsWith("a") || a.includes("mexico");
@@ -300,7 +299,6 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            // Ronde 5
             case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
             case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express");
             case 10: return a.startsWith("o") || a.includes("kaars");
@@ -318,7 +316,6 @@
                 ["goud", "wierook", "mirre"]
             ]);
 
-            // Ronde 8
             case 16:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
@@ -391,7 +388,6 @@
             return;
         }
 
-        // Tussenstand na Ronde 1
         if (index === 8) {
             statusEl.innerText = "✨ RESULTATEN RONDE 1 ✨";
             titelEl.style.display = "none";
@@ -421,7 +417,6 @@
             return;
         }
 
-        // Tussenstand na Ronde 5
         if (index === 16) {
             statusEl.innerText = "✨ RESULTATEN RONDE 5 ✨";
             titelEl.style.display = "none";
@@ -451,7 +446,6 @@
             return;
         }
 
-        // Eindstand na Ronde 8
         if (index >= vragenData.length) {
             statusEl.innerText = "✨ JOUW RESULTATEN RONDE 8 & EINDSTAND ✨";
             titelEl.style.display = "none";
@@ -519,18 +513,13 @@
         }
         else if (huidige.type === "keuze") {
             const optiesMap = {
-                // Ronde 1
                 0: ["A) Engeland", "B) Duitsland", "C) Zweden", "D) Nederland"],
                 1: ["A) 2", "B) 3", "C) 4", "D) 5"],
                 2: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
                 6: ["Waar", "Niet waar"],
                 7: ["Waar", "Niet waar"],
-
-                // Ronde 5
                 10: ["K", "A", "O", "R", "S"],
                 11: ["S", "L", "I", "A", "N", "G", "E", "R"],
-
-                // Ronde 8
                 20: ["Waar", "Niet waar"],
                 21: ["Waar", "Niet waar"],
                 24: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
