@@ -34,9 +34,14 @@ io.on('connection', (socket) => {
         huidigeVraagIndex = nieuweIndex;
         toonEindstand = false;
         
-        // Zorg dat de inzendingen voor deze specifieke nieuwe vraag gegarandeerd leeg zijn!
-        ingediendeAntwoordenPerVraag[huidigeVraagIndex] = [];
+        // Alleen voor echte vragen (dus niet de overzichtsschermen -101 of -105) initialiseren we de teller
+        if (nieuweIndex >= 0 && nieuweIndex < 999) {
+            if (!ingediendeAntwoordenPerVraag[huidigeVraagIndex]) {
+                ingediendeAntwoordenPerVraag[huidigeVraagIndex] = [];
+            }
+        }
 
+        // Stuur de nieuwe index direct naar ALLE clients (host én deelnemers)
         io.emit('zet-vraag', huidigeVraagIndex);
         io.emit('update-status', {
             huidigeVraagIndex,
@@ -45,13 +50,15 @@ io.on('connection', (socket) => {
             alleAntwoorden: quizAntwoorden
         });
 
-        // Stuur direct een schone 0-telling naar de host
-        io.emit('update-ingezonden', {
-            vraagIndex: huidigeVraagIndex,
-            aantal: 0,
-            totaal: actieveDeelnemers.length,
-            alleAntwoorden: quizAntwoorden
-        });
+        // Als het een echte vraag is, stuur direct de 0-telling mee
+        if (nieuweIndex >= 0 && nieuweIndex < 999) {
+            io.emit('update-ingezonden', {
+                vraagIndex: huidigeVraagIndex,
+                aantal: 0,
+                totaal: actieveDeelnemers.length,
+                alleAntwoorden: quizAntwoorden
+            });
+        }
     });
 
     socket.on('toon-eindstand', () => {
