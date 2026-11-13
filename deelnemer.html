@@ -613,18 +613,19 @@
             updateVolgordeUI();
         }
         else if (huidige.type === "groepen") {
-            const woorden = index === 14 ? [
-                "BLITZEN", "STAL", "JINGLE BELLS",
-                "VIXEN", "HERBERG", "STILLE NACHT",
-                "DASHER", "STER", "LAST CHRISTMAS"
+            // Unieke arrays voor vraag 14 en vraag 15, waarbij de woorden door elkaar staan
+            let woorden = index === 14 ? [
+                "STAL", "BLITZEN", "STILLE NACHT",
+                "HERBERG", "VIXEN", "LAST CHRISTMAS",
+                "DASHER", "STER", "JINGLE BELLS"
             ] : [
-                "HOME ALONE", "GOUD", "ELF",
-                "GRINCH", "WIEROOK", "SCROOGE",
-                "THE POLAR EXPRESS", "JACK FROST", "MIRRE"
+                "GOUD", "HOME ALONE", "JACK FROST",
+                "GRINCH", "THE POLAR EXPRESS", "WIEROOK",
+                "ELF", "SCROOGE", "MIRRE"
             ];
 
             const updateGroepenUI = () => {
-                gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Tik telkens 3 woorden aan die bij elkaar horen (Groep 1 = rood, Groep 2 = groen, Groep 3 = blauw):</p>`;
+                gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Tik telkens 3 woorden aan die bij elkaar horen:</p>`;
                 const grid = document.createElement("div");
                 grid.className = "groepen-grid";
 
