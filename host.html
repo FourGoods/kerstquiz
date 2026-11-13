@@ -569,7 +569,7 @@
     });
 
     socket.on('zet-vraag', (nieuweIndex) => {
-        huidigeVraagIndex = nieuweIndex;
+        huidigeVraagIndex = neueIndex;
         toonLeaderboardStap = false;
         vraagIsActief = false;
         setTimeout(() => { vraagIsActief = true; }, 800);
@@ -673,27 +673,26 @@
         }, 1000);
     }
 
-    // Geavanceerde spelfoutfunctie inclusief controle op omgedraaide letters (transponering)
+    // Geoptimaliseerde spelfoutfunctie inclusief controle op omgedraaide letters (transpositie)
     function vergelijkMetSpelfout(gegeven, juist) {
         let a = String(gegeven || "").trim().toLowerCase();
         let b = String(juist || "").trim().toLowerCase();
         
-        // Verwijder een eventuele punt aan het begin of einde indien aanwezig
         a = a.replace(/^[.]+|[.]+$/g, "").trim();
         b = b.replace(/^[.]+|[.]+$/g, "").trim();
 
         if (a === b) return true;
 
-        // Controleer of er exact twee aangrenzende letters zijn omgedraaid (bijv. Sniterklaas <-> Sinterklaas)
         if (a.length === b.length) {
-            let diffs = [];
+            let verschillen = [];
             for (let i = 0; i < a.length; i++) {
-                if (a[i] !== b[i]) diffs.push(i);
+                if (a[i] !== b[i]) verschillen.push(i);
             }
-            if (diffs.length === 2 && diffs[1] === diffs[0] + 1) {
-                if (a[diffs[0]] === b[diffs[1]] && a[diffs[1]] === b[diffs[0]]) {
-                    return true;
-                }
+            if (verschillen.length === 2 && 
+                verschillen[1] === verschillen[0] + 1 && 
+                a[verschillen[0]] === b[verschillen[1]] && 
+                a[verschillen[1]] === b[verschillen[0]]) {
+                return true;
             }
         }
 
@@ -791,7 +790,6 @@
             return;
         }
 
-        // Tussenstand na Ronde 1 (index 8 is net na vraag 7, oftewel na 8 vragen)
         if (huidigeVraagIndex === 8) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -821,7 +819,6 @@
             return;
         }
 
-        // Overzicht na Ronde 8 (einde quiz)
         if (huidigeVraagIndex >= vragenData.length && !toonLeaderboardStap) {
             if (timerInterval) clearInterval(timerInterval);
 
@@ -858,7 +855,6 @@
             return;
         }
 
-        // Leaderboard aan het eind
         if (huidigeVraagIndex >= vragenData.length && toonLeaderboardStap) {
             let scores = actieveDeelnemers.map(naam => {
                 let antwoordenVanSpeler = quizAntwoorden[naam] || {};
