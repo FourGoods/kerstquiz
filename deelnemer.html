@@ -108,6 +108,197 @@
         .groep-woord-btn.groep-0 { background: #991b1b; border-color: #fca5a5; color: #fff; }
         .groep-woord-btn.groep-1 { background: #166534; border-color: #86efac; color: #fff; }
         .groep-woord-btn.groep-2 { background: #1e3a8a; border-color: #93c5fd; color: #fff; }
+
+        /* Spelronde 7 stijlen */
+        .boodschappen-lijst-view {
+            background: #08120c;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .boodschap-regel {
+            padding: 8px 4px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        .boodschap-regel:last-child { border-bottom: none; }
+        .boodschap-regel span { color: var(--accent-gold); font-weight: 900; margin-right: 8px; }
+
+        .sleep-item {
+            background: #1b3d2f;
+            padding: 11px 12px;
+            margin: 7px 0;
+            border-radius: 12px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-light);
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.1s ease, background 0.15s ease;
+        }
+        .sleep-item.dragging {
+            opacity: 0.55;
+            border-color: var(--accent-gold);
+            background: #14532d;
+        }
+        .sleep-item-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+        .sleep-nr {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            border-radius: 8px;
+            min-width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+        }
+        .sleep-knoppen {
+            display: flex;
+            gap: 5px;
+        }
+        .mini-move-btn {
+            background: #08120c;
+            color: var(--accent-gold);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-radius: 8px;
+            width: 30px;
+            height: 30px;
+            font-size: 13px;
+            font-weight: 900;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .mini-move-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .letter-slots-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin: 14px 0;
+        }
+        .letter-slot {
+            width: 38px;
+            height: 44px;
+            border-radius: 10px;
+            border: 2px solid var(--card-border);
+            background: #08120c;
+            color: var(--accent-gold);
+            font-size: 19px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        .letter-slot.leeg {
+            border-style: dashed;
+            border-color: rgba(212, 175, 55, 0.35);
+            color: transparent;
+        }
+        .letter-pool-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7px;
+            margin: 14px 0;
+        }
+        .letter-tegel {
+            width: 42px;
+            height: 46px;
+            border-radius: 11px;
+            background: #1b3d2f;
+            border: 2px solid rgba(212, 175, 55, 0.55);
+            color: #fff;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #0f2019;
+            transition: all 0.12s ease;
+        }
+        .letter-tegel:disabled {
+            opacity: 0.25;
+            cursor: default;
+            box-shadow: none;
+            transform: translateY(2px);
+        }
+
+        .emoticon-grid-deelnemer {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .emoticon-kijk-vak {
+            background: #08120c;
+            border: 2px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 12px 4px;
+            font-size: 30px;
+            text-align: center;
+        }
+        .emoticon-kies-btn {
+            background: #1b3d2f;
+            border: 2px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 12px 4px;
+            font-size: 30px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .emoticon-kies-btn.selected {
+            background: #14532d;
+            border-color: #4ade80;
+            box-shadow: 0 0 12px rgba(74, 222, 128, 0.45);
+            transform: scale(1.04);
+        }
+        .timer-pill {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+        .wacht-box {
+            background: #08120c;
+            border: 2px dashed var(--card-border);
+            border-radius: 14px;
+            padding: 25px 15px;
+            margin: 15px 0;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
         #feedback { font-weight: 800; margin-top: 15px; font-size: 16px; }
         .antwoord-item-einde { padding: 10px 12px; margin: 8px 0; border-radius: 10px; text-align: left; font-size: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.3); }
     </style>
@@ -165,7 +356,17 @@
         { type: "groepen", juist: "Rendieren: Blitzen, Vixen, Dasher | Kerstverhaal: Stal, Herberg, Ster | Kerstliedjes: Jingle Bells, Stille Nacht, Last Christmas", ronde: 5 },
         { type: "groepen", juist: "Kerstfilms: Home Alone, Elf, The Polar Express | Mopperkonten: Grinch, Scrooge, Jack Frost | Wijzen: Goud, Wierook, Mirre", ronde: 5 },
 
-        // Ronde 8 (index 16 t/m 27)
+        // Ronde 7 (index 16 t/m 23)
+        { type: "tekst", juist: "kerst", ronde: 7 },
+        { type: "tekst", juist: "sneeuw", ronde: 7 },
+        { type: "boodschappen", juist: "1. Stokbrood, 2. Roomboter, 3. Champignons, 4. Champagne, 5. Gourmetvlees, 6. Aardappelen, 7. Glühwein, 8. Brie", ronde: 7 },
+        { type: "boodschappen", juist: "1. Kerststol, 2. Rollade, 3. Zalm, 4. Bladerdeeg, 5. Wijn, 6. Satésaus, 7. Krieltjes, 8. Komkommer", ronde: 7 },
+        { type: "anagram", juist: "Mistletoe", ronde: 7 },
+        { type: "anagram", juist: "Arrenslee", ronde: 7 },
+        { type: "emoticons_geheugen", juist: "🌟 🍷 🛷 🎶", ronde: 7 },
+        { type: "emoticons_geheugen", juist: "🥂 🧣 👼 🎺", ronde: 7 },
+
+        // Ronde 8 (index 24 t/m 35)
         { type: "getal", juist: "2.500.000", ronde: 8 },
         { type: "getal", juist: "€325", ronde: 8 },
         { type: "volgorde", juist: "B -> D -> C -> A", ronde: 8 },
@@ -182,6 +383,8 @@
 
     let geselecteerdeVolgorde = [];
     let geselecteerdeGroepen = [];
+    let geselecteerdeEmoticons = [];
+    let spelTimerInterval = null;
     let isVerstuurd = false;
     let huidigeVraagIndex = -1;
     let toonEindstandStatus = false;
@@ -210,6 +413,7 @@
     });
 
     socket.on('quiz-gereset', () => {
+        if (spelTimerInterval) clearInterval(spelTimerInterval);
         huidigeVraagIndex = -1;
         toonEindstandStatus = false;
         mijnNaam = "";
@@ -285,6 +489,13 @@
         return groepen.length === 3 && groepen.every((val, idx) => val === verwacht[idx]);
     }
 
+    function controleerEmoticonSelectie(antw, verwachteEmoticons) {
+        if (!antw) return false;
+        let gekozen = String(antw).split(',').map(e => e.trim()).filter(Boolean);
+        if (gekozen.length !== verwachteEmoticons.length) return false;
+        return verwachteEmoticons.every(e => gekozen.includes(e));
+    }
+
     function isAntwoordJuistDeelnemer(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
@@ -316,32 +527,48 @@
                 ["goud", "wierook", "mirre"]
             ]);
 
-            case 16:
+            // Ronde 7 (Index 16 t/m 23)
+            case 16: return vergelijkMetSpelfout(a, "kerst");
+            case 17: return vergelijkMetSpelfout(a, "sneeuw");
+            case 18: return a === "stokbrood, roomboter, champignons, champagne, gourmetvlees, aardappelen, glühwein, brie";
+            case 19: return a === "kerststol, rollade, zalm, bladerdeeg, wijn, satésaus, krieltjes, komkommer";
+            case 20: return a.replace(/\s+/g, '') === "mistletoe";
+            case 21: return a.replace(/\s+/g, '') === "arrenslee";
+            case 22: return controleerEmoticonSelectie(antw, ["🌟", "🍷", "🛷", "🎶"]);
+            case 23: return controleerEmoticonSelectie(antw, ["🥂", "🧣", "👼", "🎺"]);
+
+            // Ronde 8 (Index 24 t/m 35)
+            case 24:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 17:
+            case 25:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 18: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 19: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 20: return a.includes("waar") && !a.includes("niet");
-            case 21: return a.includes("niet waar");
-            case 22:
+            case 26: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 27: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 28: return a.includes("waar") && !a.includes("niet");
+            case 29: return a.includes("niet waar");
+            case 30:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 23:
+            case 31:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 24: return a.startsWith("c") || a.includes("drenthe");
-            case 25: return a.startsWith("c") || a.includes("23");
-            case 26: return a.startsWith("a") || a.includes("44,7");
-            case 27: return a.startsWith("c") || a.includes("30–40");
+            case 32: return a.startsWith("c") || a.includes("drenthe");
+            case 33: return a.startsWith("c") || a.includes("23");
+            case 34: return a.startsWith("a") || a.includes("44,7");
+            case 35: return a.startsWith("c") || a.includes("30–40");
             default: return false;
         }
     }
 
     function toonDeelnemerVraag(index) {
+        if (spelTimerInterval) {
+            clearInterval(spelTimerInterval);
+            spelTimerInterval = null;
+        }
+
         const statusEl = document.getElementById("status-bericht");
         const titelEl = document.getElementById("vraag-titel");
         const gebiedEl = document.getElementById("antwoord-gebied");
@@ -355,6 +582,7 @@
         feedbackEl.innerText = "";
         geselecteerdeVolgorde = [];
         geselecteerdeGroepen = [];
+        geselecteerdeEmoticons = [];
         isVerstuurd = false;
         extraOptiesEl.innerHTML = "";
         titelEl.style.display = "block";
@@ -442,7 +670,37 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 5: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 8...</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 5: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 7...</p>`;
+            
+            gebiedEl.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Tussenoverzicht na Ronde 7 (speciale code -107)
+        if (index === -107) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 7 (SPELRONDE) ✨";
+            titelEl.style.display = "none";
+
+            let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
+            let rondeGoed = 0;
+            let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
+            
+            for (let vIdx = 16; vIdx < 24; vIdx++) {
+                let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
+                let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
+                if (goed) rondeGoed++;
+
+                let icoon = goed ? "✅ Goed" : "❌ Fout";
+                let achtergrond = goed ? "#14532d" : "#7f1d1d";
+                let randKleur = goed ? "#4ade80" : "#f87171";
+
+                overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
+                    <strong>Vraag ${vIdx - 15}:</strong> ${icoon}<br>
+                    Jouw antwoord: <strong>${antw}</strong><br>
+                    <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
+                </div>`;
+            }
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 7: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 8...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
@@ -456,7 +714,7 @@
             let totaalGoed = 0;
             let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
             
-            for (let vIdx = 16; vIdx < vragenData.length; vIdx++) {
+            for (let vIdx = 24; vIdx < vragenData.length; vIdx++) {
                 let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
                 let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
                 if (goed) totaalGoed++;
@@ -466,7 +724,7 @@
                 let randKleur = goed ? "#4ade80" : "#f87171";
 
                 overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
-                    <strong>Vraag ${vIdx - 15}:</strong> ${icoon}<br>
+                    <strong>Vraag ${vIdx - 23}:</strong> ${icoon}<br>
                     Jouw antwoord: <strong>${antw}</strong><br>
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
@@ -480,7 +738,9 @@
         titelEl.style.display = "none";
 
         const huidige = vragenData[index];
-        let vraagNummerInRonde = huidige.ronde === 1 ? index + 1 : (huidige.ronde === 5 ? index - 7 : index - 15);
+        let vraagNummerInRonde = huidige.ronde === 1 ? index + 1 :
+                                 (huidige.ronde === 5 ? index - 7 :
+                                 (huidige.ronde === 7 ? index - 15 : index - 23));
         let totaalInRonde = huidige.ronde === 8 ? 12 : 8;
         statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${vraagNummerInRonde} / ${totaalInRonde}`;
         gebiedEl.innerHTML = "";
@@ -522,12 +782,12 @@
                 7: ["Waar", "Niet waar"],
                 10: ["S", "A", "O", "K", "R", "A"],
                 11: ["G", "A", "L", "I", "N", "E", "R", "S"],
-                20: ["Waar", "Niet waar"],
-                21: ["Waar", "Niet waar"],
-                24: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
-                25: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
-                26: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
-                27: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
+                28: ["Waar", "Niet waar"],
+                29: ["Waar", "Niet waar"],
+                32: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
+                33: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
+                34: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
+                35: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
             };
 
             let opties = optiesMap[index] || [];
@@ -550,7 +810,7 @@
             }
         }
         else if (huidige.type === "volgorde") {
-            const volgordeOpties = index === 18 ? [
+            const volgordeOpties = index === 26 ? [
                 "A) Rudolph het roodneuzige rendier...",
                 "B) In een gedicht verschijnen rendieren...",
                 "C) Coca-Cola lanceert reclamecampagne...",
@@ -680,6 +940,287 @@
             };
 
             updateGroepenUI();
+        }
+        else if (huidige.type === "boodschappen") {
+            const origineleLijst = index === 18
+                ? ["Stokbrood", "Roomboter", "Champignons", "Champagne", "Gourmetvlees", "Aardappelen", "Glühwein", "Brie"]
+                : ["Kerststol", "Rollade", "Zalm", "Bladerdeeg", "Wijn", "Satésaus", "Krieltjes", "Komkommer"];
+            let huidigeVolgorde = index === 18
+                ? ["Champagne", "Brie", "Stokbrood", "Aardappelen", "Roomboter", "Glühwein", "Champignons", "Gourmetvlees"]
+                : ["Bladerdeeg", "Komkommer", "Rollade", "Krieltjes", "Kerststol", "Satésaus", "Zalm", "Wijn"];
+
+            let dragStartIndex = null;
+
+            const renderSleepLijst = () => {
+                gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Sleep de boodschappen in de juiste volgorde (1 t/m 8) of gebruik de pijltjes:</p>`;
+                const lijstContainer = document.createElement("div");
+
+                huidigeVolgorde.forEach((item, posIdx) => {
+                    const row = document.createElement("div");
+                    row.className = "sleep-item";
+                    row.draggable = !isVerstuurd;
+
+                    row.ondragstart = () => {
+                        if (isVerstuurd) return;
+                        dragStartIndex = posIdx;
+                        row.classList.add("dragging");
+                    };
+                    row.ondragend = () => {
+                        row.classList.remove("dragging");
+                    };
+                    row.ondragover = (e) => {
+                        e.preventDefault();
+                    };
+                    row.ondrop = (e) => {
+                        e.preventDefault();
+                        if (isVerstuurd || dragStartIndex === null || dragStartIndex === posIdx) return;
+                        const verplaatst = huidigeVolgorde.splice(dragStartIndex, 1)[0];
+                        huidigeVolgorde.splice(posIdx, 0, verplaatst);
+                        dragStartIndex = null;
+                        renderSleepLijst();
+                    };
+
+                    const links = document.createElement("div");
+                    links.className = "sleep-item-links";
+                    links.innerHTML = `<span class="sleep-nr">${posIdx + 1}</span><span>${item}</span>`;
+
+                    const knoppen = document.createElement("div");
+                    knoppen.className = "sleep-knoppen";
+
+                    const omhoogBtn = document.createElement("button");
+                    omhoogBtn.type = "button";
+                    omhoogBtn.className = "mini-move-btn";
+                    omhoogBtn.innerText = "▲";
+                    omhoogBtn.disabled = isVerstuurd || posIdx === 0;
+                    omhoogBtn.onclick = () => {
+                        if (isVerstuurd || posIdx === 0) return;
+                        [huidigeVolgorde[posIdx - 1], huidigeVolgorde[posIdx]] = [huidigeVolgorde[posIdx], huidigeVolgorde[posIdx - 1]];
+                        renderSleepLijst();
+                    };
+
+                    const omlaagBtn = document.createElement("button");
+                    omlaagBtn.type = "button";
+                    omlaagBtn.className = "mini-move-btn";
+                    omlaagBtn.innerText = "▼";
+                    omlaagBtn.disabled = isVerstuurd || posIdx === huidigeVolgorde.length - 1;
+                    omlaagBtn.onclick = () => {
+                        if (isVerstuurd || posIdx === huidigeVolgorde.length - 1) return;
+                        [huidigeVolgorde[posIdx + 1], huidigeVolgorde[posIdx]] = [huidigeVolgorde[posIdx], huidigeVolgorde[posIdx + 1]];
+                        renderSleepLijst();
+                    };
+
+                    knoppen.appendChild(omhoogBtn);
+                    knoppen.appendChild(omlaagBtn);
+                    row.appendChild(links);
+                    row.appendChild(knoppen);
+                    lijstContainer.appendChild(row);
+                });
+
+                gebiedEl.appendChild(lijstContainer);
+
+                const verstuurKnop = document.createElement("button");
+                verstuurKnop.className = "btn btn-verstuur";
+                verstuurKnop.innerText = "Verstuur Volgorde 🎯";
+                verstuurKnop.disabled = isVerstuurd;
+                verstuurKnop.onclick = () => {
+                    isVerstuurd = true;
+                    const antwoordTekst = huidigeVolgorde.join(", ");
+                    slaAntwoordOp(index, antwoordTekst);
+                    feedbackEl.innerText = `Volgorde opgeslagen! Wacht op de host...`;
+                    feedbackEl.style.color = "#4ade80";
+                    renderSleepLijst();
+                };
+                gebiedEl.appendChild(verstuurKnop);
+            };
+
+            let aftel = 30;
+            const renderKijkFase = () => {
+                gebiedEl.innerHTML = `
+                    <div class="timer-pill">👀 Onthoud de volgorde (${aftel}s)</div>
+                    <div class="boodschappen-lijst-view">
+                        ${origineleLijst.map((item, i) => `<div class="boodschap-regel"><span>${i + 1}.</span>${item}</div>`).join("")}
+                    </div>
+                `;
+            };
+
+            renderKijkFase();
+            spelTimerInterval = setInterval(() => {
+                aftel--;
+                if (aftel > 0) {
+                    renderKijkFase();
+                } else if (aftel > -5) {
+                    gebiedEl.innerHTML = `<div class="wacht-box">⏳ Even onthouden... (${5 + aftel}s)</div>`;
+                } else {
+                    clearInterval(spelTimerInterval);
+                    spelTimerInterval = null;
+                    renderSleepLijst();
+                }
+            }, 1000);
+        }
+        else if (huidige.type === "anagram") {
+            const letters = index === 20
+                ? ["T", "E", "M", "L", "I", "E", "S", "T", "O"]
+                : ["R", "E", "S", "E", "N", "A", "L", "E", "R"];
+            let geplaatsteIndices = [];
+
+            const renderAnagramUI = () => {
+                gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">Tik de letters in de juiste volgorde om het woord te vormen (tik op een vakje om te verwijderen):</p>`;
+
+                const slotsRow = document.createElement("div");
+                slotsRow.className = "letter-slots-row";
+                for (let s = 0; s < letters.length; s++) {
+                    const slot = document.createElement("div");
+                    slot.className = "letter-slot";
+                    if (s < geplaatsteIndices.length) {
+                        slot.innerText = letters[geplaatsteIndices[s]];
+                        slot.onclick = () => {
+                            if (isVerstuurd) return;
+                            geplaatsteIndices.splice(s, 1);
+                            renderAnagramUI();
+                        };
+                    } else {
+                        slot.classList.add("leeg");
+                        slot.innerText = "_";
+                    }
+                    slotsRow.appendChild(slot);
+                }
+                gebiedEl.appendChild(slotsRow);
+
+                const poolRow = document.createElement("div");
+                poolRow.className = "letter-pool-row";
+                letters.forEach((letter, lIdx) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "letter-tegel";
+                    btn.innerText = letter;
+                    btn.disabled = isVerstuurd || geplaatsteIndices.includes(lIdx);
+                    btn.onclick = () => {
+                        if (isVerstuurd || geplaatsteIndices.includes(lIdx)) return;
+                        geplaatsteIndices.push(lIdx);
+                        renderAnagramUI();
+                    };
+                    poolRow.appendChild(btn);
+                });
+                gebiedEl.appendChild(poolRow);
+
+                const wisKnop = document.createElement("button");
+                wisKnop.type = "button";
+                wisKnop.className = "btn btn-secundair";
+                wisKnop.style.padding = "10px";
+                wisKnop.style.fontSize = "13px";
+                wisKnop.innerText = "Letters opnieuw plaatsen ↺";
+                wisKnop.disabled = isVerstuurd || geplaatsteIndices.length === 0;
+                wisKnop.onclick = () => {
+                    if (isVerstuurd) return;
+                    geplaatsteIndices = [];
+                    renderAnagramUI();
+                };
+                gebiedEl.appendChild(wisKnop);
+
+                const verstuurKnop = document.createElement("button");
+                verstuurKnop.className = "btn btn-verstuur";
+                verstuurKnop.innerText = "Verstuur Antwoord 🎯";
+                verstuurKnop.disabled = isVerstuurd;
+                verstuurKnop.onclick = () => {
+                    if (geplaatsteIndices.length < letters.length) {
+                        alert("Gebruik alle 9 letters om het woord te vormen voordat je verstuurt!");
+                        return;
+                    }
+                    isVerstuurd = true;
+                    const gevormdWoord = geplaatsteIndices.map(i => letters[i]).join("");
+                    slaAntwoordOp(index, gevormdWoord);
+                    feedbackEl.innerText = `Woord (${gevormdWoord}) opgeslagen! Wacht op de host...`;
+                    feedbackEl.style.color = "#4ade80";
+                    renderAnagramUI();
+                };
+                gebiedEl.appendChild(verstuurKnop);
+            };
+
+            renderAnagramUI();
+        }
+        else if (huidige.type === "emoticons_geheugen") {
+            const emoticons12 = index === 22
+                ? ["🎄", "⛄", "🦌", "🎁", "🔔", "🧦", "🕯️", "🍪", "⭐", "🎅", "❄️", "🎀"]
+                : ["🎅", "🍪", "🎀", "🎄", "⭐", "🧦", "⛄", "🕯️", "❄️", "🔔", "🦌", "🎁"];
+            const emoticons16 = index === 22
+                ? ["🎄", "🌟", "⛄", "🍷", "🦌", "🎁", "🔔", "🧦", "🛷", "🕯️", "🍪", "⭐", "🎅", "❄️", "🎀", "🎶"]
+                : ["🎅", "🍪", "🎀", "🥂", "🎄", "🧣", "⭐", "🧦", "⛄", "🕯️", "❄️", "👼", "🔔", "🎺", "🦌", "🎁"];
+
+            const renderSelectieUI = () => {
+                gebiedEl.innerHTML = `<p style="font-size:13px; color:var(--text-muted); margin-bottom:8px;">Selecteer de 4 emoticons die erbij zijn gekomen (${geselecteerdeEmoticons.length}/4):</p>`;
+                const grid = document.createElement("div");
+                grid.className = "emoticon-grid-deelnemer";
+
+                emoticons16.forEach((em) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "emoticon-kies-btn";
+                    if (geselecteerdeEmoticons.includes(em)) {
+                        btn.classList.add("selected");
+                    }
+                    btn.innerText = em;
+                    btn.disabled = isVerstuurd;
+                    btn.onclick = () => {
+                        if (isVerstuurd) return;
+                        const pos = geselecteerdeEmoticons.indexOf(em);
+                        if (pos !== -1) {
+                            geselecteerdeEmoticons.splice(pos, 1);
+                        } else {
+                            if (geselecteerdeEmoticons.length >= 4) {
+                                alert("Je mag maximaal 4 emoticons selecteren! Tik eerst een geselecteerde uit.");
+                                return;
+                            }
+                            geselecteerdeEmoticons.push(em);
+                        }
+                        renderSelectieUI();
+                    };
+                    grid.appendChild(btn);
+                });
+
+                gebiedEl.appendChild(grid);
+
+                const verstuurKnop = document.createElement("button");
+                verstuurKnop.className = "btn btn-verstuur";
+                verstuurKnop.innerText = "Verstuur 4 Emoticons 🎯";
+                verstuurKnop.disabled = isVerstuurd;
+                verstuurKnop.onclick = () => {
+                    if (geselecteerdeEmoticons.length !== 4) {
+                        alert("Selecteer precies 4 emoticons voordat je verstuurt!");
+                        return;
+                    }
+                    isVerstuurd = true;
+                    const antwoordTekst = geselecteerdeEmoticons.join(", ");
+                    slaAntwoordOp(index, antwoordTekst);
+                    feedbackEl.innerText = `Gekozen (${antwoordTekst}) opgeslagen! Wacht op de host...`;
+                    feedbackEl.style.color = "#4ade80";
+                    renderSelectieUI();
+                };
+                gebiedEl.appendChild(verstuurKnop);
+            };
+
+            let aftel = 30;
+            const renderEmoticonKijkFase = () => {
+                gebiedEl.innerHTML = `
+                    <div class="timer-pill">👀 Onthoud deze 12 emoticons (${aftel}s)</div>
+                    <div class="emoticon-grid-deelnemer">
+                        ${emoticons12.map(em => `<div class="emoticon-kijk-vak">${em}</div>`).join("")}
+                    </div>
+                `;
+            };
+
+            renderEmoticonKijkFase();
+            spelTimerInterval = setInterval(() => {
+                aftel--;
+                if (aftel > 0) {
+                    renderEmoticonKijkFase();
+                } else if (aftel > -5) {
+                    gebiedEl.innerHTML = `<div class="wacht-box">⏳ Even geduld... (${5 + aftel}s)</div>`;
+                } else {
+                    clearInterval(spelTimerInterval);
+                    spelTimerInterval = null;
+                    renderSelectieUI();
+                }
+            }, 1000);
         }
     }
 </script>
