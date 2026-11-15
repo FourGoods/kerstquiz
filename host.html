@@ -252,6 +252,31 @@
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
 
+        .boodschappen-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .boodschap-kaart {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px solid rgba(212, 175, 55, 0.5);
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-light);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+        }
+
+        .boodschap-kaart span {
+            color: var(--accent-gold);
+            font-weight: 900;
+            margin-right: 6px;
+        }
+
         .vraag-afbeelding {
             width: 100%;
             max-height: 250px;
@@ -273,6 +298,54 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             letter-spacing: 12px;
             text-align: center;
+        }
+
+        .emoticon-grid-host {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 14px;
+            border: 2px solid var(--card-border);
+            margin: 8px 0 15px 0;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            font-size: 46px;
+            text-align: center;
+        }
+
+        .letter-tegels-host {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 16px 0;
+        }
+
+        .letter-tegel-host {
+            background: rgba(0, 0, 0, 0.35);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--accent-gold);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .fase-melding {
+            background: rgba(0, 0, 0, 0.35);
+            border: 2px dashed var(--card-border);
+            border-radius: 14px;
+            padding: 28px 20px;
+            margin: 15px 0;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--accent-gold);
         }
 
         .overzicht-container {
@@ -511,7 +584,79 @@
             categorie: "Verbanden Zoeken" 
         },
 
-        // --- RONDE 8 (Index 16 t/m 27) ---
+        // --- RONDE 7 (Index 16 t/m 23) ---
+        {
+            ronde: 7,
+            titel: "Vraag 1:\nWelk overeenkomstig woord kan voor deze 3 woorden worden geplaatst?\nboom - stol - krans",
+            opties: ["boom", "stol", "krans"],
+            juist: "kerst",
+            categorie: "Spelronde • Woordverband"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 2:\nWelk overeenkomstig woord kan voor deze 3 woorden worden geplaatst?\npop - vlok - bal",
+            opties: ["pop", "vlok", "bal"],
+            juist: "sneeuw",
+            categorie: "Spelronde • Woordverband"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 3:\nOnthoud de volgorde van het volgende boodschappenlijstje:",
+            titelAntwoord: "Zet de boodschappen terug in de juiste volgorde (1 t/m 8):",
+            boodschappenLijst: ["Stokbrood", "Roomboter", "Champignons", "Champagne", "Gourmetvlees", "Aardappelen", "Glühwein", "Brie"],
+            boodschappenSchud: ["Champagne", "Brie", "Stokbrood", "Aardappelen", "Roomboter", "Glühwein", "Champignons", "Gourmetvlees"],
+            opties: [],
+            juist: "1. Stokbrood, 2. Roomboter, 3. Champignons, 4. Champagne, 5. Gourmetvlees, 6. Aardappelen, 7. Glühwein, 8. Brie",
+            categorie: "Spelronde • Geheugen Lijstje"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 4:\nOnthoud de volgorde van het volgende boodschappenlijstje:",
+            titelAntwoord: "Zet de boodschappen terug in de juiste volgorde (1 t/m 8):",
+            boodschappenLijst: ["Kerststol", "Rollade", "Zalm", "Bladerdeeg", "Wijn", "Satésaus", "Krieltjes", "Komkommer"],
+            boodschappenSchud: ["Bladerdeeg", "Komkommer", "Rollade", "Krieltjes", "Kerststol", "Satésaus", "Zalm", "Wijn"],
+            opties: [],
+            juist: "1. Kerststol, 2. Rollade, 3. Zalm, 4. Bladerdeeg, 5. Wijn, 6. Satésaus, 7. Krieltjes, 8. Komkommer",
+            categorie: "Spelronde • Geheugen Lijstje"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 5:\nZet de letters in de goede volgorde zodat het juiste woord ontstaat:",
+            letters: ["T", "E", "M", "L", "I", "E", "S", "T", "O"],
+            opties: [],
+            juist: "Mistletoe",
+            categorie: "Spelronde • Anagram"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 6:\nZet de letters in de goede volgorde zodat het juiste woord ontstaat:",
+            letters: ["R", "E", "S", "E", "N", "A", "L", "E", "R"],
+            opties: [],
+            juist: "Arrenslee",
+            categorie: "Spelronde • Anagram"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 7:\nOnthoud goed welke 12 kerstemoticons je hieronder ziet!",
+            titelAntwoord: "Welke 4 emoticons zijn erbij gekomen?",
+            emoticons12: ["🎄", "⛄", "🦌", "🎁", "🔔", "🧦", "🕯️", "🍪", "⭐", "🎅", "❄️", "🎀"],
+            emoticons16: ["🎄", "🌟", "⛄", "🍷", "🦌", "🎁", "🔔", "🧦", "🛷", "🕯️", "🍪", "⭐", "🎅", "❄️", "🎀", "🎶"],
+            opties: [],
+            juist: "🌟 🍷 🛷 🎶",
+            categorie: "Spelronde • Emoticon Geheugen"
+        },
+        {
+            ronde: 7,
+            titel: "Vraag 8:\nOnthoud goed welke 12 kerstemoticons je hieronder ziet!",
+            titelAntwoord: "Welke 4 emoticons zijn erbij gekomen?",
+            emoticons12: ["🎅", "🍪", "🎀", "🎄", "⭐", "🧦", "⛄", "🕯️", "❄️", "🔔", "🦌", "🎁"],
+            emoticons16: ["🎅", "🍪", "🎀", "🥂", "🎄", "🧣", "⭐", "🧦", "⛄", "🕯️", "❄️", "👼", "🔔", "🎺", "🦌", "🎁"],
+            opties: [],
+            juist: "🥂 🧣 👼 🎺",
+            categorie: "Spelronde • Emoticon Geheugen"
+        },
+
+        // --- RONDE 8 (Index 24 t/m 35) ---
         { 
             ronde: 8,
             titel: "Vraag 1:\nElk jaar in december stromen de tuincentra en kraampjes vol met kerstbomen. Maar hoeveel kerstbomen worden er jaarlijks ongeveer verkocht in Nederland? Je mag er 250.000 vanaf zitten.", 
@@ -644,6 +789,10 @@
     let timerInterval = null;
     let overgeblevenTijd = 45;
 
+    function isGeheugenVraag(idx) {
+        return idx === 18 || idx === 19 || idx === 22 || idx === 23;
+    }
+
     socket.on('update-status', (data) => {
         huidigeVraagIndex = data.huidigeVraagIndex;
         toonLeaderboardStap = data.toonEindstand;
@@ -729,10 +878,17 @@
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
-    function startRonde8() {
+    function startRonde7() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
         huidigeVraagIndex = 16;
+        socket.emit('volgende-vraag', huidigeVraagIndex);
+    }
+
+    function startRonde8() {
+        if (timerInterval) clearInterval(timerInterval);
+        getoondOverzichtRonde = null;
+        huidigeVraagIndex = 24;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
@@ -753,6 +909,13 @@
             return;
         }
 
+        if (huidigeVraagIndex === 23 && getoondOverzichtRonde !== 7) {
+            getoondOverzichtRonde = 7;
+            socket.emit('volgende-vraag', -107);
+            renderHostScherm();
+            return;
+        }
+
         getoondOverzichtRonde = null;
         huidigeVraagIndex++;
         socket.emit('volgende-vraag', huidigeVraagIndex);
@@ -765,7 +928,9 @@
     }
 
     function startTimer() {
-        overgeblevenTijd = 45;
+        const geheugen = isGeheugenVraag(huidigeVraagIndex);
+        const startTijd = geheugen ? 80 : 45;
+        overgeblevenTijd = startTijd;
         const timerEl = document.getElementById("timer-display");
         const progressBar = document.getElementById("progress-bar-fill");
         
@@ -777,8 +942,17 @@
             if (timerEl) timerEl.innerText = `${overgeblevenTijd}s`;
             
             if (progressBar) {
-                let percentage = ((45 - overgeblevenTijd) / 45) * 100;
+                let percentage = ((startTijd - overgeblevenTijd) / startTijd) * 100;
                 progressBar.style.width = `${percentage}%`;
+            }
+
+            if (geheugen) {
+                const verstreken = startTijd - overgeblevenTijd;
+                if (verstreken === 30) {
+                    updateGeheugenFaseHost(2);
+                } else if (verstreken === 35) {
+                    updateGeheugenFaseHost(3);
+                }
             }
 
             if (overgeblevenTijd <= 0) {
@@ -786,6 +960,29 @@
                 volgendeVraag();
             }
         }, 1000);
+    }
+
+    function updateGeheugenFaseHost(fase) {
+        const huidige = vragenData[huidigeVraagIndex];
+        const titelBox = document.getElementById("host-vraag-tekst");
+        const gebiedBox = document.getElementById("host-geheugen-gebied");
+        if (!huidige || !titelBox || !gebiedBox) return;
+
+        if (fase === 2) {
+            titelBox.innerText = huidige.titel.split('\n')[0] + "\nEven geduld...";
+            gebiedBox.innerHTML = `<div class="fase-melding">⏳ De lijst verdwijnt voor 5 seconden... Even geduld!</div>`;
+        } else if (fase === 3) {
+            titelBox.innerText = huidige.titel.split('\n')[0] + "\n" + huidige.titelAntwoord;
+            if (huidige.boodschappenSchud) {
+                gebiedBox.innerHTML = `<div class="boodschappen-grid">` +
+                    huidige.boodschappenSchud.map(item => `<div class="boodschap-kaart">• ${item}</div>`).join('') +
+                    `</div>`;
+            } else if (huidige.emoticons16) {
+                gebiedBox.innerHTML = `<div class="emoticon-grid-host">` +
+                    huidige.emoticons16.map(em => `<div>${em}</div>`).join('') +
+                    `</div>`;
+            }
+        }
     }
 
     function vergelijkMetSpelfout(gegeven, juist) {
@@ -829,6 +1026,13 @@
         return groepen.length === 3 && groepen.every((val, idx) => val === verwacht[idx]);
     }
 
+    function controleerEmoticonSelectie(antw, verwachteEmoticons) {
+        if (!antw) return false;
+        let gekozen = String(antw).split(',').map(e => e.trim()).filter(Boolean);
+        if (gekozen.length !== verwachteEmoticons.length) return false;
+        return verwachteEmoticons.every(e => gekozen.includes(e));
+    }
+
     function isAntwoordJuistHost(index, antw) {
         if (!antw) return false;
         let a = String(antw).trim().toLowerCase();
@@ -860,27 +1064,38 @@
                 ["goud", "wierook", "mirre"]
             ]);
 
-            case 16:
+            // Ronde 7 (Index 16 t/m 23)
+            case 16: return vergelijkMetSpelfout(a, "kerst");
+            case 17: return vergelijkMetSpelfout(a, "sneeuw");
+            case 18: return a === "stokbrood, roomboter, champignons, champagne, gourmetvlees, aardappelen, glühwein, brie";
+            case 19: return a === "kerststol, rollade, zalm, bladerdeeg, wijn, satésaus, krieltjes, komkommer";
+            case 20: return a.replace(/\s+/g, '') === "mistletoe";
+            case 21: return a.replace(/\s+/g, '') === "arrenslee";
+            case 22: return controleerEmoticonSelectie(antw, ["🌟", "🍷", "🛷", "🎶"]);
+            case 23: return controleerEmoticonSelectie(antw, ["🥂", "🧣", "👼", "🎺"]);
+
+            // Ronde 8 (Index 24 t/m 35)
+            case 24:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 17:
+            case 25:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 18: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 19: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 20: return a.includes("waar") && !a.includes("niet");
-            case 21: return a.includes("niet waar");
-            case 22:
+            case 26: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 27: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 28: return a.includes("waar") && !a.includes("niet");
+            case 29: return a.includes("niet waar");
+            case 30:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 23:
+            case 31:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 24: return a.startsWith("c") || a.includes("drenthe");
-            case 25: return a.startsWith("c") || a.includes("23");
-            case 26: return a.startsWith("a") || a.includes("44,7");
-            case 27: return a.startsWith("c") || a.includes("30–40");
+            case 32: return a.startsWith("c") || a.includes("drenthe");
+            case 33: return a.startsWith("c") || a.includes("23");
+            case 34: return a.startsWith("a") || a.includes("44,7");
+            case 35: return a.startsWith("c") || a.includes("30–40");
             default: return false;
         }
     }
@@ -968,6 +1183,36 @@
 
             overzichtHtml += `
                 </div>
+                <button class="btn-geel" onclick="startRonde7()">START RONDE 7 ➔</button>
+            `;
+
+            hostContent.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Overzicht na Ronde 7
+        if (getoondOverzichtRonde === 7 || huidigeVraagIndex === -107) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let overzichtHtml = `
+                <h1>🎄 Overzicht Ronde 7 (Spelronde) 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Bespreek de antwoorden van Ronde 7:</p>
+                <div class="overzicht-container">
+            `;
+
+            for (let i = 16; i < 24; i++) {
+                let vraag = vragenData[i];
+                let antwoordWeergave = vraag.juist;
+                overzichtHtml += `
+                    <div class="overzicht-item">
+                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="juist-antwoord-overzicht">✅ Juiste antwoord: ${antwoordWeergave}</div>
+                    </div>
+                `;
+            }
+
+            overzichtHtml += `
+                </div>
                 <button class="btn-geel" onclick="startRonde8()">START RONDE 8 ➔</button>
             `;
 
@@ -985,7 +1230,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 16; i < vragenData.length; i++) {
+            for (let i = 24; i < vragenData.length; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 if (vraag.optiesDetail) {
@@ -1065,14 +1310,29 @@
         }
         
         let optiesHtml = '';
-        if (huidige.opties && huidige.opties.length > 0) {
+        if (huidige.boodschappenLijst) {
+            optiesHtml = `<div id="host-geheugen-gebied"><div class="boodschappen-grid">` +
+                huidige.boodschappenLijst.map((item, idx) => `<div class="boodschap-kaart"><span>${idx + 1}.</span> ${item}</div>`).join('') +
+                `</div></div>`;
+        } else if (huidige.emoticons12) {
+            optiesHtml = `<div id="host-geheugen-gebied"><div class="emoticon-grid-host">` +
+                huidige.emoticons12.map(em => `<div>${em}</div>`).join('') +
+                `</div></div>`;
+        } else if (huidige.letters) {
+            optiesHtml = `<div class="letter-tegels-host">` +
+                huidige.letters.map(l => `<div class="letter-tegel-host">${l}</div>`).join('') +
+                `</div>`;
+        } else if (huidige.opties && huidige.opties.length > 0) {
             optiesHtml = `<div class="opties-container">` + 
                 huidige.opties.map(optie => `<div class="optie-item">${optie}</div>`).join('') + 
                 `</div>`;
         }
 
-        let vraagNr = huidige.ronde === 1 ? huidigeVraagIndex + 1 : (huidige.ronde === 5 ? huidigeVraagIndex - 7 : huidigeVraagIndex - 15);
+        let vraagNr = huidige.ronde === 1 ? huidigeVraagIndex + 1 :
+                      (huidige.ronde === 5 ? huidigeVraagIndex - 7 :
+                      (huidige.ronde === 7 ? huidigeVraagIndex - 15 : huidigeVraagIndex - 23));
         let totaalNr = huidige.ronde === 8 ? 12 : 8;
+        let beginTijd = isGeheugenVraag(huidigeVraagIndex) ? 80 : 45;
 
         hostContent.innerHTML = `
             <div class="vraag-header-row">
@@ -1081,11 +1341,11 @@
                     <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${vraagNr} VAN ${totaalNr}</span>
                     <span class="sub">${huidige.categorie}</span>
                 </div>
-                <div class="timer-klok">⏱️ <span id="timer-display">45s</span></div>
+                <div class="timer-klok">⏱️ <span id="timer-display">${beginTijd}s</span></div>
             </div>
 
             ${mediaHtml}
-            <div class="vraag-box">${huidige.titel}</div>
+            <div class="vraag-box" id="host-vraag-tekst">${huidige.titel}</div>
             ${optiesHtml}
 
             <div style="margin-top: 10px; font-weight: 700; color: var(--text-muted); font-size: 13px;" id="ingediend-status">Ingezonden antwoorden: ${ingezondenCount} / ${actieveDeelnemers.length}</div>
