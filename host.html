@@ -492,9 +492,9 @@
             ronde: 5,
             titel: "Vraag 7:\nVerdeel de 9 woorden in 3 groepjes van 3 die bij elkaar horen.", 
             opties: [
-                "BLITZEN", "STAL", "JINGLE BELLS",
-                "VIXEN", "HERBERG", "STILLE NACHT",
-                "DASHER", "STER", "LAST CHRISTMAS"
+                "BLITZEN", "STILLE NACHT", "HERBERG",
+                "VIXEN", "STAL", "LAST CHRISTMAS",
+                "DASHER", "JINGLE BELLS", "STER"
             ],
             juist: "Rendieren van de Kerstman: Blitzen – Vixen – Dasher\nKlassieke Kerstverhaal: Stal – Herberg – Ster\nKerstliedjes: Jingle Bells – Stille Nacht – Last Christmas", 
             categorie: "Verbanden Zoeken" 
@@ -844,7 +844,7 @@
             case 7: return a.includes("niet waar");
 
             case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
-            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "the polar express");
+            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "De Polar Express");
             case 10: return a.startsWith("o") || a.includes("kaars");
             case 11: return a.startsWith("a") || a.includes("slinger");
             case 12: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
