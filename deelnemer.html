@@ -347,12 +347,12 @@
         { type: "keuze", juist: "Niet waar", ronde: 1 },
 
         // Ronde 4 (index 8 t/m 15)
-        { type: "keuze", juist: "C) Scrooge begint samen met Mrs. Dilber te dansen.", ronde: 4 },
-        { type: "keuze", juist: "C) Marv krijgt een lading veren in zijn gezicht.", ronde: 4 },
+        { type: "keuze", juist: "C) Scrooge begint samen met Mrs. Dilber te dansen.", ronde: 4, heeftVideo: true },
+        { type: "keuze", juist: "C) Marv krijgt een lading veren in zijn gezicht.", ronde: 4, heeftVideo: true },
         { type: "volgorde", juist: "B -> A -> D -> C", ronde: 4 },
         { type: "volgorde", juist: "A -> B -> C -> D", ronde: 4 },
-        { type: "keuze", juist: "C) The Santa Clause", ronde: 4 },
-        { type: "keuze", juist: "A) Red One", ronde: 4 },
+        { type: "keuze", juist: "C) The Santa Clause", ronde: 4, heeftVideo: true },
+        { type: "keuze", juist: "A) Red One", ronde: 4, heeftVideo: true },
         { type: "keuze", juist: "D) How the Grinch Stole Christmas", ronde: 4 },
         { type: "keuze", juist: "B) Jingle Jangle: A Christmas Journey", ronde: 4 },
 
@@ -410,6 +410,7 @@
     let toonEindstandStatus = false;
     let mijnNaam = "";
     let serverAntwoorden = {};
+    let ronde4SubfaseDeelnemer = null;
 
     socket.on('update-status', (data) => {
         huidigeVraagIndex = data.huidigeVraagIndex;
@@ -417,13 +418,26 @@
         if (data.alleAntwoorden) {
             serverAntwoorden = data.alleAntwoorden;
         }
+        ronde4SubfaseDeelnemer = (huidigeVraagIndex >= 0 && vragenData[huidigeVraagIndex] && vragenData[huidigeVraagIndex].heeftVideo)
+            ? 'fragment'
+            : null;
         toonDeelnemerVraag(huidigeVraagIndex);
     });
 
     socket.on('zet-vraag', (nieuweIndex) => {
         huidigeVraagIndex = nieuweIndex;
         toonEindstandStatus = false;
+        ronde4SubfaseDeelnemer = (nieuweIndex >= 0 && vragenData[nieuweIndex] && vragenData[nieuweIndex].heeftVideo)
+            ? 'fragment'
+            : null;
         toonDeelnemerVraag(huidigeVraagIndex);
+    });
+
+    socket.on('ronde4-subfase', (data) => {
+        if (data && data.vraagIndex === huidigeVraagIndex) {
+            ronde4SubfaseDeelnemer = data.subfase;
+            toonDeelnemerVraag(huidigeVraagIndex);
+        }
     });
 
     socket.on('update-ingezonden', (data) => {
@@ -436,6 +450,7 @@
         if (spelTimerInterval) clearInterval(spelTimerInterval);
         huidigeVraagIndex = -1;
         toonEindstandStatus = false;
+        ronde4SubfaseDeelnemer = null;
         mijnNaam = "";
         serverAntwoorden = {};
         localStorage.removeItem("huidigeDeelnemerNaam");
@@ -847,6 +862,15 @@
         let totaalInRonde = huidige.ronde === 8 ? 12 : 8;
         statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${vraagNummerInRonde} / ${totaalInRonde}`;
         gebiedEl.innerHTML = "";
+
+        // Bij vragen 1, 2, 5 en 6 (met video) pas antwoorden tonen als de vraag met opties op het hostscherm staat
+        if (huidige.heeftVideo && ronde4SubfaseDeelnemer !== 'vraag') {
+            const wachtTekst = ronde4SubfaseDeelnemer === 'antwoord_fragment'
+                ? "🎬 Bekijk het hele fragment op het hostscherms..."
+                : "🎬 Bekijk eerst het fragment op het hostscherm. De vraag verschijnt zo!";
+            gebiedEl.innerHTML = `<div class="wacht-box">${wachtTekst}</div>`;
+            return;
+        }
 
         if (huidige.type === "getal" || huidige.type === "tekst") {
             const input = document.createElement("input");
