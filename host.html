@@ -1058,14 +1058,18 @@
     }
 
     function zendRonde4Subfase(vraagIdx, subfase) {
-        socket.emit('ronde4-subfase', { vraagIndex: vraagIdx, subfase: subfase });
+        socket.emit('volgende-vraag', { index: vraagIdx, subfase: subfase });
     }
 
-    function initialiseerSubfaseVoorVraag(idx) {
+    function initialiseerSubfaseVoorVraag(idx, ontvangenSubfase) {
         if (idx >= 0 && idx < vragenData.length && vragenData[idx] && vragenData[idx].videoVraag) {
-            ronde4Subfase = 'fragment';
-            vraagIsActief = false;
-            zendRonde4Subfase(idx, 'fragment');
+            ronde4Subfase = ontvangenSubfase || 'fragment';
+            if (ronde4Subfase === 'vraag') {
+                vraagIsActief = false;
+                setTimeout(() => { vraagIsActief = true; }, 800);
+            } else {
+                vraagIsActief = false;
+            }
         } else {
             ronde4Subfase = null;
             vraagIsActief = false;
@@ -1074,17 +1078,22 @@
     }
 
     socket.on('update-status', (data) => {
-        huidigeVraagIndex = data.huidigeVraagIndex;
+        const rawIdx = data.huidigeVraagIndex;
+        const idx = (rawIdx && typeof rawIdx === 'object') ? rawIdx.index : rawIdx;
+        const subfase = (rawIdx && typeof rawIdx === 'object') ? rawIdx.subfase : null;
+        huidigeVraagIndex = idx;
         toonLeaderboardStap = data.toonEindstand;
         actieveDeelnemers = data.actieveDeelnemers;
-        initialiseerSubfaseVoorVraag(huidigeVraagIndex);
+        initialiseerSubfaseVoorVraag(huidigeVraagIndex, subfase);
         renderHostScherm();
     });
 
-    socket.on('zet-vraag', (nieuweIndex) => {
-        huidigeVraagIndex = nieuweIndex;
+    socket.on('zet-vraag', (payload) => {
+        const idx = (payload && typeof payload === 'object') ? payload.index : payload;
+        const subfase = (payload && typeof payload === 'object') ? payload.subfase : null;
+        huidigeVraagIndex = idx;
         toonLeaderboardStap = false;
-        initialiseerSubfaseVoorVraag(huidigeVraagIndex);
+        initialiseerSubfaseVoorVraag(huidigeVraagIndex, subfase);
         renderHostScherm();
     });
 
@@ -1164,7 +1173,7 @@
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
         huidigeVraagIndex = 8;
-        socket.emit('volgende-vraag', huidigeVraagIndex);
+        zendRonde4Subfase(8, 'fragment');
     }
 
     function startRonde5() {
@@ -1260,7 +1269,14 @@
 
         getoondOverzichtRonde = null;
         huidigeVraagIndex++;
-        socket.emit('volgende-vraag', huidigeVraagIndex);
+        const volgende = (huidigeVraagIndex >= 0 && huidigeVraagIndex < vragenData.length)
+            ? vragenData[huidigeVraagIndex]
+            : null;
+        if (volgende && volgende.videoVraag) {
+            zendRonde4Subfase(huidigeVraagIndex, 'fragment');
+        } else {
+            socket.emit('volgende-vraag', huidigeVraagIndex);
+        }
     }
 
     function toonEinduitslag() {
@@ -1844,4 +1860,4 @@
 </script>
 
 </body>
-</html>s
+</html>
