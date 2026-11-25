@@ -1057,10 +1057,15 @@
         speler.play().catch(() => {});
     }
 
+    function zendRonde4Subfase(vraagIdx, subfase) {
+        socket.emit('ronde4-subfase', { vraagIndex: vraagIdx, subfase: subfase });
+    }
+
     function initialiseerSubfaseVoorVraag(idx) {
         if (idx >= 0 && idx < vragenData.length && vragenData[idx] && vragenData[idx].videoVraag) {
             ronde4Subfase = 'fragment';
             vraagIsActief = false;
+            zendRonde4Subfase(idx, 'fragment');
         } else {
             ronde4Subfase = null;
             vraagIsActief = false;
@@ -1109,6 +1114,7 @@
                     if (huidige && huidige.videoAntwoord && ronde4Subfase === 'vraag') {
                         ronde4Subfase = 'antwoord_fragment';
                         vraagIsActief = false;
+                        zendRonde4Subfase(huidigeVraagIndex, 'antwoord_fragment');
                         renderHostScherm();
                     } else {
                         volgendeVraag();
@@ -1201,6 +1207,7 @@
             if (ronde4Subfase === 'fragment' || ronde4Subfase === null) {
                 ronde4Subfase = 'vraag';
                 vraagIsActief = false;
+                zendRonde4Subfase(huidigeVraagIndex, 'vraag');
                 setTimeout(() => { vraagIsActief = true; }, 800);
                 renderHostScherm();
                 return;
@@ -1208,6 +1215,7 @@
             if (ronde4Subfase === 'vraag' && huidige.videoAntwoord) {
                 ronde4Subfase = 'antwoord_fragment';
                 vraagIsActief = false;
+                zendRonde4Subfase(huidigeVraagIndex, 'antwoord_fragment');
                 renderHostScherm();
                 return;
             }
@@ -1726,6 +1734,7 @@
         // Zorg dat een video-vraag altijd bij 'fragment' start als ronde4Subfase nog niet is gezet
         if (huidige.videoVraag && ronde4Subfase === null) {
             ronde4Subfase = 'fragment';
+            zendRonde4Subfase(huidigeVraagIndex, 'fragment');
         }
 
         // Stap 1 bij Ronde 4 video-vragen: eerst fragment/scène tonen zonder vraag en zonder antwoordtimer
@@ -1768,7 +1777,7 @@
                 </div>
 
                 <div class="film-box">
-                    <div class="film-context">🎬 Het hele fragment: ${huidige.juist}</div>
+                    <div class="film-context">🎬 Hele fragment</div>
                     <video id="host-film-speler" class="film-video" src="${huidige.videoAntwoord}" controls preload="metadata"></video>
                     <div class="film-knoppen">
                         <button type="button" class="btn-film" onclick="speelFilm('${huidige.videoAntwoord}')">▶️ Start hele fragment</button>
@@ -1835,4 +1844,4 @@
 </script>
 
 </body>
-</html>
+</html>s
