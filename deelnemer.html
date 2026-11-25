@@ -937,6 +937,7 @@
             }
         }
         else if (huidige.type === "volgorde") {
+            const isRonde4Volgorde = index === 10 || index === 11;
             const volgordeOpties = index === 10 ? [
                 "A) The Nightmare Before Christmas",
                 "B) Home Alone",
@@ -963,14 +964,20 @@
                 gebiedEl.innerHTML = "";
                 volgordeOpties.forEach((optie, optieIndex) => {
                     const div = document.createElement("div");
-                    div.className = "volgorde-item";
+                    div.className = isRonde4Volgorde ? `btn btn-optie-${optieIndex % 4}` : "volgorde-item";
                     if (isVerstuurd) div.classList.add("disabled");
                     
                     let positie = geselecteerdeVolgorde.indexOf(optieIndex);
                     if (positie !== -1) {
                         div.classList.add("selected");
-                        div.innerText = `${optie} (Stap ${positie + 1})`;
+                        if (isRonde4Volgorde) {
+                            div.style.outline = "3px solid #fef3c7";
+                            div.innerText = `${optie} (${positie + 1}.)`;
+                        } else {
+                            div.innerText = `${optie} (Stap ${positie + 1})`;
+                        }
                     } else {
+                        if (isRonde4Volgorde) div.style.outline = "none";
                         div.innerText = optie;
                     }
 
