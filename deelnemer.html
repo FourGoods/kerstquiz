@@ -346,7 +346,17 @@
         { type: "keuze", juist: "Waar", ronde: 1 },
         { type: "keuze", juist: "Niet waar", ronde: 1 },
 
-        // Ronde 5 (index 8 t/m 15)
+        // Ronde 4 (index 8 t/m 15)
+        { type: "keuze", juist: "C) Scrooge begint samen met Mrs. Dilber te dansen.", ronde: 4 },
+        { type: "keuze", juist: "C) Marv krijgt een lading veren in zijn gezicht.", ronde: 4 },
+        { type: "volgorde", juist: "B -> A -> D -> C", ronde: 4 },
+        { type: "volgorde", juist: "A -> B -> C -> D", ronde: 4 },
+        { type: "keuze", juist: "C) The Santa Clause", ronde: 4 },
+        { type: "keuze", juist: "A) Red One", ronde: 4 },
+        { type: "keuze", juist: "D) How the Grinch Stole Christmas", ronde: 4 },
+        { type: "keuze", juist: "B) Jingle Jangle: A Christmas Journey", ronde: 4 },
+
+        // Ronde 5 (index 16 t/m 23)
         { type: "tekst", juist: "Stille Nacht", ronde: 5 },
         { type: "tekst", juist: "The Polar Express", ronde: 5 },
         { type: "keuze", juist: "O) Met de overige letters kan het woord 'kaars' gevormd worden.", ronde: 5 },
@@ -356,7 +366,7 @@
         { type: "groepen", juist: "Rendieren: Blitzen, Vixen, Dasher | Kerstverhaal: Stal, Herberg, Ster | Kerstliedjes: Jingle Bells, Stille Nacht, Last Christmas", ronde: 5 },
         { type: "groepen", juist: "Kerstfilms: Home Alone, Elf, The Polar Express | Mopperkonten: Grinch, Scrooge, Jack Frost | Wijzen: Goud, Wierook, Mirre", ronde: 5 },
 
-        // Ronde 6 (index 16 t/m 23)
+        // Ronde 6 (index 24 t/m 31)
         { type: "keuze", juist: "B) Neurenberg, Duitsland (De Christkindlesmarkt)", ronde: 6 },
         { type: "keuze", juist: "C) New York City, Verenigde Staten (De Rockefeller Center Christmas Tree)", ronde: 6 },
         { type: "keuze", juist: "A) Japan", ronde: 6 },
@@ -366,7 +376,7 @@
         { type: "keuze", juist: "B) Rusland", ronde: 6 },
         { type: "keuze", juist: "C) Australië", ronde: 6 },
 
-        // Ronde 7 (index 24 t/m 31)
+        // Ronde 7 (index 32 t/m 39)
         { type: "tekst", juist: "Kerst", ronde: 7 },
         { type: "tekst", juist: "Sneeuw", ronde: 7 },
         { type: "boodschappen", juist: "1. Stokbrood, 2. Roomboter, 3. Champignons, 4. Champagne, 5. Gourmetvlees, 6. Aardappelen, 7. Glühwein, 8. Brie", ronde: 7 },
@@ -376,7 +386,7 @@
         { type: "emoticons_geheugen", juist: "🌟 🍷 🛷 🎶", ronde: 7 },
         { type: "emoticons_geheugen", juist: "🥂 🧣 👼 🎺", ronde: 7 },
 
-        // Ronde 8 (index 32 t/m 43)
+        // Ronde 8 (index 40 t/m 51)
         { type: "getal", juist: "2.500.000", ronde: 8 },
         { type: "getal", juist: "€325", ronde: 8 },
         { type: "volgorde", juist: "B -> D -> C -> A", ronde: 8 },
@@ -520,65 +530,76 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            case 8: return vergelijkMetSpelfout(a, "Stille Nacht");
-            case 9: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "De Polar Express");
-            case 10: return a.startsWith("o") || a.includes("kaars");
-            case 11: return a.startsWith("a") || a.includes("slinger");
-            case 12: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
-            case 13: return vergelijkMetSpelfout(a, "rendieren") || vergelijkMetSpelfout(a, "rendier");
-            case 14: return controleerGroepen(a, [
+            // Ronde 4 (Index 8 t/m 15)
+            case 8: return a.startsWith("c") || a.includes("dansen");
+            case 9: return a.startsWith("c") || a.includes("veren");
+            case 10: return a.replace(/[^a-z]/gi, '').toLowerCase() === "badc";
+            case 11: return a.replace(/[^a-z]/gi, '').toLowerCase() === "abcd";
+            case 12: return a.startsWith("c") || a.includes("santa clause");
+            case 13: return a.startsWith("a") || a.includes("red one");
+            case 14: return a.startsWith("d") || a.includes("grinch");
+            case 15: return a.startsWith("b") || a.includes("jingle jangle");
+
+            // Ronde 5 (Index 16 t/m 23)
+            case 16: return vergelijkMetSpelfout(a, "Stille Nacht");
+            case 17: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "De Polar Express");
+            case 18: return a.startsWith("o") || a.includes("kaars");
+            case 19: return a.startsWith("a") || a.includes("slinger");
+            case 20: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
+            case 21: return vergelijkMetSpelfout(a, "rendieren") || vergelijkMetSpelfout(a, "rendier");
+            case 22: return controleerGroepen(a, [
                 ["blitzen", "vixen", "dasher"],
                 ["stal", "herberg", "ster"],
                 ["jingle bells", "stille nacht", "last christmas"]
             ]);
-            case 15: return controleerGroepen(a, [
+            case 23: return controleerGroepen(a, [
                 ["home alone", "elf", "the polar express"],
                 ["grinch", "scrooge", "jack frost"],
                 ["goud", "wierook", "mirre"]
             ]);
 
-            // Ronde 6 (Index 16 t/m 23)
-            case 16: return a.startsWith("b") || a.includes("neurenberg");
-            case 17: return a.startsWith("c") || a.includes("new york");
-            case 18: return a.startsWith("a") || a.includes("japan");
-            case 19: return a.startsWith("d") || a.includes("ijsland");
-            case 20: return a.startsWith("b") || a.includes("italië") || a.includes("italie");
-            case 21: return a.startsWith("b") || a.includes("duitsland");
-            case 22: return a.startsWith("b") || a.includes("rusland");
-            case 23: return a.startsWith("c") || a.includes("australië") || a.includes("australie");
+            // Ronde 6 (Index 24 t/m 31)
+            case 24: return a.startsWith("b") || a.includes("neurenberg");
+            case 25: return a.startsWith("c") || a.includes("new york");
+            case 26: return a.startsWith("a") || a.includes("japan");
+            case 27: return a.startsWith("d") || a.includes("ijsland");
+            case 28: return a.startsWith("b") || a.includes("italië") || a.includes("italie");
+            case 29: return a.startsWith("b") || a.includes("duitsland");
+            case 30: return a.startsWith("b") || a.includes("rusland");
+            case 31: return a.startsWith("c") || a.includes("australië") || a.includes("australie");
 
-            // Ronde 7 (Index 24 t/m 31)
-            case 24: return vergelijkMetSpelfout(a, "kerst");
-            case 25: return vergelijkMetSpelfout(a, "sneeuw");
-            case 26: return a === "stokbrood, roomboter, champignons, champagne, gourmetvlees, aardappelen, glühwein, brie";
-            case 27: return a === "kerststol, rollade, zalm, bladerdeeg, wijn, satésaus, krieltjes, komkommer";
-            case 28: return a.replace(/\s+/g, '') === "mistletoe";
-            case 29: return a.replace(/\s+/g, '') === "arrenslee";
-            case 30: return controleerEmoticonSelectie(antw, ["🌟", "🍷", "🛷", "🎶"]);
-            case 31: return controleerEmoticonSelectie(antw, ["🥂", "🧣", "👼", "🎺"]);
+            // Ronde 7 (Index 32 t/m 39)
+            case 32: return vergelijkMetSpelfout(a, "kerst");
+            case 33: return vergelijkMetSpelfout(a, "sneeuw");
+            case 34: return a === "stokbrood, roomboter, champignons, champagne, gourmetvlees, aardappelen, glühwein, brie";
+            case 35: return a === "kerststol, rollade, zalm, bladerdeeg, wijn, satésaus, krieltjes, komkommer";
+            case 36: return a.replace(/\s+/g, '') === "mistletoe";
+            case 37: return a.replace(/\s+/g, '') === "arrenslee";
+            case 38: return controleerEmoticonSelectie(antw, ["🌟", "🍷", "🛷", "🎶"]);
+            case 39: return controleerEmoticonSelectie(antw, ["🥂", "🧣", "👼", "🎺"]);
 
-            // Ronde 8 (Index 32 t/m 43)
-            case 32:
+            // Ronde 8 (Index 40 t/m 51)
+            case 40:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 33:
+            case 41:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 34: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 35: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 36: return a.includes("waar") && !a.includes("niet");
-            case 37: return a.includes("niet waar");
-            case 38:
+            case 42: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 43: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 44: return a.includes("waar") && !a.includes("niet");
+            case 45: return a.includes("niet waar");
+            case 46:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 39:
+            case 47:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 40: return a.startsWith("c") || a.includes("drenthe");
-            case 41: return a.startsWith("c") || a.includes("23");
-            case 42: return a.startsWith("a") || a.includes("44,7");
-            case 43: return a.startsWith("c") || a.includes("30–40");
+            case 48: return a.startsWith("c") || a.includes("drenthe");
+            case 49: return a.startsWith("c") || a.includes("23");
+            case 50: return a.startsWith("a") || a.includes("44,7");
+            case 51: return a.startsWith("c") || a.includes("30–40");
             default: return false;
         }
     }
@@ -660,15 +681,15 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 5...</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 1: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 4...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
         }
 
-        // Tussenoverzicht na Ronde 5 (speciale code -105)
-        if (index === -105) {
-            statusEl.innerText = "✨ RESULTATEN RONDE 5 ✨";
+        // Tussenoverzicht na Ronde 4 (speciale code -104)
+        if (index === -104) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 4 (FILMRONDE) ✨";
             titelEl.style.display = "none";
 
             let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
@@ -690,15 +711,15 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 5: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 6...</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 4: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 5...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
         }
 
-        // Tussenoverzicht na Ronde 6 (speciale code -106)
-        if (index === -106) {
-            statusEl.innerText = "✨ RESULTATEN RONDE 6 (KERST WERELDWIJD) ✨";
+        // Tussenoverzicht na Ronde 5 (speciale code -105)
+        if (index === -105) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 5 ✨";
             titelEl.style.display = "none";
 
             let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
@@ -720,15 +741,15 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
-            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 6: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 7...</p>`;
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 5: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 6...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
             return;
         }
 
-        // Tussenoverzicht na Ronde 7 (speciale code -107)
-        if (index === -107) {
-            statusEl.innerText = "✨ RESULTATEN RONDE 7 (SPELRONDE) ✨";
+        // Tussenoverzicht na Ronde 6 (speciale code -106)
+        if (index === -106) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 6 (KERST WERELDWIJD) ✨";
             titelEl.style.display = "none";
 
             let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
@@ -750,6 +771,36 @@
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
             }
+            overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 6: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 7...</p>`;
+            
+            gebiedEl.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Tussenoverzicht na Ronde 7 (speciale code -107)
+        if (index === -107) {
+            statusEl.innerText = "✨ RESULTATEN RONDE 7 (SPELRONDE) ✨";
+            titelEl.style.display = "none";
+
+            let mijnAntwoorden = serverAntwoorden[mijnNaam] || {};
+            let rondeGoed = 0;
+            let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
+            
+            for (let vIdx = 32; vIdx < 40; vIdx++) {
+                let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
+                let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
+                if (goed) rondeGoed++;
+
+                let icoon = goed ? "✅ Goed" : "❌ Fout";
+                let achtergrond = goed ? "#14532d" : "#7f1d1d";
+                let randKleur = goed ? "#4ade80" : "#f87171";
+
+                overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
+                    <strong>Vraag ${vIdx - 31}:</strong> ${icoon}<br>
+                    Jouw antwoord: <strong>${antw}</strong><br>
+                    <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
+                </div>`;
+            }
             overzichtHtml += `</div><p style='margin-top:12px; font-weight:900; font-size:16px; color:var(--accent-gold); margin-bottom: 0;'>Score Ronde 7: ${rondeGoed} / 8 goed! 🌟</p><p style='color:var(--text-muted); font-size:13px; margin-top:8px;'>Wacht op de host om door te gaan naar Ronde 8...</p>`;
             
             gebiedEl.innerHTML = overzichtHtml;
@@ -764,7 +815,7 @@
             let totaalGoed = 0;
             let overzichtHtml = "<div style='max-height:300px; overflow-y:auto; padding-right:5px;'>";
             
-            for (let vIdx = 32; vIdx < vragenData.length; vIdx++) {
+            for (let vIdx = 40; vIdx < vragenData.length; vIdx++) {
                 let antw = mijnAntwoorden[vIdx] !== undefined ? mijnAntwoorden[vIdx] : "<em>Geen antwoord</em>";
                 let goed = isAntwoordJuistDeelnemer(vIdx, mijnAntwoorden[vIdx]);
                 if (goed) totaalGoed++;
@@ -774,7 +825,7 @@
                 let randKleur = goed ? "#4ade80" : "#f87171";
 
                 overzichtHtml += `<div class="antwoord-item-einde" style="background-color: ${achtergrond}; color: #fff; border: 2px solid ${randKleur};">
-                    <strong>Vraag ${vIdx - 31}:</strong> ${icoon}<br>
+                    <strong>Vraag ${vIdx - 39}:</strong> ${icoon}<br>
                     Jouw antwoord: <strong>${antw}</strong><br>
                     <span style="color: #cbd5e1; font-size: 11px; font-weight:600;">Juist antwoord: ${vragenData[vIdx].juist}</span>
                 </div>`;
@@ -789,9 +840,10 @@
 
         const huidige = vragenData[index];
         let vraagNummerInRonde = huidige.ronde === 1 ? index + 1 :
-                                 (huidige.ronde === 5 ? index - 7 :
-                                 (huidige.ronde === 6 ? index - 15 :
-                                 (huidige.ronde === 7 ? index - 23 : index - 31)));
+                                 (huidige.ronde === 4 ? index - 7 :
+                                 (huidige.ronde === 5 ? index - 15 :
+                                 (huidige.ronde === 6 ? index - 23 :
+                                 (huidige.ronde === 7 ? index - 31 : index - 39))));
         let totaalInRonde = huidige.ronde === 8 ? 12 : 8;
         statusEl.innerText = `SPELER: ${mijnNaam} | RONDE ${huidige.ronde} | VRAAG ${vraagNummerInRonde} / ${totaalInRonde}`;
         gebiedEl.innerHTML = "";
@@ -831,22 +883,38 @@
                 2: ["A) Mexico", "B) Zuid-Afrika", "C) India", "D) Spanje"],
                 6: ["Waar", "Niet waar"],
                 7: ["Waar", "Niet waar"],
-                10: ["S", "A", "O", "K", "R", "A"],
-                11: ["G", "A", "L", "I", "N", "E", "R", "S"],
-                16: ["A) Wenen, Oostenrijk", "B) Neurenberg, Duitsland", "C) Praag, Tsjechië", "D) Straatsburg, Frankrijk"],
-                17: ["A) Grote Markt, Antwerpen", "B) Trafalgar Square, Londen", "C) New York City, Verenigde Staten", "D) Federation Square, Melbourne"],
-                18: ["A) Japan", "B) China", "C) Zuid-Korea", "D) Singapore"],
-                19: ["A) Noorwegen", "B) Nieuw-Zeeland", "C) Groenland", "D) Ijsland"],
-                20: ["A) Zwitserland", "B) Italië", "C) Frankrijk", "D) Spanje"],
-                21: ["A) Oostenrijk", "B) Duitsland", "C) Zwitserland", "D) België"],
-                22: ["A) Griekenland", "B) Rusland", "C) Italië", "D) Portugal"],
-                23: ["A) Canada", "B) Mexico", "C) Australië", "D) Japan"],
-                36: ["Waar", "Niet waar"],
-                37: ["Waar", "Niet waar"],
-                40: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
-                41: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
-                42: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
-                43: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
+                8: [
+                    "A) Scrooge begint samen met Mrs. Dilber te zingen.",
+                    "B) Scrooge begint boos tegen Mrs. Dilber te schreeuwen.",
+                    "C) Scrooge begint samen met Mrs. Dilber te dansen.",
+                    "D) Scrooge loopt boos weg."
+                ],
+                9: [
+                    "A) Marv krijgt een zware zak over zijn hoofd.",
+                    "B) Marv wordt geraakt door een vallende verfemmer.",
+                    "C) Marv krijgt een lading veren in zijn gezicht.",
+                    "D) Marv krijgt een emmer lijm over zich heen."
+                ],
+                12: ["A) A Christmas Story", "B) Home Alone 2", "C) The Santa Clause", "D) Christmas with the Kranks"],
+                13: ["A) Red One", "B) Falling for Christmas", "C) Candy Cane Lane", "D) Hot Frosty"],
+                14: ["A) The Nightmare Before Christmas", "B) Arthur Christmas", "C) The Santa Clause", "D) How the Grinch Stole Christmas"],
+                15: ["A) The Christmas Chronicles", "B) Jingle Jangle: A Christmas Journey", "C) The Nutcracker and the Four Realms", "D) A Boy Called Christmas"],
+                18: ["S", "A", "O", "K", "R", "A"],
+                19: ["G", "A", "L", "I", "N", "E", "R", "S"],
+                24: ["A) Wenen, Oostenrijk", "B) Neurenberg, Duitsland", "C) Praag, Tsjechië", "D) Straatsburg, Frankrijk"],
+                25: ["A) Grote Markt, Antwerpen", "B) Trafalgar Square, Londen", "C) New York City, Verenigde Staten", "D) Federation Square, Melbourne"],
+                26: ["A) Japan", "B) China", "C) Zuid-Korea", "D) Singapore"],
+                27: ["A) Noorwegen", "B) Nieuw-Zeeland", "C) Groenland", "D) Ijsland"],
+                28: ["A) Zwitserland", "B) Italië", "C) Frankrijk", "D) Spanje"],
+                29: ["A) Oostenrijk", "B) Duitsland", "C) Zwitserland", "D) België"],
+                30: ["A) Griekenland", "B) Rusland", "C) Italië", "D) Portugal"],
+                31: ["A) Canada", "B) Mexico", "C) Australië", "D) Japan"],
+                44: ["Waar", "Niet waar"],
+                45: ["Waar", "Niet waar"],
+                48: ["A) Zuid-Holland", "B) Friesland", "C) Drenthe", "D) Noord-Holland"],
+                49: ["A) 21 december", "B) 22 december", "C) 23 december", "D) 24 december"],
+                50: ["A) 44,7 meter", "B) 64,6 meter", "C) 53,4 meter", "D) 71,2 meter"],
+                51: ["A) 10–20 dagen", "B) 20–30 dagen", "C) 30–40 dagen", "D) 40–50 dagen"]
             };
 
             let opties = optiesMap[index] || [];
@@ -869,7 +937,17 @@
             }
         }
         else if (huidige.type === "volgorde") {
-            const volgordeOpties = index === 34 ? [
+            const volgordeOpties = index === 10 ? [
+                "A) The Nightmare Before Christmas",
+                "B) Home Alone",
+                "C) Love Actually",
+                "D) Jingle All the Way"
+            ] : index === 11 ? [
+                "A) Arthur Christmas",
+                "B) Last Christmas",
+                "C) 8-Bit Christmas",
+                "D) Family Switch"
+            ] : index === 42 ? [
                 "A) Rudolph het roodneuzige rendier...",
                 "B) In een gedicht verschijnen rendieren...",
                 "C) Coca-Cola lanceert reclamecampagne...",
@@ -932,7 +1010,7 @@
             updateVolgordeUI();
         }
         else if (huidige.type === "groepen") {
-            let woorden = index === 14 ? [
+            let woorden = index === 22 ? [
                 "BLITZEN", "STILLE NACHT", "HERBERG",
                 "VIXEN", "STAL", "LAST CHRISTMAS",
                 "DASHER", "JINGLE BELLS", "STER"
@@ -1001,10 +1079,10 @@
             updateGroepenUI();
         }
         else if (huidige.type === "boodschappen") {
-            const origineleLijst = index === 26
+            const origineleLijst = index === 34
                 ? ["Stokbrood", "Roomboter", "Champignons", "Champagne", "Gourmetvlees", "Aardappelen", "Glühwein", "Brie"]
                 : ["Kerststol", "Rollade", "Zalm", "Bladerdeeg", "Wijn", "Satésaus", "Krieltjes", "Komkommer"];
-            let huidigeVolgorde = index === 26
+            let huidigeVolgorde = index === 34
                 ? ["Champagne", "Brie", "Stokbrood", "Aardappelen", "Roomboter", "Glühwein", "Champignons", "Gourmetvlees"]
                 : ["Bladerdeeg", "Komkommer", "Rollade", "Krieltjes", "Kerststol", "Satésaus", "Zalm", "Wijn"];
 
@@ -1117,7 +1195,7 @@
             }, 1000);
         }
         else if (huidige.type === "anagram") {
-            const letters = index === 28
+            const letters = index === 36
                 ? ["T", "E", "M", "L", "I", "E", "S", "T", "O"]
                 : ["R", "E", "S", "E", "N", "A", "L", "E", "R"];
             let geplaatsteIndices = [];
@@ -1198,10 +1276,10 @@
             renderAnagramUI();
         }
         else if (huidige.type === "emoticons_geheugen") {
-            const emoticons12 = index === 30
+            const emoticons12 = index === 38
                 ? ["🎄", "⛄", "🦌", "🎁", "🔔", "🧦", "🕯️", "🍪", "⭐", "🎅", "❄️", "🎀"]
                 : ["🎅", "🍪", "🎀", "🎄", "⭐", "🧦", "⛄", "🕯️", "❄️", "🔔", "🦌", "🎁"];
-            const emoticons16 = index === 30
+            const emoticons16 = index === 38
                 ? ["🎄", "🌟", "⛄", "🍷", "🦌", "🎁", "🔔", "🧦", "🛷", "🕯️", "🍪", "⭐", "🎅", "❄️", "🎀", "🎶"]
                 : ["🎅", "🍪", "🎀", "🥂", "🎄", "🧣", "⭐", "🧦", "⛄", "🕯️", "❄️", "👼", "🔔", "🎺", "🦌", "🎁"];
 
