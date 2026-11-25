@@ -288,11 +288,26 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         }
 
+        .ronde4-png-afbeelding {
+            width: 100%;
+            max-width: 100%;
+            max-height: 360px;
+            height: auto;
+            object-fit: contain;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 14px;
+            border: 2px solid var(--card-border);
+            margin: 8px 0 16px 0;
+            padding: 6px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
         .film-box {
             background: rgba(0, 0, 0, 0.35);
             border: 2px solid var(--card-border);
             border-radius: 16px;
-            padding: 16px;
+            padding: 18px;
             margin: 10px 0 16px 0;
             text-align: center;
         }
@@ -301,14 +316,14 @@
             border: 1px solid rgba(245, 158, 11, 0.5);
             color: #fef3c7;
             border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 14px;
+            padding: 12px 16px;
+            font-size: 15px;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
         .film-video {
             width: 100%;
-            max-height: 300px;
+            max-height: 360px;
             border-radius: 12px;
             background: #000;
             border: 1px solid rgba(212, 175, 55, 0.4);
@@ -318,15 +333,15 @@
             flex-wrap: wrap;
             gap: 10px;
             justify-content: center;
-            margin-top: 12px;
+            margin-top: 14px;
         }
         .btn-film {
             background: #193829;
             color: var(--accent-gold);
             border: 2px solid var(--card-border);
             border-radius: 12px;
-            padding: 10px 18px;
-            font-size: 14px;
+            padding: 11px 20px;
+            font-size: 15px;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.15s ease;
@@ -565,6 +580,7 @@
         // --- RONDE 4 (Index 8 t/m 15) ---
         {
             ronde: 4,
+            vraagNrInRonde: 1,
             titel: "Vraag 1:\nWat gebeurt er in het vervolg van het vorige fragment uit de kerstfilm A Christmas Carol?",
             opties: [
                 "A) Scrooge begint samen met Mrs. Dilber te zingen.",
@@ -575,11 +591,12 @@
             juist: "C) Scrooge begint samen met Mrs. Dilber te dansen.",
             videoVraag: "elementen/ronde_4/ronde4_vraag1_video_a_christmas_carol.mov",
             videoAntwoord: "elementen/ronde_4/ronde4_antwoord1_video_a_christmas_carol.mov",
-            context: "Zorg ervoor dat het geluid aan staat en bekijk het volgende fragment. Start het fragment, ga hierna naar de vraag en laat nadat iedereen heeft geantwoord het hele fragment zien.",
+            context: "Zorg ervoor dat het geluid aan staat en bekijk het volgende fragment.",
             categorie: "Filmronde"
         },
         {
             ronde: 4,
+            vraagNrInRonde: 2,
             titel: "Vraag 2:\nWat gebeurt er in het vervolg van het vorige fragment uit de kerstfilm Home Alone?",
             opties: [
                 "A) Marv krijgt een zware zak over zijn hoofd.",
@@ -590,11 +607,12 @@
             juist: "C) Marv krijgt een lading veren in zijn gezicht.",
             videoVraag: "elementen/ronde_4/ronde4_vraag2_video_home_alone.mov",
             videoAntwoord: "elementen/ronde_4/ronde4_antwoord2_video_home_alone.mov",
-            context: "Zorg ervoor dat het geluid aan staat en bekijk het volgende fragment. Start het fragment, ga hierna naar de vraag en laat nadat iedereen heeft geantwoord het hele fragment zien.",
+            context: "Zorg ervoor dat het geluid aan staat en bekijk het volgende fragment.",
             categorie: "Filmronde"
         },
         {
             ronde: 4,
+            vraagNrInRonde: 3,
             titel: "Vraag 3:\nZet deze kerstfilms in de juiste chronologische volgorde:",
             opties: [
                 "A) The Nightmare Before Christmas",
@@ -604,10 +622,12 @@
             ],
             juist: "B (1990) → A (1993) → D (1996) → C (2003)",
             afbeelding: "elementen/ronde_4/ronde4_vraag3_visueel_voorbeeld.png",
+            isGrotePng: true,
             categorie: "Filmronde"
         },
         {
             ronde: 4,
+            vraagNrInRonde: 4,
             titel: "Vraag 4:\nZet deze kerstfilms in de juiste chronologische volgorde:",
             opties: [
                 "A) Arthur Christmas",
@@ -617,10 +637,12 @@
             ],
             juist: "A (2011) → B (2019) → C (2021) → D (2023)",
             afbeelding: "elementen/ronde_4/ronde4_vraag4_visueel_voorbeeld.png",
+            isGrotePng: true,
             categorie: "Filmronde"
         },
         {
             ronde: 4,
+            vraagNrInRonde: 5,
             titel: "Vraag 5:\nUit welke kerstfilm komt de scène die jullie zojuist gezien hebben?",
             opties: [
                 "A) A Christmas Story",
@@ -630,11 +652,12 @@
             ],
             juist: "C) The Santa Clause",
             videoVraag: "elementen/ronde_4/ronde4_vraag5_video_the_santa_clause.mov",
-            context: "Zorg ervoor dat het geluid aan staat en bekijk de volgende scène. Start het fragment en ga hierna naar de vraag.",
+            context: "Zorg ervoor dat het geluid aan staat en bekijk de volgende scène.",
             categorie: "Filmronde"
         },
         {
             ronde: 4,
+            vraagNrInRonde: 6,
             titel: "Vraag 6:\nUit welke kerstfilm komt de scène die jullie zojuist gezien hebben?",
             opties: [
                 "A) Red One",
@@ -644,11 +667,12 @@
             ],
             juist: "A) Red One",
             videoVraag: "elementen/ronde_4/ronde4_vraag6_video_red_one.mov",
-            context: "Zorg ervoor dat het geluid aan staat en bekijk de volgende scène. Start het fragment en ga hierna naar de vraag.",
+            context: "Zorg ervoor dat het geluid aan staat en bekijk de volgende scène.",
             categorie: "Filmronde"
         },
         {
             ronde: 4,
+            vraagNrInRonde: 7,
             titel: "Vraag 7:\nVan welke kerstfilm is dit het hoofdpersonage?",
             opties: [
                 "A) The Nightmare Before Christmas",
@@ -662,6 +686,7 @@
         },
         {
             ronde: 4,
+            vraagNrInRonde: 8,
             titel: "Vraag 8:\nVan welke kerstfilm is dit het hoofdpersonage?",
             opties: [
                 "A) The Christmas Chronicles",
@@ -1012,6 +1037,9 @@
     let quizAntwoorden = {};
     let vraagIsActief = false;
 
+    // Subfase voor Ronde 4 filmvragen: 'fragment' -> 'vraag' -> 'antwoord_fragment'
+    let ronde4Subfase = null;
+
     let timerInterval = null;
     let overgeblevenTijd = 45;
 
@@ -1022,8 +1050,10 @@
     function speelFilm(srcPad) {
         const speler = document.getElementById("host-film-speler");
         if (!speler) return;
-        speler.src = srcPad;
-        speler.load();
+        if (srcPad) {
+            speler.src = srcPad;
+            speler.load();
+        }
         speler.play().catch(() => {});
     }
 
@@ -1031,14 +1061,21 @@
         huidigeVraagIndex = data.huidigeVraagIndex;
         toonLeaderboardStap = data.toonEindstand;
         actieveDeelnemers = data.actieveDeelnemers;
+        ronde4Subfase = null;
         renderHostScherm();
     });
 
     socket.on('zet-vraag', (nieuweIndex) => {
         huidigeVraagIndex = nieuweIndex;
         toonLeaderboardStap = false;
-        vraagIsActief = false;
-        setTimeout(() => { vraagIsActief = true; }, 800);
+        ronde4Subfase = null;
+        if (huidigeVraagIndex >= 0 && vragenData[huidigeVraagIndex] && vragenData[huidigeVraagIndex].videoVraag) {
+            ronde4Subfase = 'fragment';
+            vraagIsActief = false;
+        } else {
+            vraagIsActief = false;
+            setTimeout(() => { vraagIsActief = true; }, 800);
+        }
         renderHostScherm();
     });
 
@@ -1063,8 +1100,15 @@
 
             if (vraagIsActief && totaalDeelnemersCount > 0 && ingezondenCount >= totaalDeelnemersCount) {
                 if (timerInterval) clearInterval(timerInterval);
+                const huidige = vragenData[huidigeVraagIndex];
                 setTimeout(() => {
-                    volgendeVraag();
+                    if (huidige && huidige.videoAntwoord && ronde4Subfase === 'vraag') {
+                        ronde4Subfase = 'antwoord_fragment';
+                        vraagIsActief = false;
+                        renderHostScherm();
+                    } else {
+                        volgendeVraag();
+                    }
                 }, 1000);
             }
         }
@@ -1074,6 +1118,7 @@
         huidigeVraagIndex = -1;
         getoondOverzichtRonde = null;
         toonLeaderboardStap = false;
+        ronde4Subfase = null;
         actieveDeelnemers = [];
         quizAntwoorden = {};
         vraagIsActief = false;
@@ -1142,6 +1187,29 @@
 
     function volgendeVraag() {
         if (timerInterval) clearInterval(timerInterval);
+
+        const huidige = (huidigeVraagIndex >= 0 && huidigeVraagIndex < vragenData.length)
+            ? vragenData[huidigeVraagIndex]
+            : null;
+
+        // Bij video-vragen in Ronde 4: eerst fragment -> dan vraag -> (bij vraag 1 & 2) dan hele fragment na antwoord
+        if (huidige && huidige.videoVraag) {
+            if (ronde4Subfase === 'fragment') {
+                ronde4Subfase = 'vraag';
+                vraagIsActief = false;
+                setTimeout(() => { vraagIsActief = true; }, 800);
+                renderHostScherm();
+                return;
+            }
+            if (ronde4Subfase === 'vraag' && huidige.videoAntwoord) {
+                ronde4Subfase = 'antwoord_fragment';
+                vraagIsActief = false;
+                renderHostScherm();
+                return;
+            }
+        }
+
+        ronde4Subfase = null;
 
         if (huidigeVraagIndex === 7 && getoondOverzichtRonde !== 1) {
             getoondOverzichtRonde = 1;
@@ -1644,26 +1712,71 @@
         }
 
         const huidige = vragenData[huidigeVraagIndex];
-        
-        let mediaHtml = '';
-        if (huidige.videoVraag) {
-            let antwoordKnopHtml = huidige.videoAntwoord
-                ? `<button type="button" class="btn-film" onclick="speelFilm('${huidige.videoAntwoord}')">🎬 Bekijk hele fragment (antwoord)</button>`
-                : '';
-            mediaHtml = `
+        let vraagNr = huidige.ronde === 1 ? huidigeVraagIndex + 1 :
+                      (huidige.ronde === 4 ? huidigeVraagIndex - 7 :
+                      (huidige.ronde === 5 ? huidigeVraagIndex - 15 :
+                      (huidige.ronde === 6 ? huidigeVraagIndex - 23 :
+                      (huidige.ronde === 7 ? huidigeVraagIndex - 31 : huidigeVraagIndex - 39))));
+        let totaalNr = huidige.ronde === 8 ? 12 : 8;
+
+        // Stap 1 bij Ronde 4 video-vragen: eerst fragment/scène tonen zonder vraag en zonder antwoordtimer
+        if (huidige.videoVraag && ronde4Subfase === 'fragment') {
+            if (timerInterval) clearInterval(timerInterval);
+            hostContent.innerHTML = `
+                <div class="vraag-header-row">
+                    <div class="progress-box"><div class="progress-bar" style="width: 0%;"></div></div>
+                    <div class="vraag-titel-badge">
+                        <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${vraagNr} VAN ${totaalNr}</span>
+                        <span class="sub">${huidige.categorie} • Fragment</span>
+                    </div>
+                    <div class="timer-klok">🎬 <span id="timer-display">Film</span></div>
+                </div>
+
                 <div class="film-box">
                     <div class="film-context">🔊 ${huidige.context}</div>
                     <video id="host-film-speler" class="film-video" src="${huidige.videoVraag}" controls preload="metadata"></video>
                     <div class="film-knoppen">
                         <button type="button" class="btn-film" onclick="speelFilm('${huidige.videoVraag}')">▶️ Start fragment</button>
-                        ${antwoordKnopHtml}
                     </div>
                 </div>
+
+                <button class="btn-geel" onclick="volgendeVraag()">NAAR VRAAG ➔</button>
             `;
-        } else if (huidige.emoticons) {
+            return;
+        }
+
+        // Stap 3 bij Ronde 4 vragen 1 & 2: na beantwoorden het hele antwoordfragment tonen
+        if (huidige.videoAntwoord && ronde4Subfase === 'antwoord_fragment') {
+            if (timerInterval) clearInterval(timerInterval);
+            hostContent.innerHTML = `
+                <div class="vraag-header-row">
+                    <div class="progress-box"><div class="progress-bar" style="width: 100%;"></div></div>
+                    <div class="vraag-titel-badge">
+                        <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${vraagNr} VAN ${totaalNr}</span>
+                        <span class="sub">${huidige.categorie} • Hele fragment</span>
+                    </div>
+                    <div class="timer-klok">🎬 <span id="timer-display">Antwoord</span></div>
+                </div>
+
+                <div class="film-box">
+                    <div class="film-context">🎬 Het hele fragment: ${huidige.juist}</div>
+                    <video id="host-film-speler" class="film-video" src="${huidige.videoAntwoord}" controls preload="metadata"></video>
+                    <div class="film-knoppen">
+                        <button type="button" class="btn-film" onclick="speelFilm('${huidige.videoAntwoord}')">▶️ Start hele fragment</button>
+                    </div>
+                </div>
+
+                <button class="btn-geel" onclick="volgendeVraag()">VOLGENDE VRAAG ➔</button>
+            `;
+            return;
+        }
+        
+        let mediaHtml = '';
+        if (huidige.emoticons) {
             mediaHtml = `<div class="emoticon-display">${huidige.emoticons}</div>`;
         } else if (huidige.afbeelding) {
-            mediaHtml = `<img src="${huidige.afbeelding}" class="vraag-afbeelding" alt="Visueel Voorbeeld">`;
+            const imgClass = huidige.isGrotePng ? "ronde4-png-afbeelding" : "vraag-afbeelding";
+            mediaHtml = `<img src="${huidige.afbeelding}" class="${imgClass}" alt="Visueel Voorbeeld">`;
         }
         
         let optiesHtml = '';
@@ -1685,12 +1798,6 @@
                 `</div>`;
         }
 
-        let vraagNr = huidige.ronde === 1 ? huidigeVraagIndex + 1 :
-                      (huidige.ronde === 4 ? huidigeVraagIndex - 7 :
-                      (huidige.ronde === 5 ? huidigeVraagIndex - 15 :
-                      (huidige.ronde === 6 ? huidigeVraagIndex - 23 :
-                      (huidige.ronde === 7 ? huidigeVraagIndex - 31 : huidigeVraagIndex - 39))));
-        let totaalNr = huidige.ronde === 8 ? 12 : 8;
         let beginTijd = isGeheugenVraag(huidigeVraagIndex) ? 80 : 45;
 
         hostContent.innerHTML = `
