@@ -412,32 +412,28 @@
     let serverAntwoorden = {};
     let ronde4SubfaseDeelnemer = null;
 
+    function verwerkVraagPayload(payload) {
+        const idx = (payload && typeof payload === 'object') ? payload.index : payload;
+        const subfase = (payload && typeof payload === 'object') ? payload.subfase : null;
+        huidigeVraagIndex = idx;
+        ronde4SubfaseDeelnemer = (idx >= 0 && vragenData[idx] && vragenData[idx].heeftVideo)
+            ? (subfase || 'fragment')
+            : null;
+    }
+
     socket.on('update-status', (data) => {
-        huidigeVraagIndex = data.huidigeVraagIndex;
+        verwerkVraagPayload(data.huidigeVraagIndex);
         toonEindstandStatus = data.toonEindstand;
         if (data.alleAntwoorden) {
             serverAntwoorden = data.alleAntwoorden;
         }
-        ronde4SubfaseDeelnemer = (huidigeVraagIndex >= 0 && vragenData[huidigeVraagIndex] && vragenData[huidigeVraagIndex].heeftVideo)
-            ? 'fragment'
-            : null;
         toonDeelnemerVraag(huidigeVraagIndex);
     });
 
-    socket.on('zet-vraag', (nieuweIndex) => {
-        huidigeVraagIndex = nieuweIndex;
+    socket.on('zet-vraag', (payload) => {
+        verwerkVraagPayload(payload);
         toonEindstandStatus = false;
-        ronde4SubfaseDeelnemer = (nieuweIndex >= 0 && vragenData[nieuweIndex] && vragenData[nieuweIndex].heeftVideo)
-            ? 'fragment'
-            : null;
         toonDeelnemerVraag(huidigeVraagIndex);
-    });
-
-    socket.on('ronde4-subfase', (data) => {
-        if (data && data.vraagIndex === huidigeVraagIndex) {
-            ronde4SubfaseDeelnemer = data.subfase;
-            toonDeelnemerVraag(huidigeVraagIndex);
-        }
     });
 
     socket.on('update-ingezonden', (data) => {
@@ -866,7 +862,7 @@
         // Bij vragen 1, 2, 5 en 6 (met video) pas antwoorden tonen als de vraag met opties op het hostscherm staat
         if (huidige.heeftVideo && ronde4SubfaseDeelnemer !== 'vraag') {
             const wachtTekst = ronde4SubfaseDeelnemer === 'antwoord_fragment'
-                ? "🎬 Bekijk het hele fragment op het hostscherms..."
+                ? "🎬 Bekijk het hele fragment op het hostscherm..."
                 : "🎬 Bekijk eerst het fragment op het hostscherm. De vraag verschijnt zo!";
             gebiedEl.innerHTML = `<div class="wacht-box">${wachtTekst}</div>`;
             return;
