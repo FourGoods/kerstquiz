@@ -1057,25 +1057,29 @@
         speler.play().catch(() => {});
     }
 
+    function initialiseerSubfaseVoorVraag(idx) {
+        if (idx >= 0 && idx < vragenData.length && vragenData[idx] && vragenData[idx].videoVraag) {
+            ronde4Subfase = 'fragment';
+            vraagIsActief = false;
+        } else {
+            ronde4Subfase = null;
+            vraagIsActief = false;
+            setTimeout(() => { vraagIsActief = true; }, 800);
+        }
+    }
+
     socket.on('update-status', (data) => {
         huidigeVraagIndex = data.huidigeVraagIndex;
         toonLeaderboardStap = data.toonEindstand;
         actieveDeelnemers = data.actieveDeelnemers;
-        ronde4Subfase = null;
+        initialiseerSubfaseVoorVraag(huidigeVraagIndex);
         renderHostScherm();
     });
 
     socket.on('zet-vraag', (nieuweIndex) => {
         huidigeVraagIndex = nieuweIndex;
         toonLeaderboardStap = false;
-        ronde4Subfase = null;
-        if (huidigeVraagIndex >= 0 && vragenData[huidigeVraagIndex] && vragenData[huidigeVraagIndex].videoVraag) {
-            ronde4Subfase = 'fragment';
-            vraagIsActief = false;
-        } else {
-            vraagIsActief = false;
-            setTimeout(() => { vraagIsActief = true; }, 800);
-        }
+        initialiseerSubfaseVoorVraag(huidigeVraagIndex);
         renderHostScherm();
     });
 
@@ -1194,7 +1198,7 @@
 
         // Bij video-vragen in Ronde 4: eerst fragment -> dan vraag -> (bij vraag 1 & 2) dan hele fragment na antwoord
         if (huidige && huidige.videoVraag) {
-            if (ronde4Subfase === 'fragment') {
+            if (ronde4Subfase === 'fragment' || ronde4Subfase === null) {
                 ronde4Subfase = 'vraag';
                 vraagIsActief = false;
                 setTimeout(() => { vraagIsActief = true; }, 800);
@@ -1718,6 +1722,11 @@
                       (huidige.ronde === 6 ? huidigeVraagIndex - 23 :
                       (huidige.ronde === 7 ? huidigeVraagIndex - 31 : huidigeVraagIndex - 39))));
         let totaalNr = huidige.ronde === 8 ? 12 : 8;
+
+        // Zorg dat een video-vraag altijd bij 'fragment' start als ronde4Subfase nog niet is gezet
+        if (huidige.videoVraag && ronde4Subfase === null) {
+            ronde4Subfase = 'fragment';
+        }
 
         // Stap 1 bij Ronde 4 video-vragen: eerst fragment/scène tonen zonder vraag en zonder antwoordtimer
         if (huidige.videoVraag && ronde4Subfase === 'fragment') {
