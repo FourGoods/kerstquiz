@@ -231,6 +231,7 @@
             margin: 15px 0 12px 0;
             text-align: left;
             color: var(--text-light);
+            white-space: pre-line;
         }
 
         .opties-container {
@@ -577,7 +578,75 @@
             categorie: "Waar of Niet Waar" 
         },
 
-        // --- RONDE 4 (Index 8 t/m 15) ---
+        // --- RONDE 3 (Index 8 t/m 15) ---
+        {
+            ronde: 3,
+            titel: "Vraag 1:\nWelk kerstobject zie je op deze close-up foto?",
+            opties: [],
+            juist: "piek (kerstpiek is ook goed)",
+            afbeelding: "elementen/ronde_3/ronde3_vraag1_visueel_voorbeeld.jpg",
+            antwoordAfbeelding: "elementen/ronde_3/ronde3_antwoord1_visueel_voorbeeld.jpg",
+            categorie: "Close-up & Herkenning"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 2:\nWelk kerstobject zie je op deze close-up foto?",
+            opties: [],
+            juist: "peperkoekman of peperkoekmannetje of peperkoek man of peperkoek mannetje",
+            afbeelding: "elementen/ronde_3/ronde3_vraag2_visueel_voorbeeld.jpg",
+            antwoordAfbeelding: "elementen/ronde_3/ronde3_antwoord2_visueel_voorbeeld.jpg",
+            categorie: "Close-up & Herkenning"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 3:\nWelke celebrity zie je in de volgende kerstoufit? Vul voor- en achternaam in.",
+            opties: [],
+            juist: "Emma Watson",
+            afbeelding: "elementen/ronde_3/ronde3_vraag3_visueel_voorbeeld.jpg",
+            categorie: "Kerstoutfits"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 4:\nWelke celebrity zie je in de volgende kerstoufit? Vul voor- en achternaam in.",
+            opties: [],
+            juist: "John Legend",
+            afbeelding: "elementen/ronde_3/ronde3_vraag4_visueel_voorbeeld.jpg",
+            categorie: "Kerstoutfits"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 5:\nGlühwein is een warme wijn die vooral in Midden-Europa vlak voor kerst gedronken wordt op kerstmarkten. Benoem 3 kenmerkende ingrediënten.",
+            opties: ["A) Kaneel", "B) Rode wijn", "C) Kruidnagel", "D) Rum"],
+            juist: "D) Rum",
+            afbeelding: "elementen/ronde_3/ronde3_vraag5_visueel_voorbeeld.jpg",
+            categorie: "Kerstlekkernijen"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 6:\nKerststol is een traditioneel Nederlands kerstbrood dat al eeuwen gegeten wordt tijdens de feestdagen. Benoem 3 kenmerkende ingrediënten van een kerststol.",
+            opties: ["A) Marsepein", "B) Amandelspijs", "C) Sukade", "D) Roomboter"],
+            juist: "A) Marsepein",
+            afbeelding: "elementen/ronde_3/ronde3_vraag6_visueel_voorbeeld.jpg",
+            categorie: "Kerstlekkernijen"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 7:\nHoeveel kerstmanbaarden zie je op deze foto? Je mag er 15 vanaf zitten.",
+            opties: [],
+            juist: "114",
+            afbeelding: "elementen/ronde_3/ronde3_vraag7_visueel_voorbeeld.jpg",
+            categorie: "Tellen & Schatten"
+        },
+        {
+            ronde: 3,
+            titel: "Vraag 8:\nHoeveel volgroeide kerstbomen zie je op deze foto? Je mag er 15 vanaf zitten.",
+            opties: [],
+            juist: "103",
+            afbeelding: "elementen/ronde_3/ronde3_vraag8_visueel_voorbeeld.jpg",
+            categorie: "Tellen & Schatten"
+        },
+
+        // --- RONDE 4 (Index 16 t/m 23) ---
         {
             ronde: 4,
             vraagNrInRonde: 1,
@@ -699,7 +768,7 @@
             categorie: "Filmronde"
         },
 
-        // --- RONDE 5 (Index 16 t/m 23) ---
+        // --- RONDE 5 (Index 24 t/m 31) ---
         { 
             ronde: 5,
             titel: "Vraag 1:\nWelk kerstlied wordt hier uitgebeeld?", 
@@ -769,7 +838,7 @@
             categorie: "Verbanden Zoeken" 
         },
 
-        // --- RONDE 6 (Index 24 t/m 31) ---
+        // --- RONDE 6 (Index 32 t/m 39) ---
         { 
             ronde: 6,
             titel: "Vraag 1:\nWelke locatie zie je hier versierd voor Kerst?", 
@@ -835,7 +904,7 @@
             categorie: "Kerst Wereldwijd" 
         },
 
-        // --- RONDE 7 (Index 32 t/m 39) ---
+        // --- RONDE 7 (Index 40 t/m 47) ---
         {
             ronde: 7,
             titel: "Vraag 1:\nWelk overeenkomstig woord kan voor deze 3 woorden worden geplaatst?",
@@ -907,7 +976,7 @@
             categorie: "Spelronde • Emoticon Geheugen"
         },
 
-        // --- RONDE 8 (Index 40 t/m 51) ---
+        // --- RONDE 8 (Index 48 t/m 59) ---
         { 
             ronde: 8,
             titel: "Vraag 1:\nElk jaar in december stromen de tuincentra en kraampjes vol met kerstbomen. Maar hoeveel kerstbomen worden er jaarlijks ongeveer verkocht in Nederland? Je mag er 250.000 vanaf zitten.", 
@@ -1037,14 +1106,15 @@
     let quizAntwoorden = {};
     let vraagIsActief = false;
 
-    // Subfase voor Ronde 4 filmvragen: 'fragment' -> 'vraag' -> 'antwoord_fragment'
+    // Subfase voor Ronde 4 filmvragen ('fragment' -> 'vraag' -> 'antwoord_fragment') en Ronde 3 antwoordfoto ('vraag' -> 'antwoord_foto')
     let ronde4Subfase = null;
+    let ronde3AntwoordFotoActief = false;
 
     let timerInterval = null;
     let overgeblevenTijd = 45;
 
     function isGeheugenVraag(idx) {
-        return idx === 34 || idx === 35 || idx === 38 || idx === 39;
+        return idx === 42 || idx === 43 || idx === 46 || idx === 47;
     }
 
     function speelFilm(srcPad) {
@@ -1062,6 +1132,7 @@
     }
 
     function initialiseerSubfaseVoorVraag(idx, ontvangenSubfase) {
+        ronde3AntwoordFotoActief = false;
         if (idx >= 0 && idx < vragenData.length && vragenData[idx] && vragenData[idx].videoVraag) {
             ronde4Subfase = ontvangenSubfase || 'fragment';
             if (ronde4Subfase === 'vraag') {
@@ -1125,6 +1196,11 @@
                         vraagIsActief = false;
                         zendRonde4Subfase(huidigeVraagIndex, 'antwoord_fragment');
                         renderHostScherm();
+                    } else if (huidige && huidige.antwoordAfbeelding && !ronde3AntwoordFotoActief) {
+                        ronde3AntwoordFotoActief = true;
+                        vraagIsActief = false;
+                        zendRonde4Subfase(huidigeVraagIndex, 'antwoord_foto');
+                        renderHostScherm();
                     } else {
                         volgendeVraag();
                     }
@@ -1138,6 +1214,7 @@
         getoondOverzichtRonde = null;
         toonLeaderboardStap = false;
         ronde4Subfase = null;
+        ronde3AntwoordFotoActief = false;
         actieveDeelnemers = [];
         quizAntwoorden = {};
         vraagIsActief = false;
@@ -1169,38 +1246,46 @@
         }
     }
 
-    function startRonde4() {
+    function startRonde3() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
+        ronde3AntwoordFotoActief = false;
         huidigeVraagIndex = 8;
-        zendRonde4Subfase(8, 'fragment');
-    }
-
-    function startRonde5() {
-        if (timerInterval) clearInterval(timerInterval);
-        getoondOverzichtRonde = null;
-        huidigeVraagIndex = 16;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
-    function startRonde6() {
+    function startRonde4() {
+        if (timerInterval) clearInterval(timerInterval);
+        getoondOverzichtRonde = null;
+        huidigeVraagIndex = 16;
+        zendRonde4Subfase(16, 'fragment');
+    }
+
+    function startRonde5() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
         huidigeVraagIndex = 24;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
-    function startRonde7() {
+    function startRonde6() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
         huidigeVraagIndex = 32;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
-    function startRonde8() {
+    function startRonde7() {
         if (timerInterval) clearInterval(timerInterval);
         getoondOverzichtRonde = null;
         huidigeVraagIndex = 40;
+        socket.emit('volgende-vraag', huidigeVraagIndex);
+    }
+
+    function startRonde8() {
+        if (timerInterval) clearInterval(timerInterval);
+        getoondOverzichtRonde = null;
+        huidigeVraagIndex = 48;
         socket.emit('volgende-vraag', huidigeVraagIndex);
     }
 
@@ -1210,6 +1295,16 @@
         const huidige = (huidigeVraagIndex >= 0 && huidigeVraagIndex < vragenData.length)
             ? vragenData[huidigeVraagIndex]
             : null;
+
+        // Bij Ronde 3 vraag 1 en 2: na vraag (of wanneer iedereen heeft ingevuld) eerst de antwoordfoto tonen
+        if (huidige && huidige.antwoordAfbeelding && !ronde3AntwoordFotoActief) {
+            ronde3AntwoordFotoActief = true;
+            vraagIsActief = false;
+            zendRonde4Subfase(huidigeVraagIndex, 'antwoord_foto');
+            renderHostScherm();
+            return;
+        }
+        ronde3AntwoordFotoActief = false;
 
         // Bij video-vragen in Ronde 4: eerst fragment -> dan vraag -> (bij vraag 1 & 2) dan hele fragment na antwoord
         if (huidige && huidige.videoVraag) {
@@ -1239,28 +1334,35 @@
             return;
         }
 
-        if (huidigeVraagIndex === 15 && getoondOverzichtRonde !== 4) {
+        if (huidigeVraagIndex === 15 && getoondOverzichtRonde !== 3) {
+            getoondOverzichtRonde = 3;
+            socket.emit('volgende-vraag', -103);
+            renderHostScherm();
+            return;
+        }
+
+        if (huidigeVraagIndex === 23 && getoondOverzichtRonde !== 4) {
             getoondOverzichtRonde = 4;
             socket.emit('volgende-vraag', -104);
             renderHostScherm();
             return;
         }
 
-        if (huidigeVraagIndex === 23 && getoondOverzichtRonde !== 5) {
+        if (huidigeVraagIndex === 31 && getoondOverzichtRonde !== 5) {
             getoondOverzichtRonde = 5;
             socket.emit('volgende-vraag', -105);
             renderHostScherm();
             return;
         }
 
-        if (huidigeVraagIndex === 31 && getoondOverzichtRonde !== 6) {
+        if (huidigeVraagIndex === 39 && getoondOverzichtRonde !== 6) {
             getoondOverzichtRonde = 6;
             socket.emit('volgende-vraag', -106);
             renderHostScherm();
             return;
         }
 
-        if (huidigeVraagIndex === 39 && getoondOverzichtRonde !== 7) {
+        if (huidigeVraagIndex === 47 && getoondOverzichtRonde !== 7) {
             getoondOverzichtRonde = 7;
             socket.emit('volgende-vraag', -107);
             renderHostScherm();
@@ -1405,76 +1507,92 @@
             case 6: return a.includes("waar") && !a.includes("niet");
             case 7: return a.includes("niet waar");
 
-            // Ronde 4 (Index 8 t/m 15)
-            case 8: return a.startsWith("c") || a.includes("dansen");
-            case 9: return a.startsWith("c") || a.includes("veren");
-            case 10: return a.replace(/[^a-z]/gi, '').toLowerCase() === "badc";
-            case 11: return a.replace(/[^a-z]/gi, '').toLowerCase() === "abcd";
-            case 12: return a.startsWith("c") || a.includes("santa clause");
-            case 13: return a.startsWith("a") || a.includes("red one");
-            case 14: return a.startsWith("d") || a.includes("grinch");
-            case 15: return a.startsWith("b") || a.includes("jingle jangle");
+            // Ronde 3 (Index 8 t/m 15)
+            case 8: return vergelijkMetSpelfout(a, "piek") || vergelijkMetSpelfout(a, "kerstpiek") || a.includes("piek");
+            case 9: return ["peperkoekman", "peperkoekmannetje", "peperkoek man", "peperkoek mannetje"].some(opt => vergelijkMetSpelfout(a, opt));
+            case 10: return vergelijkMetSpelfout(a, "Emma Watson");
+            case 11: return vergelijkMetSpelfout(a, "John Legend");
+            case 12: return a.startsWith("d") || a.includes("rum");
+            case 13: return a.startsWith("a") || a.includes("marsepein");
+            case 14: {
+                let n7 = parseFloat(a.replace(/[^0-9.-]/g, ''));
+                return !isNaN(n7) && n7 >= (114 - 15) && n7 <= (114 + 15);
+            }
+            case 15: {
+                let n8 = parseFloat(a.replace(/[^0-9.-]/g, ''));
+                return !isNaN(n8) && n8 >= (103 - 15) && n8 <= (103 + 15);
+            }
 
-            // Ronde 5 (Index 16 t/m 23)
-            case 16: return vergelijkMetSpelfout(a, "Stille Nacht");
-            case 17: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "De Polar Express");
-            case 18: return a.startsWith("o") || a.includes("kaars");
-            case 19: return a.startsWith("a") || a.includes("slinger");
-            case 20: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
-            case 21: return vergelijkMetSpelfout(a, "rendieren") || vergelijkMetSpelfout(a, "rendier");
-            case 22: return controleerGroepen(a, [
+            // Ronde 4 (Index 16 t/m 23)
+            case 16: return a.startsWith("c") || a.includes("dansen");
+            case 17: return a.startsWith("c") || a.includes("veren");
+            case 18: return a.replace(/[^a-z]/gi, '').toLowerCase() === "badc";
+            case 19: return a.replace(/[^a-z]/gi, '').toLowerCase() === "abcd";
+            case 20: return a.startsWith("c") || a.includes("santa clause");
+            case 21: return a.startsWith("a") || a.includes("red one");
+            case 22: return a.startsWith("d") || a.includes("grinch");
+            case 23: return a.startsWith("b") || a.includes("jingle jangle");
+
+            // Ronde 5 (Index 24 t/m 31)
+            case 24: return vergelijkMetSpelfout(a, "Stille Nacht");
+            case 25: return vergelijkMetSpelfout(a, "The Polar Express") || vergelijkMetSpelfout(a, "Polar Express") || vergelijkMetSpelfout(a, "De Polar Express");
+            case 26: return a.startsWith("o") || a.includes("kaars");
+            case 27: return a.startsWith("a") || a.includes("slinger");
+            case 28: return vergelijkMetSpelfout(a, "kerstballen") || vergelijkMetSpelfout(a, "kerstbal");
+            case 29: return vergelijkMetSpelfout(a, "rendieren") || vergelijkMetSpelfout(a, "rendier");
+            case 30: return controleerGroepen(a, [
                 ["blitzen", "vixen", "dasher"],
                 ["stal", "herberg", "ster"],
                 ["jingle bells", "stille nacht", "last christmas"]
             ]);
-            case 23: return controleerGroepen(a, [
+            case 31: return controleerGroepen(a, [
                 ["home alone", "elf", "the polar express"],
                 ["grinch", "scrooge", "jack frost"],
                 ["goud", "wierook", "mirre"]
             ]);
 
-            // Ronde 6 (Index 24 t/m 31)
-            case 24: return a.startsWith("b") || a.includes("neurenberg");
-            case 25: return a.startsWith("c") || a.includes("new york");
-            case 26: return a.startsWith("a") || a.includes("japan");
-            case 27: return a.startsWith("d") || a.includes("ijsland");
-            case 28: return a.startsWith("b") || a.includes("italië") || a.includes("italie");
-            case 29: return a.startsWith("b") || a.includes("duitsland");
-            case 30: return a.startsWith("b") || a.includes("rusland");
-            case 31: return a.startsWith("c") || a.includes("australië") || a.includes("australie");
+            // Ronde 6 (Index 32 t/m 39)
+            case 32: return a.startsWith("b") || a.includes("neurenberg");
+            case 33: return a.startsWith("c") || a.includes("new york");
+            case 34: return a.startsWith("a") || a.includes("japan");
+            case 35: return a.startsWith("d") || a.includes("ijsland");
+            case 36: return a.startsWith("b") || a.includes("italië") || a.includes("italie");
+            case 37: return a.startsWith("b") || a.includes("duitsland");
+            case 38: return a.startsWith("b") || a.includes("rusland");
+            case 39: return a.startsWith("c") || a.includes("australië") || a.includes("australie");
 
-            // Ronde 7 (Index 32 t/m 39)
-            case 32: return vergelijkMetSpelfout(a, "kerst");
-            case 33: return vergelijkMetSpelfout(a, "sneeuw");
-            case 34: return a === "stokbrood, roomboter, champignons, champagne, gourmetvlees, aardappelen, glühwein, brie";
-            case 35: return a === "kerststol, rollade, zalm, bladerdeeg, wijn, satésaus, krieltjes, komkommer";
-            case 36: return a.replace(/\s+/g, '') === "mistletoe";
-            case 37: return a.replace(/\s+/g, '') === "arrenslee";
-            case 38: return controleerEmoticonSelectie(antw, ["🌟", "🍷", "🛷", "🎶"]);
-            case 39: return controleerEmoticonSelectie(antw, ["🥂", "🧣", "👼", "🎺"]);
+            // Ronde 7 (Index 40 t/m 47)
+            case 40: return vergelijkMetSpelfout(a, "kerst");
+            case 41: return vergelijkMetSpelfout(a, "sneeuw");
+            case 42: return a === "stokbrood, roomboter, champignons, champagne, gourmetvlees, aardappelen, glühwein, brie";
+            case 43: return a === "kerststol, rollade, zalm, bladerdeeg, wijn, satésaus, krieltjes, komkommer";
+            case 44: return a.replace(/\s+/g, '') === "mistletoe";
+            case 45: return a.replace(/\s+/g, '') === "arrenslee";
+            case 46: return controleerEmoticonSelectie(antw, ["🌟", "🍷", "🛷", "🎶"]);
+            case 47: return controleerEmoticonSelectie(antw, ["🥂", "🧣", "👼", "🎺"]);
 
-            // Ronde 8 (Index 40 t/m 51)
-            case 40:
+            // Ronde 8 (Index 48 t/m 59)
+            case 48:
                 let num1 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 if (num1 < 100) num1 = num1 * 1000000;
                 return !isNaN(num1) && num1 >= 2250000 && num1 <= 2750000;
-            case 41:
+            case 49:
                 let num2 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num2) && num2 >= 300 && num2 <= 350;
-            case 42: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
-            case 43: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
-            case 44: return a.includes("waar") && !a.includes("niet");
-            case 45: return a.includes("niet waar");
-            case 46:
+            case 50: return a.replace(/[^a-z]/gi, '').toLowerCase() === "bdca";
+            case 51: return a.replace(/[^a-z]/gi, '').toLowerCase() === "dbac";
+            case 52: return a.includes("waar") && !a.includes("niet");
+            case 53: return a.includes("niet waar");
+            case 54:
                 let num6 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num6) && num6 >= 80 && num6 <= 90;
-            case 47:
+            case 55:
                 let num7 = parseFloat(a.replace(/[^0-9.]/g, ''));
                 return !isNaN(num7) && num7 >= 20 && num7 <= 30;
-            case 48: return a.startsWith("c") || a.includes("drenthe");
-            case 49: return a.startsWith("c") || a.includes("23");
-            case 50: return a.startsWith("a") || a.includes("44,7");
-            case 51: return a.startsWith("c") || a.includes("30–40");
+            case 56: return a.startsWith("c") || a.includes("drenthe");
+            case 57: return a.startsWith("c") || a.includes("23");
+            case 58: return a.startsWith("a") || a.includes("44,7");
+            case 59: return a.startsWith("c") || a.includes("30–40");
             default: return false;
         }
     }
@@ -1532,6 +1650,36 @@
 
             overzichtHtml += `
                 </div>
+                <button class="btn-geel" onclick="startRonde3()">START RONDE 3 ➔</button>
+            `;
+
+            hostContent.innerHTML = overzichtHtml;
+            return;
+        }
+
+        // Overzicht na Ronde 3
+        if (getoondOverzichtRonde === 3 || huidigeVraagIndex === -103) {
+            if (timerInterval) clearInterval(timerInterval);
+
+            let overzichtHtml = `
+                <h1>🎄 Overzicht Ronde 3 🎄</h1>
+                <p style="color:var(--text-muted); font-size: 15px;">Bespreek de antwoorden van Ronde 3:</p>
+                <div class="overzicht-container">
+            `;
+
+            for (let i = 8; i < 16; i++) {
+                let vraag = vragenData[i];
+                let antwoordWeergave = vraag.juist;
+                overzichtHtml += `
+                    <div class="overzicht-item">
+                        <div class="vraag-titel-overzicht">${vraag.titel.replace(/\n/g, ' ')}</div>
+                        <div class="juist-antwoord-overzicht">✅ Juiste antwoord: ${antwoordWeergave}</div>
+                    </div>
+                `;
+            }
+
+            overzichtHtml += `
+                </div>
                 <button class="btn-geel" onclick="startRonde4()">START RONDE 4 ➔</button>
             `;
 
@@ -1549,7 +1697,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 8; i < 16; i++) {
+            for (let i = 16; i < 24; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 overzichtHtml += `
@@ -1579,7 +1727,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 16; i < 24; i++) {
+            for (let i = 24; i < 32; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist.replace(/\n/g, '<br>');
                 overzichtHtml += `
@@ -1609,7 +1757,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 24; i < 32; i++) {
+            for (let i = 32; i < 40; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 overzichtHtml += `
@@ -1639,7 +1787,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 32; i < 40; i++) {
+            for (let i = 40; i < 48; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 overzichtHtml += `
@@ -1669,7 +1817,7 @@
                 <div class="overzicht-container">
             `;
 
-            for (let i = 40; i < vragenData.length; i++) {
+            for (let i = 48; i < vragenData.length; i++) {
                 let vraag = vragenData[i];
                 let antwoordWeergave = vraag.juist;
                 if (vraag.optiesDetail) {
@@ -1741,11 +1889,33 @@
 
         const huidige = vragenData[huidigeVraagIndex];
         let vraagNr = huidige.ronde === 1 ? huidigeVraagIndex + 1 :
-                      (huidige.ronde === 4 ? huidigeVraagIndex - 7 :
-                      (huidige.ronde === 5 ? huidigeVraagIndex - 15 :
-                      (huidige.ronde === 6 ? huidigeVraagIndex - 23 :
-                      (huidige.ronde === 7 ? huidigeVraagIndex - 31 : huidigeVraagIndex - 39))));
+                      (huidige.ronde === 3 ? huidigeVraagIndex - 7 :
+                      (huidige.ronde === 4 ? huidigeVraagIndex - 15 :
+                      (huidige.ronde === 5 ? huidigeVraagIndex - 23 :
+                      (huidige.ronde === 6 ? huidigeVraagIndex - 31 :
+                      (huidige.ronde === 7 ? huidigeVraagIndex - 39 : huidigeVraagIndex - 47)))));
         let totaalNr = huidige.ronde === 8 ? 12 : 8;
+
+        // Antwoordafbeelding tonen voor Ronde 3 vraag 1 en 2
+        if (huidige.antwoordAfbeelding && ronde3AntwoordFotoActief) {
+            if (timerInterval) clearInterval(timerInterval);
+            hostContent.innerHTML = `
+                <div class="vraag-header-row">
+                    <div class="progress-box"><div class="progress-bar" style="width: 100%;"></div></div>
+                    <div class="vraag-titel-badge">
+                        <span class="hoofd">RONDE ${huidige.ronde} | VRAAG ${vraagNr} VAN ${totaalNr}</span>
+                        <span class="sub">${huidige.categorie} • Antwoord</span>
+                    </div>
+                    <div class="timer-klok">🎄 <span id="timer-display">Antwoord</span></div>
+                </div>
+
+                <img src="${huidige.antwoordAfbeelding}" class="vraag-afbeelding" style="max-height: 320px;" alt="Antwoord Voorbeeld">
+                <div class="vraag-box" style="text-align: center; color: #4ade80;">✅ Juiste antwoord: ${huidige.juist}</div>
+
+                <button class="btn-geel" onclick="volgendeVraag()">VOLGENDE VRAAG ➔</button>
+            `;
+            return;
+        }
 
         // Zorg dat een video-vraag altijd bij 'fragment' start als ronde4Subfase nog niet is gezet
         if (huidige.videoVraag && ronde4Subfase === null) {
