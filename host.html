@@ -583,7 +583,7 @@
             ronde: 3,
             titel: "Vraag 1:\nWelk kerstobject zie je op deze close-up foto?",
             opties: [],
-            juist: "piek (kerstpiek is ook goed)",
+            juist: "piek",
             afbeelding: "elementen/ronde_3/ronde3_vraag1_visueel_voorbeeld.jpg",
             antwoordAfbeelding: "elementen/ronde_3/ronde3_antwoord1_visueel_voorbeeld.jpg",
             categorie: "Close-up & Herkenning"
@@ -592,7 +592,7 @@
             ronde: 3,
             titel: "Vraag 2:\nWelk kerstobject zie je op deze close-up foto?",
             opties: [],
-            juist: "peperkoekman of peperkoekmannetje of peperkoek man of peperkoek mannetje",
+            juist: "peperkoekmannetje",
             afbeelding: "elementen/ronde_3/ronde3_vraag2_visueel_voorbeeld.jpg",
             antwoordAfbeelding: "elementen/ronde_3/ronde3_antwoord2_visueel_voorbeeld.jpg",
             categorie: "Close-up & Herkenning"
@@ -1106,7 +1106,6 @@
     let quizAntwoorden = {};
     let vraagIsActief = false;
 
-    // Subfase voor Ronde 4 filmvragen ('fragment' -> 'vraag' -> 'antwoord_fragment') en Ronde 3 antwoordfoto ('antwoord_foto')
     let ronde4Subfase = null;
     let ronde3AntwoordFotoActief = false;
 
@@ -1197,7 +1196,6 @@
                         zendRonde4Subfase(huidigeVraagIndex, 'antwoord_fragment');
                         renderHostScherm();
                     } else if (huidige && huidige.antwoordAfbeelding) {
-                        // Bij Ronde 3 vraag 1 & 2 pas naar de antwoordfoto als de host op VOLGENDE VRAAG klikt
                         return;
                     } else {
                         volgendeVraag();
@@ -1294,7 +1292,6 @@
             ? vragenData[huidigeVraagIndex]
             : null;
 
-        // Bij Ronde 3 vraag 1 en 2: na klikken op VOLGENDE VRAAG de antwoordfoto tonen
         if (huidige && huidige.antwoordAfbeelding && !ronde3AntwoordFotoActief) {
             ronde3AntwoordFotoActief = true;
             vraagIsActief = false;
@@ -1304,7 +1301,6 @@
         }
         ronde3AntwoordFotoActief = false;
 
-        // Bij video-vragen in Ronde 4: eerst fragment -> dan vraag -> (bij vraag 1 & 2) dan hele fragment na antwoord
         if (huidige && huidige.videoVraag) {
             if (ronde4Subfase === 'fragment' || ronde4Subfase === null) {
                 ronde4Subfase = 'vraag';
@@ -1915,13 +1911,11 @@
             return;
         }
 
-        // Zorg dat een video-vraag altijd bij 'fragment' start als ronde4Subfase nog niet is gezet
         if (huidige.videoVraag && ronde4Subfase === null) {
             ronde4Subfase = 'fragment';
             zendRonde4Subfase(huidigeVraagIndex, 'fragment');
         }
 
-        // Stap 1 bij Ronde 4 video-vragen: eerst fragment/scène tonen zonder vraag en zonder antwoordtimer
         if (huidige.videoVraag && ronde4Subfase === 'fragment') {
             if (timerInterval) clearInterval(timerInterval);
             hostContent.innerHTML = `
@@ -1947,7 +1941,6 @@
             return;
         }
 
-        // Stap 3 bij Ronde 4 vragen 1 & 2: na beantwoorden het hele antwoordfragment tonen
         if (huidige.videoAntwoord && ronde4Subfase === 'antwoord_fragment') {
             if (timerInterval) clearInterval(timerInterval);
             hostContent.innerHTML = `
