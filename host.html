@@ -1106,7 +1106,7 @@
     let quizAntwoorden = {};
     let vraagIsActief = false;
 
-    // Subfase voor Ronde 4 filmvragen ('fragment' -> 'vraag' -> 'antwoord_fragment') en Ronde 3 antwoordfoto ('vraag' -> 'antwoord_foto')
+    // Subfase voor Ronde 4 filmvragen ('fragment' -> 'vraag' -> 'antwoord_fragment') en Ronde 3 antwoordfoto ('antwoord_foto')
     let ronde4Subfase = null;
     let ronde3AntwoordFotoActief = false;
 
@@ -1132,7 +1132,7 @@
     }
 
     function initialiseerSubfaseVoorVraag(idx, ontvangenSubfase) {
-        ronde3AntwoordFotoActief = false;
+        ronde3AntwoordFotoActief = (ontvangenSubfase === 'antwoord_foto');
         if (idx >= 0 && idx < vragenData.length && vragenData[idx] && vragenData[idx].videoVraag) {
             ronde4Subfase = ontvangenSubfase || 'fragment';
             if (ronde4Subfase === 'vraag') {
@@ -1196,11 +1196,9 @@
                         vraagIsActief = false;
                         zendRonde4Subfase(huidigeVraagIndex, 'antwoord_fragment');
                         renderHostScherm();
-                    } else if (huidige && huidige.antwoordAfbeelding && !ronde3AntwoordFotoActief) {
-                        ronde3AntwoordFotoActief = true;
-                        vraagIsActief = false;
-                        zendRonde4Subfase(huidigeVraagIndex, 'antwoord_foto');
-                        renderHostScherm();
+                    } else if (huidige && huidige.antwoordAfbeelding) {
+                        // Bij Ronde 3 vraag 1 & 2 pas naar de antwoordfoto als de host op VOLGENDE VRAAG klikt
+                        return;
                     } else {
                         volgendeVraag();
                     }
@@ -1296,7 +1294,7 @@
             ? vragenData[huidigeVraagIndex]
             : null;
 
-        // Bij Ronde 3 vraag 1 en 2: na vraag (of wanneer iedereen heeft ingevuld) eerst de antwoordfoto tonen
+        // Bij Ronde 3 vraag 1 en 2: na klikken op VOLGENDE VRAAG de antwoordfoto tonen
         if (huidige && huidige.antwoordAfbeelding && !ronde3AntwoordFotoActief) {
             ronde3AntwoordFotoActief = true;
             vraagIsActief = false;
