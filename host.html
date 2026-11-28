@@ -1893,6 +1893,9 @@
         // Antwoordafbeelding tonen voor Ronde 3 vraag 1 en 2
         if (huidige.antwoordAfbeelding && ronde3AntwoordFotoActief) {
             if (timerInterval) clearInterval(timerInterval);
+            const antwoordTekst = huidigeVraagIndex === 8
+                ? "piek"
+                : (huidigeVraagIndex === 9 ? "peperkoekmannetje" : huidige.juist);
             hostContent.innerHTML = `
                 <div class="vraag-header-row">
                     <div class="progress-box"><div class="progress-bar" style="width: 100%;"></div></div>
@@ -1904,7 +1907,7 @@
                 </div>
 
                 <img src="${huidige.antwoordAfbeelding}" class="vraag-afbeelding" style="max-height: 320px;" alt="Antwoord Voorbeeld">
-                <div class="vraag-box" style="text-align: center; color: #4ade80;">✅ Juiste antwoord: ${huidige.juist}</div>
+                <div class="vraag-box" style="text-align: center; color: #4ade80;">✅ Juiste antwoord: ${antwoordTekst}</div>
 
                 <button class="btn-geel" onclick="volgendeVraag()">VOLGENDE VRAAG ➔</button>
             `;
